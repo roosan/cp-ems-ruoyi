@@ -3,6 +3,7 @@
 #### 介绍
 本项目是基于ruoyi开发的能源管理系统（EMS），权限部分沿用了框架自带的体系，其余功能为定制开发，UI样式做了改造。  
 系统提供了能耗分析、定额管理、运维管理等功能，满足用户对能耗数据的监控和管理，个人和企业均可免费自用。  
+商用授权欢迎咨询。
 
 #### 软件架构
 前端框架：vue2 + element-ui + ECharts        
@@ -10,7 +11,8 @@
 
 #### 在线体验
 演示地址： https://www.szcloudpulse.com:86   
-体验账号： EMSUser/123456
+体验账号： EMSUser\123456
+沟通请加底部微信
 
 #### 主要功能
 完整功能请登录系统查看
@@ -70,3 +72,13 @@ https://www.szcloudpulse.com/run-document.html
 #### 关于我们
 苏州云脉软件技术有限公司  
 <a href='https://www.szcloudpulse.com' target='_blank'>www.szcloudpulse.com</a>
+
+#### 免责声明
+本软件为开源项目，提供给个人和企业免费使用。用户在使用本软件时，应自行评估和承担相关的风险。本软件的开发者和贡献者不对使用过程中可能产生的任何直接或间接损失承担责任，包括但不限于数据丢失、业务中断或财务损失。
+本软件“按现状”提供，不保证适用于特定用途、无错误或安全可靠。使用本软件即表示用户同意上述条款。
+
+#### 其他开源项目  
+云脉生产管理系统  
+本项目是基于ruoyi开发的生产工单管理系统（mes），权限部分沿用了框架自带的体系，其余功能为定制开发，UI样式做了改造。 
+<a href='https://gitee.com/cloudpulse/cp-mes-ruoyi' target='_blank'>https://gitee.com/cloudpulse/cp-mes-ruoyi</a>
+ 

@@ -11,19 +11,16 @@
           </div>
           <div class="overview-content">
             <div class="column-one">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/390786c6aa2a4eb995505343cd6e669f.png" alt=""> -->
               <hotel theme="filled" size="35" fill="#13a6ce"/>
               <div>3</div>
               <div>项目总数</div>
             </div>
             <div class="column-two">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/760a13a5cc88407581bbeb9870900dcf.png" alt=""> -->
               <dashboard-two theme="filled" size="35" fill="#48baa2"/>
               <div>{{ normalCount + alarmCount + offLineCount }}</div>
               <div>仪表总数</div>
             </div>
             <div class="column-three">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/abb46392f7af4559a22044102367bdc3.png" alt=""> -->
               <alarm theme="filled" size="35" fill="#f56c6c"/>
               <div>{{ alarmTotal }}</div>
               <div>报警记录</div>
@@ -87,19 +84,16 @@
           </div>
           <div class="statistic-content">
             <div class="column-one">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/d7aef19078224847ad6424bffa27076a.png" alt=""> -->
               <lightning theme="outline" size="35" class="park-icon"/>
               <div>{{ electricityTotal }}</div>
               <div>电(kW·h)</div>
             </div>
             <div class="column-two">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/89b0349ffd704f229d90768c1f7637c8.png" alt=""> -->
               <dashboard theme="filled" size="35" class="park-icon"/>
               <div>{{ powerTotal}}</div>
               <div>综合能耗(kgce)</div>
             </div>
             <div class="column-three">
-              <!-- <img src="http://124.223.191.78:9000/cp-portal/2023/04/14/6ff28b5de424410389709626fb9dec1b.png" alt=""> -->
               <cycle theme="filled" size="35" class="park-icon"/>
               <div>{{ carbonTotal}}</div>
               <div>今日碳排放量(kg)</div>

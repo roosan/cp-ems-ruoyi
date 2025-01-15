@@ -3,7 +3,7 @@
 #### 介绍
 本项目是基于ruoyi开发的开源能源管理系统（EMS），权限部分沿用了框架自带的体系，其余功能为定制开发，UI样式做了改造。  
 系统提供了能耗分析、定额管理、运维管理等功能，满足用户对能耗数据的监控和管理，个人和企业均可免费自用。  
-商用咨询欢迎联系：
+商用咨询请加微信：
 <img src='docs/联系人二维码.jpg' width='200'><br>
 
 #### 软件架构
@@ -68,7 +68,7 @@ https://www.szcloudpulse.com/run-document.html
 <img src='docs/公众号二维码.jpg' width='200'><br> 
 
 咨询交流请加微信  
-<img src='docs/联系人二维码.jpg' width='200'><br>
+<img src='docs/联系人二维码.jpg' width='150'><br>
 
 #### 关于我们
 苏州云脉软件技术有限公司  

@@ -5,6 +5,8 @@
 系统提供了能耗分析、定额管理、运维管理等功能，满足用户对能耗数据的监控和管理，个人和企业均可免费自用。  
 商用授权、项目咨询请加微信：  
 <img src='docs/联系人二维码.jpg' width='200'><br>
+或者留下您的问题：  
+https://www.szcloudpulse.com/contact.html
 
 #### 软件架构
 前端框架：vue2 + element-ui + ECharts        

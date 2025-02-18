@@ -34,8 +34,8 @@ https://www.szcloudpulse.com/run-document.html
 演示地址： https://www.szcloudpulse.com:86   
 体验账号： EMSUser\123456（沟通请加底部微信）
 
-## 授权模式
-所有功能均可免费自用，项目咨询、获取商业授权请通过以下联系方式：  
+## 授权模式（可合作销售）
+所有功能均可免费自用，项目咨询、获取商业授权、项目分成请通过以下联系方式：  
 
 - 添加微信：  
 <img src='docs/联系人二维码.jpg' width='200'><br>

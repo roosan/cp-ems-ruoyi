@@ -39,6 +39,8 @@ https://www.szcloudpulse.com/run-document.html
 
 - 添加微信：  
 <img src='docs/联系人二维码.jpg' width='200'><br>
+- 电子邮箱，我们将尽快答复  
+gzy@szcloudpulse.com  
 - 在线留言：  
 https://www.szcloudpulse.com/contact.html
 

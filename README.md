@@ -28,7 +28,7 @@ cp-ems-ruoyi 是一款基于 Ruoyi 框架开发的开源能源管理系统（EMS
 后端框架：SpringBoot + Mysql + TDengine + Redis + RabbitMq + MQTT 
 
 ## 本地运行支持
-https://www.szcloudpulse.com/run-document.html
+https://cp-ems.szcloudpulse.com/docs.html
 
 ## 在线体验
 演示地址： https://www.szcloudpulse.com:86   

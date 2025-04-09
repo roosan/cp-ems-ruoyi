@@ -536,17 +536,17 @@ public class EnergyServiceImpl implements IEnergyService {
 
 
 //        if (!(BigDecimal.valueOf(Float.parseFloat(result.get("last").toString())).stripTrailingZeros()).equals(BigDecimal.ZERO)) {
-        if (!(result.get("last").toString().equals("--")) && !(result.get("last").toString().equals("0.00"))) {
+        if (!(result.get("last").toString().equals("--")) && !(result.get("last").toString().equals("0.00")) && !(result.get("now").toString().equals("--"))) {
             result.put("nowTrend", BigDecimal.valueOf(Float.parseFloat(result.get("now").toString())).subtract(BigDecimal.valueOf(Float.parseFloat(result.get("last").toString()))).setScale(2, RoundingMode.HALF_UP));
             result.put("nowPer", BigDecimal.valueOf(Float.parseFloat(result.get("nowTrend").toString())).divide(BigDecimal.valueOf(Float.parseFloat(result.get("last").toString())), 4, RoundingMode.HALF_UP));
         }
 //        if (!(BigDecimal.valueOf(Float.parseFloat(result.get("lastMonth").toString())).stripTrailingZeros()).equals(BigDecimal.ZERO)) {
-        if (!(result.get("lastMonth").toString().equals("--"))  && !(result.get("lastMonth").toString().equals("0.00"))) {
+        if (!(result.get("lastMonth").toString().equals("--"))  && !(result.get("lastMonth").toString().equals("0.00")) && !(result.get("nowMonth").toString().equals("--"))) {
             result.put("monthTrend", BigDecimal.valueOf(Float.parseFloat(result.get("nowMonth").toString())).subtract(BigDecimal.valueOf(Float.parseFloat(result.get("lastMonth").toString()))).setScale(2, RoundingMode.HALF_UP));
             result.put("monthPer", BigDecimal.valueOf(Float.parseFloat(result.get("monthTrend").toString())).divide(BigDecimal.valueOf(Float.parseFloat(result.get("lastMonth").toString())), 4, RoundingMode.HALF_UP));
         }
 //        if (!(BigDecimal.valueOf(Float.parseFloat(result.get("lastYear").toString())).stripTrailingZeros()).equals(BigDecimal.ZERO)) {
-        if (!(result.get("lastYear").toString().equals("--")) && !(result.get("lastYear").toString().equals("0.00"))) {
+        if (!(result.get("lastYear").toString().equals("--")) && !(result.get("lastYear").toString().equals("0.00")) && !(result.get("nowYear").toString().equals("--"))) {
             result.put("yearTrend", BigDecimal.valueOf(Float.parseFloat(result.get("nowYear").toString())).subtract(BigDecimal.valueOf(Float.parseFloat(result.get("lastYear").toString()))).setScale(2, RoundingMode.HALF_UP));
             result.put("yearPer", BigDecimal.valueOf(Float.parseFloat(result.get("yearTrend").toString())).divide(BigDecimal.valueOf(Float.parseFloat(result.get("lastYear").toString())), 4, RoundingMode.HALF_UP));
         }

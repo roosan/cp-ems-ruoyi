@@ -198,7 +198,7 @@ public class ItemizeAnalysisServiceImpl implements IItemizeAnalysisService {
                 itemizeVo.setYearTrend(yearTrend);
             }
             //年趋势百分比
-            if (!lastYear.equals(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP))) {
+            if (!lastYear.equals(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)) && !itemizeVo.getYearTrend().equals("--")) {
                 itemizeVo.setYearPer(BigDecimal.valueOf(Float.parseFloat(itemizeVo.getYearTrend().toString())).divide(lastYear, 4, RoundingMode.HALF_UP));
             } /*else {
                 itemizeVo.setYearPer(BigDecimal.ZERO);

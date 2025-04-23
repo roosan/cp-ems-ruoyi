@@ -34,7 +34,7 @@ https://cp-ems.szcloudpulse.com
 https://cp-ems.szcloudpulse.com/docs.html
 
 ## 在线体验
-演示地址： https://www.szcloudpulse.com:86   
+演示地址： http://110.42.222.62:86/  
 体验账号： EMSUser\123456（沟通请加底部微信）
 
 ## 授权模式（可合作销售）

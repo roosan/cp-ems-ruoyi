@@ -20,7 +20,7 @@ https://cp-ems.cn
     * 能耗分析报告
     * 管理体系管理
     * 视频监控
-8. 充电桩应用场景
+8. 充电桩应用场景 **【<a href='https://gitee.com/zhinengchong/zhinengchong' target='_blank'>充电桩运营平台解决方案</a>】** 
     * 订单管理
     * 电站、电桩管理
     * 价格策略配置

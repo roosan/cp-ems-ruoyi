@@ -1,13 +1,12 @@
-# 世纪信通能源管理平台
+# 能源管理平台
 
 ## 平台简介
 
-世纪信通能源管理平台（Cp-Ems） 是基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue) 官方仓库 开发的。
+能源管理平台（Cp-Ems） 是基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue) 官方仓库 开发的。
 
 该系统为企业和个人提供能耗监控、定额管理和运维管理等功能，支持实时数据采集和分析，帮助用户优化能耗，提升管理效率。  
 
 ## 项目网站
-https://cp-ems.cn  
 
 ## 主要功能
 0. 数据采集 - 支持 MQTT 通信，实时采集各类设备的能耗数据
@@ -33,14 +32,6 @@ https://cp-ems.cn
 后端框架：SpringBoot + Mysql + TDengine + Redis + RabbitMq + MQTT 
 
 
-## 界面截图
-<img src='docs/看板.png' width='600'><br>
-<img src='docs/登录页.png' width='600'><br>
-<img src='docs/能耗分析.png' width='600'><br>
-<img src='docs/定额分析.png' width='600'><br> 
-
-支持深浅两种主题，浅色效果    
-<img src='docs/浅色主体.png' width='600'>  
 
 ## 配套小程序体验
 * 支持查看平台能耗数据

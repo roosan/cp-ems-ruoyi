@@ -22,7 +22,7 @@ https://cp-ems.cn
     * 能耗分析报告
     * 管理体系管理
     * 视频监控
-8. 充电桩应用场景 **【<a href='https://gitee.com/zhinengchong/znc' target='_blank'>充电桩运营平台解决方案</a>】** 
+8. 充电桩应用场景 
     * 订单管理
     * 电站、电桩管理
     * 价格策略配置
@@ -32,15 +32,6 @@ https://cp-ems.cn
 前端框架：vue2 + element-ui + ECharts        
 后端框架：SpringBoot + Mysql + TDengine + Redis + RabbitMq + MQTT 
 
-## 本地运行支持
-https://cp-ems.cn/docs.html
-
-## 在线体验
-演示地址： http://110.42.222.62:86/  
-体验账号： EMSUser\123456（沟通请加底部微信）
-
-## 授权模式（可合作销售）
-所有功能均可免费自用，项目咨询、获取商业授权、项目分成请通过以下联系方式：  
 
 ## 界面截图
 <img src='docs/看板.png' width='600'><br>

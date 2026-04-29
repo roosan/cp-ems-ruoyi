@@ -42,13 +42,6 @@ https://cp-ems.cn/docs.html
 ## 授权模式（可合作销售）
 所有功能均可免费自用，项目咨询、获取商业授权、项目分成请通过以下联系方式：  
 
-- 添加微信：  
-<img src='docs/联系人二维码.jpg' width='200'><br>
-- 电子邮箱，我们将尽快答复  
-gzy@szcloudpulse.com  
-- 在线留言：  
-https://www.szcloudpulse.com/contact.html
-
 ## 界面截图
 <img src='docs/看板.png' width='600'><br>
 <img src='docs/登录页.png' width='600'><br>
@@ -63,25 +56,6 @@ https://www.szcloudpulse.com/contact.html
 * 支持查看报警记录
 * 支持处理巡检、维修工单  
 
-扫码体验   
-<img src='docs/小程序二维码.jpg' width='150'><br>
-
-小程序界面  
-<img src='docs/小程序截图一.png' width='150'> 
-<img src='docs/小程序截图二.png' width='150'> 
-<img src='docs/小程序截图三.png' width='150'> 
-<img src='docs/小程序截图四.png' width='150'> 
-
-## 技术交流与使用说明  
-- 公众号：关注“世纪信通”公众号，获取更多案例和技术支持。  
-<img src='docs/公众号二维码.jpg' width='200'><br> 
-
-- 微信咨询：扫码添加微信获取更多咨询。  
-<img src='docs/联系人二维码.jpg' width='150'><br>
-
-## 关于我们
-世纪信通  
-<a href='https://www.szcloudpulse.com' target='_blank'>www.szcloudpulse.com</a>
 
 ## 免责声明
 本软件为开源项目，提供给个人和企业免费使用。用户在使用本软件时，应自行评估和承担相关的风险。本软件的开发者和贡献者不对使用过程中可能产生的任何直接或间接损失承担责任，包括但不限于数据丢失、业务中断或财务损失。

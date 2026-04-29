@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container bg-container">
     <div id="build-model" class="center-map">
-      <ThreeModel></ThreeModel>
+      <ThreeModel />
     </div>
     <div class="app-container">
       <div class="container-left">
@@ -11,17 +11,17 @@
           </div>
           <div class="overview-content">
             <div class="column-one">
-              <hotel theme="filled" size="35" fill="#13a6ce"/>
+              <hotel theme="filled" size="35" fill="#13a6ce" />
               <div>3</div>
               <div>项目总数</div>
             </div>
             <div class="column-two">
-              <dashboard-two theme="filled" size="35" fill="#48baa2"/>
+              <dashboard-two theme="filled" size="35" fill="#48baa2" />
               <div>{{ normalCount + alarmCount + offLineCount }}</div>
               <div>仪表总数</div>
             </div>
             <div class="column-three">
-              <alarm theme="filled" size="35" fill="#f56c6c"/>
+              <alarm theme="filled" size="35" fill="#f56c6c" />
               <div>{{ alarmTotal }}</div>
               <div>报警记录</div>
             </div>
@@ -33,7 +33,7 @@
           </div>
           <div class="status-content">
             <div class="status-pie">
-              <pie-chart :height="'100%'" :pieData="pieData"></pie-chart>
+              <pie-chart :height="'100%'" :pie-data="pieData" />
             </div>
             <div class="status-item flex-column-around">
               <div class="status-normal flex-column-evenly">
@@ -74,7 +74,7 @@
             <span>报警信息</span>
             <el-button style="padding: 3px 0;position:absolute;right:12px;" type="text" @click="toAlarm">更多>></el-button>
           </div>
-          <alarmInfo/>
+          <alarmInfo />
         </el-card>
       </div>
       <div class="container-right">
@@ -84,18 +84,18 @@
           </div>
           <div class="statistic-content">
             <div class="column-one">
-              <lightning theme="outline" size="35" class="park-icon"/>
+              <lightning theme="outline" size="35" class="park-icon" />
               <div>{{ electricityTotal }}</div>
               <div>电(kW·h)</div>
             </div>
             <div class="column-two">
-              <dashboard theme="filled" size="35" class="park-icon"/>
-              <div>{{ powerTotal}}</div>
+              <dashboard theme="filled" size="35" class="park-icon" />
+              <div>{{ powerTotal }}</div>
               <div>综合能耗(kgce)</div>
             </div>
             <div class="column-three">
-              <cycle theme="filled" size="35" class="park-icon"/>
-              <div>{{ carbonTotal}}</div>
+              <cycle theme="filled" size="35" class="park-icon" />
+              <div>{{ carbonTotal }}</div>
               <div>今日碳排放量(kg)</div>
             </div>
           </div>
@@ -107,13 +107,13 @@
           <div class="trend-content">
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="综合能耗" name="total">
-                <barChart v-if="activeName==='total'" :height="'100%'" :xName="'时间'" :yName="'kgce'" :xData="xData" :yData="energyData"/>
+                <barChart v-if="activeName==='total'" :height="'100%'" :x-name="'时间'" :y-name="'kgce'" :x-data="xData" :y-data="energyData" />
               </el-tab-pane>
               <el-tab-pane label="电" name="electricity">
-                <barChart v-if="activeName==='electricity'" :height="'100%'" :xName="'时间'" :yName="'kM·h'" :xData="xData" :yData="electricityData"/>
+                <barChart v-if="activeName==='electricity'" :height="'100%'" :x-name="'时间'" :y-name="'kM·h'" :x-data="xData" :y-data="electricityData" />
               </el-tab-pane>
               <el-tab-pane label="水" name="water">
-                <barChart v-if="activeName==='water'" :height="'100%'" :xName="'时间'" :yName="'t'" :xData="xData" :yData="waterData"/>
+                <barChart v-if="activeName==='water'" :height="'100%'" :x-name="'时间'" :y-name="'t'" :x-data="xData" :y-data="waterData" />
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -122,7 +122,7 @@
           <div slot="header">
             <span>今日碳排放量</span>
           </div>
-          <barChart :height="'100%'" :xName="'时间'" :yName="'kg'" :xData="xData" :yData="carbonData"/>
+          <barChart :height="'100%'" :x-name="'时间'" :y-name="'kg'" :x-data="xData" :y-data="carbonData" />
         </el-card>
       </div>
     </div>
@@ -130,18 +130,18 @@
 </template>
 
 <script>
-import pieChart from "@/views/dashboard/PieChart"
-import barChart from "@/views/dashboard/BarChart"
-import alarmInfo from "@/views/dashboard/alarmInfo"
-import ThreeModel from "@/components/ThreeModel/index"
-import {Lightning, Dashboard, Cycle, Hotel, DashboardTwo, Alarm} from "@icon-park/vue"
+import pieChart from '@/views/dashboard/PieChart'
+import barChart from '@/views/dashboard/BarChart'
+import alarmInfo from '@/views/dashboard/alarmInfo'
+import ThreeModel from '@/components/ThreeModel/index'
+import { Lightning, Dashboard, Cycle, Hotel, DashboardTwo, Alarm } from '@icon-park/vue'
 import { getAllStatus } from '@/api/system/equipmentInfo'
 import { listHistory } from '@/api/system/alarmHistory'
 import { getChainData, getDayTrend, getConsumptionStatistics, getTrendAndCarbon } from '@/api/system/energy'
 import moment from 'moment'
 import { topologyTreeSelect } from '@/api/system/itemTopology'
 export default {
-  name: "dashboardIndex",
+  name: 'DashboardIndex',
   components: {
     pieChart,
     barChart,
@@ -159,24 +159,40 @@ export default {
       map: null,
       activeName: 'total',
       pieData: [],
-      normalCount:"",
-      alarmCount:"",
-      offLineCount:"",
-      normalProportion:"",
-      alarmProportion:"",
-      offLineProportion:"",
+      normalCount: '',
+      alarmCount: '',
+      offLineCount: '',
+      normalProportion: '',
+      alarmProportion: '',
+      offLineProportion: '',
       alarmTotal: 0,
-      energyType: "0",
+      energyType: '0',
       areaId: 1,
-      xData:[],
-      electricityData:[],
-      waterData:[],
-      energyData:[],
-      carbonData:[],
-      electricityTotal:0,
-      powerTotal:0,
-      carbonTotal: 0,
-    };
+      xData: [],
+      electricityData: [],
+      waterData: [],
+      energyData: [],
+      carbonData: [],
+      electricityTotal: 0,
+      powerTotal: 0,
+      carbonTotal: 0
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      // this.initMap()
+    })
+  },
+  beforeDestroy() {
+    this.map = null
+  },
+  created() {
+    this.getEquipmentData()
+    this.getConsumption()
+
+    this.$nextTick(() => {
+      this.getPowerAndCarbon()
+    })
   },
   methods: {
     getEquipmentData() {
@@ -188,55 +204,55 @@ export default {
         this.alarmProportion = res.data[1].proportion,
         this.offLineProportion = res.data[2].proportion,
         this.pieData = [
-          {value: res.data[0].count, name: '正常设备', itemStyle: {color: '#1890ff'}},
-          {value: res.data[1].count, name: '报警设备', itemStyle: {color: '#ff4949'}},
-          {value: res.data[2].count, name: '离线设备', itemStyle: {color: '#ffba00'}},
+          { value: res.data[0].count, name: '正常设备', itemStyle: { color: '#1890ff' }},
+          { value: res.data[1].count, name: '报警设备', itemStyle: { color: '#ff4949' }},
+          { value: res.data[2].count, name: '离线设备', itemStyle: { color: '#ffba00' }}
         ]
       })
     },
     /** 查询历史报警列表 */
     getAlarmList() {
       listHistory().then(response => {
-        this.alarmTotal = response.total;
-      });
+        this.alarmTotal = response.total
+      })
     },
     // 获取区域拓扑
     getAreaList() {
       topologyTreeSelect().then((res) => {
-        if(res.data.length>0){
+        if (res.data.length > 0) {
           this.areaId = res.data[0].id
         }
-      });
+      })
     },
-    //根据能源类型查询
-    getEnergyType(){
-      let date = moment().format("yyyy-MM-DD HH:mm:ss");
-      this.xData = [];
-      this.electricityData = [];
-      this.waterData = [];
-      let data = {
-        energyType:this.energyType,
-        areaId:this.areaId,
-        nowTime: date,
-      };
+    // 根据能源类型查询
+    getEnergyType() {
+      const date = moment().format('yyyy-MM-DD HH:mm:ss')
+      this.xData = []
+      this.electricityData = []
+      this.waterData = []
+      const data = {
+        energyType: this.energyType,
+        areaId: this.areaId,
+        nowTime: date
+      }
       getDayTrend(data).then((res) => {
         if (res.data.length <= 0) {
-          this.xData = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-          return;
+          this.xData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+          return
         }
         res.data.forEach((item, index) => {
-          this.xData.push(index);
-        });
-        if(this.energyType == "0"){
-          this.electricityData = res.data;
-        }else if(this.energyType == "1"){
-          this.waterData = res.data;
+          this.xData.push(index)
+        })
+        if (this.energyType == '0') {
+          this.electricityData = res.data
+        } else if (this.energyType == '1') {
+          this.waterData = res.data
         }
-      });
+      })
     },
     // 获取能耗
     getConsumption() {
-      getConsumptionStatistics({areaId: this.areaId}).then(res => {
+      getConsumptionStatistics({ areaId: this.areaId }).then(res => {
         this.electricityTotal = res.data.electricity
         this.powerTotal = res.data.kgce
         this.carbonTotal = res.data.kg
@@ -244,65 +260,65 @@ export default {
     },
     // 获取综合能耗、碳排放chart
     getPowerAndCarbon() {
-      getTrendAndCarbon({areaId: this.areaId}).then(res => {
+      getTrendAndCarbon({ areaId: this.areaId }).then(res => {
         if (res.data.trendResult.length <= 0) {
-          this.xData = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-          return;
+          this.xData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+          return
         }
         this.xData = Object.keys(res.data.carbonResult)
         this.energyData = res.data.trendResult
         this.carbonData = res.data.carbonResult
       })
     },
-    //综合能耗
-    getEnergy(){
-      let date = moment().format("yyyy-MM-DD HH:mm:ss");
-      this.xData = [];
-      this.energyData = [];
-      this.carbonData = [];
-      this.electricityData = [];
-      this.waterData = [];
-      let data = {
-        energyType:'0',
-        areaId:this.areaId,
-        nowTime: date,
-      };
+    // 综合能耗
+    getEnergy() {
+      const date = moment().format('yyyy-MM-DD HH:mm:ss')
+      this.xData = []
+      this.energyData = []
+      this.carbonData = []
+      this.electricityData = []
+      this.waterData = []
+      const data = {
+        energyType: '0',
+        areaId: this.areaId,
+        nowTime: date
+      }
       getDayTrend(data).then((res) => {
         if (res.data.length <= 0) {
-          this.xData = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-          return;
+          this.xData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+          return
         }
         res.data.forEach((item, index) => {
-          this.xData.push(index);
-        });
+          this.xData.push(index)
+        })
         this.electricityData = res.data
-      }).then(() =>{
-        let query = {
-          energyType:'1',
-          areaId:this.areaId,
-          nowTime: date,
-        };
+      }).then(() => {
+        const query = {
+          energyType: '1',
+          areaId: this.areaId,
+          nowTime: date
+        }
         getDayTrend(query).then((request) => {
           this.waterData = request.data
         })
-      });
+      })
     },
     initMap() {
-      this.map = new BMapGL.Map("allMap");
+      this.map = new BMapGL.Map('allMap')
 
       // 设置中心点坐标和放大倍数
       // 以 经纬度 定位
-      var point = new BMapGL.Point(120.654617,31.268181);
-      var point2 = new BMapGL.Point(120.679607,31.529649)
-      this.map.centerAndZoom(point, 11);
+      var point = new BMapGL.Point(120.654617, 31.268181)
+      var point2 = new BMapGL.Point(120.679607, 31.529649)
+      this.map.centerAndZoom(point, 11)
 
-      //设置地图样式
+      // 设置地图样式
       // this.map.setMapStyleV2({styleId: 'b5a0e397126a34c8e82f06f630306392'})
       // 以 地名 定位
       // this.map.centerAndZoom('苏州市', 12);
 
-      this.map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
-      this.map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+      this.map.enableScrollWheelZoom() // 启用滚轮放大缩小，默认禁用
+      this.map.enableContinuousZoom() // 启用地图惯性拖拽，默认禁用
       // this.map.addControl(new BMapGL.NavigationControl());  //添加默认缩放平移控件
       // this.map.addControl(new BMapGL.ScaleControl());          //比例尺
       // this.map.addControl(new BMapGL.OverviewMapControl()); //添加默认缩略地图控件
@@ -319,7 +335,7 @@ export default {
         height: 100,
         title: '武珞科技园'
       }
-      // var infoWindow = new BMapGL.InfoWindow('云脉软件', opts)
+      // var infoWindow = new BMapGL.InfoWindow('世纪信通能源管理平台', opts)
       // marker.addEventListener('mouseover', function() {
       //   this.openInfoWindow(infoWindow);
       // })
@@ -328,7 +344,7 @@ export default {
       //   this.closeInfoWindow(infoWindow);
       // });
 
-      var point2 = new BMapGL.Point(120.679607,31.529649)
+      var point2 = new BMapGL.Point(120.679607, 31.529649)
       var marker2 = new BMapGL.Marker(point2)
       this.map.addOverlay(marker2)
       var opts2 = {
@@ -344,7 +360,6 @@ export default {
       // marker2.addEventListener("mouseout", function () {
       //   this.closeInfoWindow(infoWindow2);
       // });
-
     },
 
     // 跳转到报警页面
@@ -353,34 +368,18 @@ export default {
     },
 
     handleClick(tab, event) {
-      if(tab.index == "0"){
+      if (tab.index == '0') {
         this.getPowerAndCarbon()
-      } else if(tab.index == "1"){
-        this.energyType = "0"
+      } else if (tab.index == '1') {
+        this.energyType = '0'
         this.getEnergyType()
-      }else if(tab.index == "2"){
-        this.energyType = "1"
+      } else if (tab.index == '2') {
+        this.energyType = '1'
         this.getEnergyType()
       }
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      // this.initMap()
-    })
-  },
-  beforeDestroy() {
-    this.map = null
-  },
-  created() {
-    this.getEquipmentData()
-    this.getConsumption()
-    
-    this.$nextTick(() => {
-      this.getPowerAndCarbon()
-    })
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -2,21 +2,21 @@
   <div class="table-container">
     <el-table class="currentTable" :data="tableData" height="100%" border style="width: 100%">
       <!-- <el-table-column prop="name" label="回路名称"> </el-table-column> -->
-      <el-table-column prop="ts" label="采集时间" sortable v-if="type == 'origin'"> </el-table-column>
-      <el-table-column prop="val" :label="configData.yName + '/' + configData.unit" v-if="type == 'origin'"> </el-table-column>
+      <el-table-column v-if="type == 'origin'" prop="ts" label="采集时间" sortable />
+      <el-table-column v-if="type == 'origin'" prop="val" :label="configData.yName + '/' + configData.unit" />
 
-      <el-table-column prop="date" label="采集时间" sortable v-if="type == 'peak'"> </el-table-column>
-      <el-table-column prop="min" :label="'最小' + configData.yName + '/' + configData.unit" v-if="type == 'peak'">
+      <el-table-column v-if="type == 'peak'" prop="date" label="采集时间" sortable />
+      <el-table-column v-if="type == 'peak'" prop="min" :label="'最小' + configData.yName + '/' + configData.unit">
         <template slot-scope="scope">
-          <span style="color: #91cc75;">{{scope.row.min}}</span>
+          <span style="color: #91cc75;">{{ scope.row.min }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="max" :label="'最大' + configData.yName + '/' + configData.unit" v-if="type == 'peak'">
+      <el-table-column v-if="type == 'peak'" prop="max" :label="'最大' + configData.yName + '/' + configData.unit">
         <template slot-scope="scope">
-          <span style="color: #5470c6;">{{scope.row.max}}</span>
+          <span style="color: #5470c6;">{{ scope.row.max }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ave" :label="'平均' + configData.yName + '/' + configData.unit" v-if="type == 'peak'"> </el-table-column>
+      <el-table-column v-if="type == 'peak'" prop="ave" :label="'平均' + configData.yName + '/' + configData.unit" />
       <!-- <el-table-column prop="Pb" label="Pb(kW·h)"> </el-table-column>
       <el-table-column prop="Pc" label="Pc(kW·h)"> </el-table-column>
       <el-table-column prop="P" label="P(kW·h)"> </el-table-column> -->
@@ -31,6 +31,22 @@
 
 <script>
 export default {
+  props: {
+    type: {
+      type: String,
+      default: 'origin'
+    },
+    tableData: {
+      type: Array,
+      required: true
+    },
+    configData: {
+      type: Object,
+      default: () => {
+        return { yName: '电流', unit: 'A', energyType: 'electricityi' }
+      }
+    }
+  },
   data() {
     return {
       // tableData: [
@@ -61,25 +77,9 @@ export default {
       // ]
     }
   },
-  props: {
-    type: {
-      type: String,
-      default: 'origin'
-    },
-    tableData: {
-      type: Array,
-      required: true
-    },
-    configData: {
-      type: Object,
-      default: () => {
-        return {yName: '电流', unit: 'A', energyType: 'electricityi'}
-      }
-    }
-  },
   methods: {
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

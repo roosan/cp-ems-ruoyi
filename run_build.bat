@@ -1,0 +1,1 @@
+D:\workspace\pms\env\apache-maven-3.9.6\bin\mvn.cmd install -DskipTests > build.log 2>&1

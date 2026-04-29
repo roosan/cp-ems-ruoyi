@@ -28,24 +28,24 @@ export default {
         return {
           residueName: '工单数量',
           residueValue: '110',
-          residueClass: '#3671e8',
+          residueClass: '#3671e8'
         }
       }
     },
     pieData: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
-          { value: 0, name: "进行中" },
-          { value: 0, name: "已完成" },
-          { value: 0, name: "已取消" },
-        ];
-      },
+          { value: 0, name: '进行中' },
+          { value: 0, name: '已完成' },
+          { value: 0, name: '已取消' }
+        ]
+      }
     },
     itemTitle: {
       type: String,
       default: '时间'
-    },
+    }
   },
   data() {
     return {
@@ -57,29 +57,17 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'pieData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            return;
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -94,9 +82,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
@@ -104,7 +104,7 @@ export default {
           trigger: 'item',
 
           // formatter: '{a} <br/>{b} : {c} ({d}%)',
-          appendToBody: true,
+          appendToBody: true
         },
         // legend: {
         //   left: 'center',
@@ -112,15 +112,15 @@ export default {
         //   data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
         // },
         // color:['#5470c6','#15C2D9'],//修改图表颜色1
-        //graphic控制环形中间出现字，其中有两个对象，就是两行字
+        // graphic控制环形中间出现字，其中有两个对象，就是两行字
         graphic: [{
-          type: 'text',//控制内容为文本文字
+          type: 'text', // 控制内容为文本文字
           left: 'center',
-          top: '40%',//调整距离盒子高处的位置
+          top: '40%', // 调整距离盒子高处的位置
           style: {
-            fill: this.residue.residueClass,//控制字体颜色
-            text: this.residue.residueName,//控制第一行字显示内容
-            fontSize: '22px',
+            fill: this.residue.residueClass, // 控制字体颜色
+            text: this.residue.residueName, // 控制第一行字显示内容
+            fontSize: '22px'
           }
         }, {
           type: 'text',
@@ -131,7 +131,7 @@ export default {
             text: this.residue.residueValue,
             // font: 'Microsoft YaHei',
             fontSize: '20px',
-            fill: this.residue.residueClass,
+            fill: this.residue.residueClass
           }
         }],
         series: [
@@ -139,11 +139,11 @@ export default {
             name: this.itemTitle,
             type: 'pie',
             // roseType: 'radius',
-            radius: ['60%', '75%'],//在此处控制环的大小，第一个数据为内环，第二个为外环
+            radius: ['60%', '75%'], // 在此处控制环的大小，第一个数据为内环，第二个为外环
             // avoidLabelOverlap: false,
             // radius: [15, 95],
             itemStyle: {
-              borderRadius: 5,
+              borderRadius: 5
               // borderColor: '#fff',
               // borderWidth: 2
             },
@@ -152,7 +152,7 @@ export default {
             //   position: 'center'
             // },
             center: ['50%', '50%'],
-            data:this.pieData,
+            data: this.pieData,
             // data: [
             //   { value: 345, name: '正常设备', itemStyle: {color: '#1890ff'} },
             //   { value: 0, name: '报警设备', itemStyle: {color: '#ff4949'} },
@@ -162,13 +162,13 @@ export default {
             // ],
             // animationEasing: 'cubicInOut',
             animationDuration: 1500,
-            //设置提示线
+            // 设置提示线
             label: {
               position: 'outer',
               // alignTo: 'labelLine',
               bleedMargin: 5,
               formatter: '{b}: {c}'
-            },
+            }
           }
         ]
       })

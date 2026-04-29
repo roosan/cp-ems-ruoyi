@@ -1,16 +1,15 @@
 <template>
   <div class="login">
     <div class="login-content">
-      <img class="login-pic2" src="@/assets/logo/logo-heng.png" alt="" />
+      <img class="login-pic2" src="@/assets/logo/logo-heng.png" alt="">
       <div class="login-form2">
         <div class="qrcode">
           <div style="text-align: center; font-size: 24px;position:absolute;top:18px;width:200px;">
             联系我们
           </div>
-          <img class="qr-pic" src="../assets/images/wechat-QR.png" alt="" />
+          <img class="qr-pic" src="../assets/images/wechat-QR.png" alt="">
         </div>
-        <div class="content-line">
-        </div>
+        <div class="content-line" />
         <div class="submit-form">
           <div style="text-align: center; font-size: 24px;position:absolute;top:18px;width:456px;">
             申请体验账号
@@ -43,8 +42,14 @@
                 <svg-icon slot="prefix" icon-class="input" class="el-input__icon input-icon" />
               </el-input>
             </el-form-item>
-            <el-button :loading="loading" size="medium" type="primary" class="btn-fixed"
-              style="width: 70%;margin-left: 15%" @click="handleApply">
+            <el-button
+              :loading="loading"
+              size="medium"
+              type="primary"
+              class="btn-fixed"
+              style="width: 70%;margin-left: 15%"
+              @click="handleApply"
+            >
               <span>提交申请</span>
               <!-- <span v-else>登 录 中...</span> -->
             </el-button>
@@ -52,11 +57,11 @@
         </div>
       </div>
     </div>
-    <div class="bg-line"></div>
+    <div class="bg-line" />
 
     <!--  底部  -->
     <div class="el-login-footer">
-      <!-- <span>Copyright © 2022-2023 苏州云脉 版权所有.</span> -->
+      <span>世纪信通能源管理平台 © 版权所有.</span>
     </div>
   </div>
 </template>
@@ -64,34 +69,34 @@
 <script>
 
 export default {
-  name: "applyAccount",
+  name: 'ApplyAccount',
   data() {
     return {
       form: {},
       rules: {
         name: [
-          { required: true, message: "姓名不能为空", trigger: "blur" }
+          { required: true, message: '姓名不能为空', trigger: 'blur' }
         ],
         email: [
-          { required: true, message: "邮箱不能为空", trigger: "blur" }
+          { required: true, message: '邮箱不能为空', trigger: 'blur' }
         ],
         corporateName: [
-          { required: true, message: "公司名称不能为空", trigger: "blur" }
+          { required: true, message: '公司名称不能为空', trigger: 'blur' }
         ],
         phone: [
-          { required: true, message: "联系电话不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '联系电话不能为空', trigger: 'blur' }
+        ]
       },
       loading: false,
-      isShow: false,
-    };
+      isShow: false
+    }
   },
   created() {
   },
   methods: {
     handleApply() {
-      this.$refs["form"].validate(valid => {
-        if(valid) {
+      this.$refs['form'].validate(valid => {
+        if (valid) {
           this.loading = true
           fetch('https://formspree.io/f/xwkjbzkd', {
             method: 'POST',
@@ -100,13 +105,13 @@ export default {
               'Accept': 'application/json'
             }
           }).then(res => {
-            if(res.ok) {
+            if (res.ok) {
               this.$modal.msgSuccess('信息提交成功！')
               this.isShow = true
             } else {
               res.json().then(data => {
-                if(Object.hasOwn(data, 'errors')) {
-                  console.log(data['errors'].map(error => error['message']).join(', '));
+                if (Object.hasOwn(data, 'errors')) {
+                  console.log(data['errors'].map(error => error['message']).join(', '))
                   this.$modal.msgError(data['errors'].map(error => error['message']).join(', '))
                 } else {
                   this.$modal.msgError('遇到了一个问题，请通过微信咨询。')
@@ -127,10 +132,10 @@ export default {
         //     this.buttonLoading = false;
         //   });
         // }
-      });
+      })
     }
-  },
-};
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .login {

@@ -1,8 +1,8 @@
 <template>
-  <div class="login-mobile" v-if="isMobile">
+  <div v-if="isMobile" class="login-mobile">
     <div class="top-logo-mobile">
-      <!-- <h2 style="font-weight: 700;">云脉能源管理平台</h2> -->
-      <h2 style="font-weight: 700;">{{ sysTitle }}</h2>
+      <!-- <h2 style="font-weight: 700;">世纪信通能源管理平台</h2> -->
+      <h2 style="font-weight: 700;">世纪信通能源管理</h2>
       <!-- <img src="../assets/logo/logo-heng.png" style="height: 50px;"> -->
     </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
@@ -17,44 +17,67 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
-          @keyup.enter.native="handleLogin" show-password class="unchanged">
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          auto-complete="off"
+          placeholder="密码"
+          show-password
+          class="unchanged"
+          @keyup.enter.native="handleLogin"
+        >
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
-          @keyup.enter.native="handleLogin" class="unchanged">
+      <el-form-item v-if="captchaEnabled" prop="code">
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 63%"
+          class="unchanged"
+          @keyup.enter.native="handleLogin"
+        >
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img" />
+          <img :src="codeUrl" class="login-code-img" @click="getCode">
         </div>
       </el-form-item>
       <div class="select-click">
         <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;" class="unchanged">记住密码</el-checkbox>
       </div>
       <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="medium" type="primary" style="width:100%;" class="btn-fixed"
-          @click.native.prevent="handleLogin">
+        <el-button
+          :loading="loading"
+          size="medium"
+          type="primary"
+          style="width:100%;"
+          class="btn-fixed"
+          @click.native.prevent="handleLogin"
+        >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
+        <div v-if="register" style="float: right;">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
-        <router-link class="link-type" :to="'/applyAccount'" style="font-weight:bold"
-          v-if="experienceShow">获取体验账号</router-link>
+        <router-link
+          v-if="experienceShow"
+          class="link-type"
+          :to="'/applyAccount'"
+          style="font-weight:bold"
+        >获取体验账号</router-link>
       </el-form-item>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <!-- <span>苏州云脉软件技术有限公司 © 版权所有</span> -->
+      <span>世纪信通能源管理平台 © 版权所有</span>
     </div>
   </div>
-  <div class="login" v-else-if="!isMobile">
+  <div v-else-if="!isMobile" class="login">
     <div class="top-logo">
-      <h2 style="font-weight: 700;">{{ sysTitle }}</h2>
+      <h2 style="font-weight: 700;">世纪信通能源管理</h2>
       <!-- <img src="../assets/logo/logo-heng.png" style="height: 50px;"> -->
     </div>
     <div class="left-pic">
@@ -72,69 +95,92 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
-          @keyup.enter.native="handleLogin" show-password class="unchanged">
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          auto-complete="off"
+          placeholder="密码"
+          show-password
+          class="unchanged"
+          @keyup.enter.native="handleLogin"
+        >
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
-          @keyup.enter.native="handleLogin" class="unchanged">
+      <el-form-item v-if="captchaEnabled" prop="code">
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 63%"
+          class="unchanged"
+          @keyup.enter.native="handleLogin"
+        >
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img" />
+          <img :src="codeUrl" class="login-code-img" @click="getCode">
         </div>
       </el-form-item>
       <div class="select-click">
         <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;" class="unchanged">记住密码</el-checkbox>
       </div>
       <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="medium" type="primary" style="width:100%;" class="btn-fixed"
-          @click.native.prevent="handleLogin">
+        <el-button
+          :loading="loading"
+          size="medium"
+          type="primary"
+          style="width:100%;"
+          class="btn-fixed"
+          @click.native.prevent="handleLogin"
+        >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
+        <div v-if="register" style="float: right;">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
-        <router-link class="link-type" :to="'/applyAccount'" style="font-weight:bold"
-          v-if="experienceShow">获取体验账号</router-link>
+        <router-link
+          v-if="experienceShow"
+          class="link-type"
+          :to="'/applyAccount'"
+          style="font-weight:bold"
+        >获取体验账号</router-link>
       </el-form-item>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <!-- <span>苏州云脉软件技术有限公司 © 版权所有</span> -->
+      <span>世纪信通能源管理平台 © 版权所有</span>
     </div>
   </div>
 </template>
 
 <script>
-import { getCodeImg } from "@/api/login";
-import Cookies from "js-cookie";
+import { getCodeImg } from '@/api/login'
+import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       isMobile: false, // 默认为Web端
-      codeUrl: "",
+      codeUrl: '',
       loginForm: {
         username: undefined,
         password: undefined,
         rememberMe: false,
-        code: "",
-        uuid: ""
+        code: '',
+        uuid: ''
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", message: "请输入您的账号" }
+          { required: true, trigger: 'blur', message: '请输入您的账号' }
         ],
         password: [
-          { required: true, trigger: "blur", message: "请输入您的密码" }
+          { required: true, trigger: 'blur', message: '请输入您的密码' }
         ],
-        code: [{ required: true, trigger: "blur", message: "请输入验证码" }]
+        code: [{ required: true, trigger: 'blur', message: '请输入验证码' }]
       },
       loading: false,
       // 验证码开关
@@ -142,17 +188,10 @@ export default {
       // 注册开关
       register: false,
       redirect: undefined
-    };
-  },
-  mounted() {
-    this.checkWindowSize(); // 在组件挂载后检查窗口大小
-    window.addEventListener('resize', this.checkWindowSize); // 监听窗口大小变化
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.checkWindowSize); // 组件销毁前移除事件监听
+    }
   },
   computed: {
-    sysTitle: function () {
+    sysTitle: function() {
       return this.$store.getters.logoInfo.sysTitle
       // return process.env.VUE_APP_TITLE
     },
@@ -165,69 +204,76 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
       immediate: true
     }
   },
+  mounted() {
+    this.checkWindowSize() // 在组件挂载后检查窗口大小
+    window.addEventListener('resize', this.checkWindowSize) // 监听窗口大小变化
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkWindowSize) // 组件销毁前移除事件监听
+  },
   created() {
-    this.getCode();
-    this.getCookie();
+    this.getCode()
+    this.getCookie()
   },
   methods: {
     checkWindowSize() {
       if (window.innerWidth <= 768) {
-        this.isMobile = true; // 窗口宽度小于等于768px时，判断为手机端
+        this.isMobile = true // 窗口宽度小于等于768px时，判断为手机端
       } else {
-        this.isMobile = false; // 窗口宽度大于768px时，判断为Web端
+        this.isMobile = false // 窗口宽度大于768px时，判断为Web端
       }
     },
     getCode() {
       getCodeImg().then(res => {
-        this.captchaEnabled = res.data.captchaEnabled === undefined ? true : res.data.captchaEnabled;
+        this.captchaEnabled = res.data.captchaEnabled === undefined ? true : res.data.captchaEnabled
         if (this.captchaEnabled) {
-          this.codeUrl = "data:image/gif;base64," + res.data.img;
-          this.loginForm.uuid = res.data.uuid;
+          this.codeUrl = 'data:image/gif;base64,' + res.data.img
+          this.loginForm.uuid = res.data.uuid
         }
-      });
+      })
     },
     getCookie() {
-      const username = Cookies.get("username");
-      const password = Cookies.get("password");
+      const username = Cookies.get('username')
+      const password = Cookies.get('password')
       const rememberMe = Cookies.get('rememberMe')
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password: password === undefined ? this.loginForm.password : decrypt(password),
         rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      };
+      }
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           if (this.loginForm.rememberMe) {
-            Cookies.set("username", this.loginForm.username, { expires: 30 });
-            Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
-            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
+            Cookies.set('username', this.loginForm.username, { expires: 30 })
+            Cookies.set('password', encrypt(this.loginForm.password), { expires: 30 })
+            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 })
           } else {
-            Cookies.remove("username");
-            Cookies.remove("password");
-            Cookies.remove('rememberMe');
+            Cookies.remove('username')
+            Cookies.remove('password')
+            Cookies.remove('rememberMe')
           }
-          this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(() => { });
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || '/' }).catch(() => { })
           }).catch(() => {
-            this.loading = false;
+            this.loading = false
             if (this.captchaEnabled) {
-              this.getCode();
+              this.getCode()
             }
-          });
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

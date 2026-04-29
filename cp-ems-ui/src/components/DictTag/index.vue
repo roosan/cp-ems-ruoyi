@@ -7,12 +7,11 @@
           :key="item.value"
           :index="index"
           :class="item.raw.cssClass"
-          >{{ item.label }}</span
-        >
+        >{{ item.label }}</span>
         <el-tag
           v-else
-          :disable-transitions="true"
           :key="item.value"
+          :disable-transitions="true"
           :index="index"
           :type="item.raw.listClass == 'primary' ? '' : item.raw.listClass"
           :class="item.raw.cssClass"
@@ -27,11 +26,11 @@
 
 <script>
 export default {
-  name: "DictTag",
+  name: 'DictTag',
   props: {
     options: {
       type: Array,
-      default: null,
+      default: null
     },
     value: [Number, String, Array],
     size: {
@@ -42,13 +41,13 @@ export default {
   computed: {
     values() {
       if (this.value !== null && typeof this.value !== 'undefined') {
-        return Array.isArray(this.value) ? this.value : [String(this.value)];
+        return Array.isArray(this.value) ? this.value : [String(this.value)]
       } else {
-        return [];
+        return []
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped>
 .el-tag + .el-tag {

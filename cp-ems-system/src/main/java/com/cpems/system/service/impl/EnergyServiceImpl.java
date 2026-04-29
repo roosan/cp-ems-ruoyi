@@ -263,7 +263,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
     private LambdaQueryWrapper<EnergyStatistics> buildStatisticQuery(List<String> deviceId, String type) {
         return new LambdaQueryWrapper<EnergyStatistics>()
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .eq(EnergyStatistics::getEnergyType, type)
             .orderByDesc(EnergyStatistics::getTime);
     }
@@ -309,7 +309,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
             List<EnergyStatistics> last = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
                 .between(EnergyStatistics::getTime, startLast, endLast)
-                .in(EnergyStatistics::getEquipmentSn, deviceId)
+                .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
                 .eq(EnergyStatistics::getEnergyType, energyType));
 
             yearAnalysisVo.setCorrespondingPeriod("--");
@@ -374,7 +374,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
         //筛选计算表中的所有相关数据
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
-            .in(EnergyStatistics::getEquipmentSn, sns)
+            .in(CollUtil.isNotEmpty(sns), EnergyStatistics::getEquipmentSn, sns)
             .eq(StringUtils.isNotBlank(bo.getEnergyType()), EnergyStatistics::getEnergyType, bo.getEnergyType())
             .between(StringUtils.isNotBlank(bo.getStartTime()) && StringUtils.isNotBlank(bo.getEndTime()), EnergyStatistics::getTime, bo.getStartTime(), bo.getEndTime()));
 
@@ -421,8 +421,12 @@ public class EnergyServiceImpl implements IEnergyService {
 
     private LambdaQueryWrapper<EnergyStatistics> queryWrapper(EnergyStatisticsBo bo) {
         LambdaQueryWrapper<EnergyStatistics> lqw = new LambdaQueryWrapper<>();
+        List<String> sns = new ArrayList<>();
+        if (StringUtils.isNotBlank(bo.getEquipmentSn())) {
+            sns = Arrays.stream(StringUtils.split(bo.getEquipmentSn(), ",")).collect(Collectors.toList());
+        }
         lqw.eq(StringUtils.isNotBlank(bo.getEnergyType()), EnergyStatistics::getEnergyType, bo.getEnergyType())
-            .in(StringUtils.isNotBlank(bo.getEquipmentSn()), EnergyStatistics::getEquipmentSn, Arrays.stream(StringUtils.split(bo.getEquipmentSn(), ",")).collect(Collectors.toList()))
+            .in(CollUtil.isNotEmpty(sns), EnergyStatistics::getEquipmentSn, sns)
             .between(StringUtils.isNotBlank(bo.getStartTime()) && StringUtils.isNotBlank(bo.getEndTime()), EnergyStatistics::getUpdateTime, bo.getStartTime(), bo.getEndTime());
         return lqw;
     }
@@ -848,7 +852,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
             .eq(EnergyStatistics::getEnergyType, energyType)
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .ge(EnergyStatistics::getUpdateTime, startTime));
 
         for (int i = 0; i < 24; i++) {
@@ -893,7 +897,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
             .eq(EnergyStatistics::getEnergyType, energyType)
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .ge(EnergyStatistics::getUpdateTime, startTime));
 
         // 当月天数
@@ -944,7 +948,7 @@ public class EnergyServiceImpl implements IEnergyService {
 
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
             .eq(EnergyStatistics::getEnergyType, energyType)
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .ge(EnergyStatistics::getUpdateTime, startTime));
 
         for (int i = 0; i < 12; i++) {
@@ -2274,7 +2278,7 @@ public class EnergyServiceImpl implements IEnergyService {
         List<String> deviceId = Arrays.stream(StringUtils.split(itemTopology.getDeviceId(), ",")).collect(Collectors.toList());
 
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .ge(EnergyStatistics::getUpdateTime, startTime));
 
         for (int i = 0; i < 24; i++) {

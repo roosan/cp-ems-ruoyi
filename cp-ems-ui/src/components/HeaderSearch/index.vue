@@ -1,7 +1,7 @@
 <template>
   <div :class="{'show':show}" class="header-search">
     <!-- <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" /> -->
-    <search theme="outline" size="20" @click.stop="click" class="search-box"/>
+    <search theme="outline" size="20" class="search-box" @click.stop="click" />
     <el-select
       ref="headerSearchSelect"
       v-model="search"
@@ -23,13 +23,13 @@
 // make search results more in line with expectations
 import Fuse from 'fuse.js/dist/fuse.min.js'
 import path from 'path'
-import {Search} from "@icon-park/vue"
+import { Search } from '@icon-park/vue'
 
 export default {
+  name: 'HeaderSearch',
   components: {
     Search
   },
-  name: 'HeaderSearch',
   data() {
     return {
       search: '',
@@ -75,11 +75,11 @@ export default {
       this.show = false
     },
     change(val) {
-      const path = val.path;
-      if(this.ishttp(val.path)) {
+      const path = val.path
+      if (this.ishttp(val.path)) {
         // http(s):// 路径新窗口打开
-        const pindex = path.indexOf("http");
-        window.open(path.substr(pindex, path.length), "_blank");
+        const pindex = path.indexOf('http')
+        window.open(path.substr(pindex, path.length), '_blank')
       } else {
         this.$router.push(val.path)
       }

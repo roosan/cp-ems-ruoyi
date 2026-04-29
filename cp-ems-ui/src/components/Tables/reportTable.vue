@@ -1,28 +1,34 @@
 <template>
   <div class="table-container">
-    <el-table class="currentTable unchanged" :data="tableData" height="100%" border style="width: 100%"
-              :header-cell-style="rowClass"
-              :cell-style="{'text-align':'center'}">
+    <el-table
+      class="currentTable unchanged"
+      :data="tableData"
+      height="100%"
+      border
+      style="width: 100%"
+      :header-cell-style="rowClass"
+      :cell-style="{'text-align':'center'}"
+    >
       <el-table-column label="分类">
-        <el-table-column label="" prop="type"></el-table-column>
+        <el-table-column label="" prop="type" />
         <el-table-column label="" prop="data">
           <template slot-scope="scope">
-            <span v-if="scope.row.type == '用电量' ">{{scope.row.data}} kW.h</span>
-            <span v-if="scope.row.type == '用水量' ">{{scope.row.data}} t</span>
-            <span v-if="scope.row.type == '综合能耗' ">{{scope.row.data}} kgce</span>
-            <span v-if="scope.row.type == '碳排放量' ">{{scope.row.data}} kg</span>
+            <span v-if="scope.row.type == '用电量' ">{{ scope.row.data }} kW.h</span>
+            <span v-if="scope.row.type == '用水量' ">{{ scope.row.data }} t</span>
+            <span v-if="scope.row.type == '综合能耗' ">{{ scope.row.data }} kgce</span>
+            <span v-if="scope.row.type == '碳排放量' ">{{ scope.row.data }} kg</span>
           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column prop="chain" label="环比(%)">
         <template slot-scope="scope">
-          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{scope.row.chain}}</span>
+          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.chain }}</span>
           <span v-else>--</span>
         </template>
       </el-table-column>
       <el-table-column prop="same" label="同比(%)">
         <template slot-scope="scope">
-          <span v-if="scope.row.same != 0" :class="scope.row.same > 0 ? 'yoy-up' : 'yoy-down'">{{scope.row.same}}</span>
+          <span v-if="scope.row.same != 0" :class="scope.row.same > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.same }}</span>
           <span v-else>--</span>
         </template>
       </el-table-column>
@@ -32,17 +38,17 @@
 
 <script>
 export default {
-  name: 'reportTable',
+  name: 'ReportTable',
   props: {
     chainData: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
       tableData: [
         {
-          type: "用电量",
+          type: '用电量',
           data: 1756,
           chain: 35.23,
           same: 35.23
@@ -54,46 +60,46 @@ export default {
           same: 35.23
         },
         {
-          type: "综合能耗",
+          type: '综合能耗',
           data: 343,
           chain: 34.21,
           same: 35.23
         },
         {
-          type: "碳排放量",
+          type: '碳排放量',
           data: 343,
           chain: 34.21,
           same: 35.23
-        },
-      ],
+        }
+      ]
     }
   },
   watch: {
     'chainData': {
       handler() {
-        this.tableData = this.chainData;
+        this.tableData = this.chainData
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    rowClass({ row, column,rowIndex,columnIndex}) {
-      if(rowIndex===0) {
+    rowClass({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
         // this.$nextTick(()=> {
         //   if(document.getElementsByClassName(column.id).length!==0) {
         //     document.getElementsByClassName(column.id)[0].setAttribute('rowSpan',2);
         //     return false
         //   }
         // })
-        return {'background-color': '#3671e8','text-align':'center'}
+        return { 'background-color': '#3671e8', 'text-align': 'center' }
       }
-      if(rowIndex===1 && (columnIndex===0 || columnIndex===1)) {
-        return {display:'none'}
+      if (rowIndex === 1 && (columnIndex === 0 || columnIndex === 1)) {
+        return { display: 'none' }
       }
-    },
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

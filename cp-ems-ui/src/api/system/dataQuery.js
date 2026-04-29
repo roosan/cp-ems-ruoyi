@@ -1,4 +1,4 @@
-import request from "@/utils/request"
+import request from '@/utils/request'
 
 // 电力参数查询
 export function queryPowerParameter(data) {

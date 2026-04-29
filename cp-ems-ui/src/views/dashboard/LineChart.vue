@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
       this.setOptions(this.chartData)
     },
@@ -126,7 +126,7 @@ export default {
         toolbox: {
           show: true,
           feature: {
-            magicType: { show: true, type: ['line', 'bar'], title: '' },
+            magicType: { show: true, type: ['line', 'bar'], title: '' }
             // restore: { show: true, title: '' },
           }
         },

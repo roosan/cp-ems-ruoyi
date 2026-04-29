@@ -1,0 +1,14 @@
+{
+  "name": "mock-data-generator",
+  "version": "1.0.0",
+  "description": "Generate mock data for EMS",
+  "main": "generateMockData.js",
+  "scripts": {
+    "start": "node generateMockData.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.9.0",
+    "yargs": "^17.7.2",
+    "dayjs": "^1.11.10"
+  }
+}

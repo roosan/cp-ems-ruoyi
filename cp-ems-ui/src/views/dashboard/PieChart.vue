@@ -24,14 +24,14 @@ export default {
     },
     pieData: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
-          { value: 0, name: "正常设备" },
-          { value: 0, name: "报警设备" },
-          { value: 0, name: "离线设备" },
-        ];
-      },
-    },
+          { value: 0, name: '正常设备' },
+          { value: 0, name: '报警设备' },
+          { value: 0, name: '离线设备' }
+        ]
+      }
+    }
   },
   data() {
     return {
@@ -43,29 +43,17 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'pieData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            return;
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -80,16 +68,28 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
           // formatter: '{a} <br/>{b} : {c} ({d}%)',
-          appendToBody: true,
+          appendToBody: true
         },
         // legend: {
         //   left: 'center',
@@ -105,7 +105,7 @@ export default {
             // avoidLabelOverlap: false,
             // radius: [15, 95],
             center: ['40%', '50%'],
-            data:this.pieData,
+            data: this.pieData,
             // data: [
             //   { value: 345, name: '正常设备', itemStyle: {color: '#1890ff'} },
             //   { value: 0, name: '报警设备', itemStyle: {color: '#ff4949'} },

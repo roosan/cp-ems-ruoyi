@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import {getLogoInfo, getConfigKey} from "@/api/system/config"
+import { getLogoInfo, getConfigKey } from '@/api/system/config'
 
 const state = {
   sidebar: {
@@ -9,13 +9,13 @@ const state = {
   },
   device: 'desktop',
   size: Cookies.get('size') || 'medium',
-  logoInfo: {},
+  logoInfo: {}
 }
 
 const mutations = {
   TOGGLE_SIDEBAR: state => {
     if (state.sidebar.hide) {
-      return false;
+      return false
     }
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
@@ -64,26 +64,26 @@ const actions = {
   toggleSideBarHide({ commit }, status) {
     commit('SET_SIDEBAR_HIDE', status)
   },
-  getLogoInfo({commit}) {
+  getLogoInfo({ commit }) {
     document.getElementsByTagName('body')[0].className = 'theme-light'
     getLogoInfo().then(res => {
       // 设置浏览器icon、标题
       document.querySelector("link[rel*='icon']").href = res.data.browserLogo
       document.title = res.data.sysTitle
       // 设置主题
-      let localTheme = localStorage.getItem('theme')
-      let theme = res.data.theme || 'theme-light'
+      const localTheme = localStorage.getItem('theme')
+      const theme = res.data.theme || 'theme-light'
       document.getElementsByTagName('body')[0].className = localTheme || theme
-      if(!localTheme) localStorage.setItem('theme', localTheme || theme)
-      let result = {
+      if (!localTheme) localStorage.setItem('theme', localTheme || theme)
+      const result = {
         ...res.data,
         theme: localTheme || theme
       }
       commit('SET_LOGOINFO', result)
     })
   },
-  setTheme({commit}, theme) {
-    commit("SET_THEME", theme)
+  setTheme({ commit }, theme) {
+    commit('SET_THEME', theme)
   }
 }
 

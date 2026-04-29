@@ -1,6 +1,7 @@
 package com.cpems.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.cpems.common.core.page.TableDataInfo;
 import com.cpems.common.core.domain.PageQuery;
@@ -163,17 +164,17 @@ public class ElectricityWServiceImpl implements IElectricityWService {
 
         //找出同类型设备
         List<EquipmentInfo> equipmentInfos = equipmentInfoMapper.selectList(new LambdaQueryWrapper<EquipmentInfo>()
-            .in(EquipmentInfo::getSn,deviceId)
-            .eq(EquipmentInfo::getType,energyType));
+            .in(CollUtil.isNotEmpty(deviceId), EquipmentInfo::getSn, deviceId)
+            .eq(EquipmentInfo::getType, energyType));
 
         //整理出所有sn
         List<String> sns = equipmentInfos.stream().map(EquipmentInfo::getSn).collect(Collectors.toList());
 
         //查询计算表中所有相关数据
         List<EnergyStatistics> energyStatisticsList = energyStatisticsMapper.selectList(new LambdaQueryWrapper<EnergyStatistics>()
-            .eq(EnergyStatistics::getEnergyType,energyType)
-            .in(EnergyStatistics::getEquipmentSn,sns)
-            .between(EnergyStatistics::getUpdateTime,startTime, endTime));
+            .eq(EnergyStatistics::getEnergyType, energyType)
+            .in(CollUtil.isNotEmpty(sns), EnergyStatistics::getEquipmentSn, sns)
+            .between(EnergyStatistics::getUpdateTime, startTime, endTime));
 
         //根据拓扑逐层整理数据
         for(ItemTopologyVo itemTopologyVo:itemTopologyVos){

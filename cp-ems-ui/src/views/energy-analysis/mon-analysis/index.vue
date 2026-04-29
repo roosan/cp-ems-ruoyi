@@ -1,19 +1,19 @@
 <template>
   <div class="app-container flex-between bg-container">
     <div class="content-tree">
-      <topologicaTree :showCheckbox="true" @selectAreaId="getId" @treeOptions="getTree"/>
+      <topologicaTree :show-checkbox="true" @selectAreaId="getId" @treeOptions="getTree" />
     </div>
-    <div class="content-data" v-loading="loading">
+    <div v-loading="loading" class="content-data">
       <div class="data-select">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+        <el-form ref="queryForm" :model="queryParams" size="small" :inline="true">
           <el-form-item label="分类能耗" prop="energyType">
             <el-select v-model="queryParams.energyType" placeholder="请选择" @change="energyTypeChange">
               <el-option
                 v-for="item in dict.type.energy_type"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="日期" prop="dateType">
@@ -22,8 +22,8 @@
                 v-for="item in dateTypeList"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              />
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -32,7 +32,7 @@
               :format="queryParams.dateType === 'week' ? 'yyyy-WW' : ''"
               :type="queryParams.dateType"
               placeholder="选择时间"
-            ></el-date-picker>
+            />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="search">查询</el-button>
@@ -40,15 +40,15 @@
         </el-form>
       </div>
       <div class="data-table">
-        <mon-table :chain-data="chainData" :now-title="nowTitle" :last-title="lastTitle" :addValue="addValue"/>
+        <mon-table :chain-data="chainData" :now-title="nowTitle" :last-title="lastTitle" :add-value="addValue" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import topologicaTree from "@/components/TopologicaTree/index";
-import MonTable from '@/components/Tables/monTable';
+import topologicaTree from '@/components/TopologicaTree/index'
+import MonTable from '@/components/Tables/monTable'
 import moment from 'moment'
 import { getChainByDevice } from '@/api/system/energy'
 export default {
@@ -61,7 +61,7 @@ export default {
     return {
       queryParams: {
         energyType: '0',
-        time: "2023-04-13",
+        time: '2023-04-13',
         dateType: 'date'
       },
       energyType: [
@@ -74,7 +74,7 @@ export default {
           value: '1',
           label: '水',
           unit: 't'
-        },
+        }
       ],
       dateTypeList: [
         {
@@ -92,18 +92,22 @@ export default {
         {
           value: 'year',
           label: '年'
-        },
+        }
       ],
-      areaId:[],
-      chainData:[],
-      treeOptions:[],
-      areaName:"",
-      nowTitle: "当日用能(kW·h)",
-      lastTitle: "昨日用能(kW·h)",
+      areaId: [],
+      chainData: [],
+      treeOptions: [],
+      areaName: '',
+      nowTitle: '当日用能(kW·h)',
+      lastTitle: '昨日用能(kW·h)',
       addValue: '增加值(kW.h)',
       unit: 'kW.h',
-      loading: true,
-    };
+      loading: true
+    }
+  },
+  created() {
+    this.getNowDate()
+    // this.search()
   },
   methods: {
     getNowDate() {
@@ -111,27 +115,27 @@ export default {
       this.queryParams.time = dateTime
       // this.queryParams.time = dateTime.getFullYear().toString() + '-' + (dateTime.getMonth() + 1) + '-' + dateTime.getDate().toString()
     },
-    getId(value){
-      this.areaId = value;
-      this.search();
+    getId(value) {
+      this.areaId = value
+      this.search()
     },
-    getTree(value){
-      this.treeOptions = value;
+    getTree(value) {
+      this.treeOptions = value
     },
-    dateTypeChange(){
-      this.addValue = "增加值(" + this.unit + ")"
-      if(this.queryParams.dateType == "date"){
-        this.nowTitle = "当日用能(" + this.unit + ")"
-        this.lastTitle = "昨日用能(" + this.unit + ")"
-      }else if(this.queryParams.dateType == "week"){
-        this.nowTitle = "本周用能(" + this.unit + ")"
-        this.lastTitle = "上周用能(" + this.unit + ")"
-      }else if(this.queryParams.dateType == "month"){
-        this.nowTitle = "当月用能(" + this.unit + ")"
-        this.lastTitle = "上月用能(" + this.unit + ")"
-      }else if(this.queryParams.dateType == "year"){
-        this.nowTitle = "当年用能(" + this.unit + ")"
-        this.lastTitle = "去年用能(" + this.unit + ")"
+    dateTypeChange() {
+      this.addValue = '增加值(' + this.unit + ')'
+      if (this.queryParams.dateType == 'date') {
+        this.nowTitle = '当日用能(' + this.unit + ')'
+        this.lastTitle = '昨日用能(' + this.unit + ')'
+      } else if (this.queryParams.dateType == 'week') {
+        this.nowTitle = '本周用能(' + this.unit + ')'
+        this.lastTitle = '上周用能(' + this.unit + ')'
+      } else if (this.queryParams.dateType == 'month') {
+        this.nowTitle = '当月用能(' + this.unit + ')'
+        this.lastTitle = '上月用能(' + this.unit + ')'
+      } else if (this.queryParams.dateType == 'year') {
+        this.nowTitle = '当年用能(' + this.unit + ')'
+        this.lastTitle = '去年用能(' + this.unit + ')'
       }
 
       this.search()
@@ -139,31 +143,31 @@ export default {
     // 能耗类型切换
     energyTypeChange(value) {
       // 能耗单位
-      let item = this.energyType.find(t => t.value == value)
-      if(item) {
+      const item = this.energyType.find(t => t.value == value)
+      if (item) {
         this.unit = item.unit
       }
 
       this.dateTypeChange()
     },
-    search(){
-      let date = ""
-      if(this.queryParams.dateType ===  "week"){
-        date = moment(this.queryParams.time).format("yyyy-WW");
-      }else {
-        date = moment(this.queryParams.time).format("yyyy-MM-DD");
+    search() {
+      let date = ''
+      if (this.queryParams.dateType === 'week') {
+        date = moment(this.queryParams.time).format('yyyy-WW')
+      } else {
+        date = moment(this.queryParams.time).format('yyyy-MM-DD')
       }
-      let param = {
+      const param = {
         energyType: this.queryParams.energyType,
         dateType: this.queryParams.dateType,
         date: date,
-        areaId:this.areaId.join(","),
+        areaId: this.areaId.join(',')
       }
       this.loading = true
-      getChainByDevice(param).then( res =>{
-        this.chainData = res.data;
-        this.chainData.forEach((item,index) => {
-          this.chainData[index].area = this.handleLabel(item.areaId,this.treeOptions)
+      getChainByDevice(param).then(res => {
+        this.chainData = res.data
+        this.chainData.forEach((item, index) => {
+          this.chainData[index].area = this.handleLabel(item.areaId, this.treeOptions)
         })
       }).finally(() => {
         this.loading = false
@@ -171,21 +175,17 @@ export default {
     },
     handleLabel(id, treeList) {
       treeList.forEach(item => {
-        if(item.id == id) {
+        if (item.id == id) {
           this.areaName = item.label
         }
-        if(item.children) {
+        if (item.children) {
           this.handleLabel(id, item.children)
         }
       })
       return this.areaName
-    },
-  },
-  created() {
-    this.getNowDate();
-    // this.search()
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

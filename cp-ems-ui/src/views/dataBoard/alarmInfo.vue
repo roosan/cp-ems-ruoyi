@@ -1,14 +1,14 @@
 <template>
   <div class="alarmInfo-container">
     <VueSeamlessScroll :data="alarmList" :class-option="classOption" style="height: 100%;overflow:hidden;">
-      <div class="alarm-item" v-for="(item, index) in alarmList" :key="index">
+      <div v-for="(item, index) in alarmList" :key="index" class="alarm-item">
         <div class="flex-between mb5">
-          <span class="alarm-name">{{item.area}}</span>
-          <span>{{item.alarmTime}}</span>
+          <span class="alarm-name">{{ item.area }}</span>
+          <span>{{ item.alarmTime }}</span>
         </div>
         <div class="flex-between">
-          <span>{{item.alarmInfo}}</span>
-          <div class="item-level" :class="changeAlarmBg(item.alarmLevel)">{{getLevel(item.alarmLevel)}}</div>
+          <span>{{ item.alarmInfo }}</span>
+          <div class="item-level" :class="changeAlarmBg(item.alarmLevel)">{{ getLevel(item.alarmLevel) }}</div>
         </div>
       </div>
     </VueSeamlessScroll>
@@ -16,15 +16,15 @@
 </template>
 
 <script>
-import VueSeamlessScroll from "vue-seamless-scroll";
+import VueSeamlessScroll from 'vue-seamless-scroll'
 import { getLatestAlarmsByCount } from '@/api/system/alarm'
 export default {
   components: {
-    VueSeamlessScroll,
+    VueSeamlessScroll
   },
   data() {
     return {
-      alarmList:[],
+      alarmList: []
     }
   },
   computed: {
@@ -32,11 +32,14 @@ export default {
       return {
         step: 0.4, // 数值越大速度滚动越快
         limitMoveNum: 4, // 开启无缝滚动的数据量 设置(数值<页面展示数据条数不滚)(超过页面展示条数滚动)
-        openWatch: true, // 开启数据实时监控刷新dom
+        openWatch: true // 开启数据实时监控刷新dom
         // singleHeight: 30,
         // waitTime: 2500, // 单行停顿时间(singleHeight,waitTime)
-      };
-    },
+      }
+    }
+  },
+  created() {
+    this.getAlarmList()
   },
   methods: {
     changeAlarmBg(level) {
@@ -48,7 +51,7 @@ export default {
         case '2':
           return 'alarm-danger'
         default:
-          break;
+          break
       }
     },
     getLevel(level) {
@@ -60,23 +63,20 @@ export default {
         case '2':
           return '严重'
         default:
-          break;
+          break
       }
     },
-    getAlarmList(){
-      let params = {
+    getAlarmList() {
+      const params = {
         count: 10
       }
-      getLatestAlarmsByCount(params).then( res =>{
-        if(!res.data) {
+      getLatestAlarmsByCount(params).then(res => {
+        if (!res.data) {
           return
         }
-        this.alarmList = res.data;
+        this.alarmList = res.data
       })
     }
-  },
-  created() {
-    this.getAlarmList()
   }
 
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="app-container flex-between bg-container">
     <div class="content-tree">
-      <topologicaTree :showCheckbox="true" @selectAreaId="getItemIds"/>
+      <topologicaTree :show-checkbox="true" @selectAreaId="getItemIds" />
     </div>
-    <div class="content-data" v-loading="loading">
+    <div v-loading="loading" class="content-data">
       <el-form :model="queryParams" size="small" :inline="true">
         <el-form-item label="分类能耗" prop="energyType">
           <el-select v-model="queryParams.energyType" placeholder="请选择" @change="energyTypeChange">
@@ -11,8 +11,8 @@
               v-for="item in dict.type.energy_type"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
-            </el-option>
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="日期">
@@ -21,20 +21,20 @@
               v-for="item in dateTypeList"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
-            </el-option>
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-date-picker
+            :key="queryParams.dateType"
             v-model="queryParams.time"
             :format="queryParams.dateType === 'week' ? 'yyyy-WW' : ''"
             value-format="yyyy-MM-dd"
             :type="queryParams.dateType"
             placeholder="选择时间"
-            :key="queryParams.dateType"
             @change="dateChange"
-          ></el-date-picker>
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="mini" icon="el-icon-search" @click="queryData">查询</el-button>
@@ -42,21 +42,21 @@
         </el-form-item>
       </el-form>
       <div class="content-box">
-        <ExpenseTableVue :testData="tableData" :unit="unit"/>
+        <ExpenseTableVue :test-data="tableData" :unit="unit" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import topologicaTree from "@/components/TopologicaTree/index";
+import topologicaTree from '@/components/TopologicaTree/index'
 import moment from 'moment'
-import ExpenseTableVue from './expenseTable.vue';
-import {getConsumptionExpenseReport} from "@/api/system/energy"
+import ExpenseTableVue from './expenseTable.vue'
+import { getConsumptionExpenseReport } from '@/api/system/energy'
 export default {
   components: {
     topologicaTree,
-    ExpenseTableVue,
+    ExpenseTableVue
   },
   dicts: ['energy_type'],
   data() {
@@ -82,7 +82,7 @@ export default {
           value: '1',
           label: '水',
           unit: 't'
-        },
+        }
       ],
       dateTypeList: [
         {
@@ -104,7 +104,7 @@ export default {
         {
           value: 'daterange',
           label: '自定义'
-        },
+        }
       ],
       tableData: [],
       unit: 'kW·h'
@@ -132,14 +132,14 @@ export default {
     // 能耗类型切换
     energyTypeChange(value) {
       // 能耗单位
-      let item = this.energyType.find(t => t.value == value)
-      if(item) {
+      const item = this.energyType.find(t => t.value == value)
+      if (item) {
         this.unit = item.unit
       }
     },
     // 日期类型切换
     dateTypeChange(value) {
-      if(value == 'daterange') {
+      if (value == 'daterange') {
         this.queryParams.time = this.dateRange
         return
       }
@@ -147,7 +147,7 @@ export default {
     },
     // 日期修改
     dateChange(value) {
-      if(this.queryParams.dateType == 'daterange') {
+      if (this.queryParams.dateType == 'daterange') {
         this.dateRange = value
         return
       }
@@ -169,29 +169,29 @@ export default {
         case 'date':
           this.queryParams.startTime = moment(this.time).format('yyyy-MM-DD 00:00:00')
           this.queryParams.endTime = moment(this.time).format('yyyy-MM-DD 23:59:59')
-          break;
+          break
         case 'week':
           this.queryParams.startTime = moment(this.time).startOf('week').format('yyyy-MM-DD 00:00:00')
           this.queryParams.endTime = moment(this.time).endOf('week').format('yyyy-MM-DD 23:59:59')
-          break;
+          break
         case 'month':
           this.queryParams.startTime = moment(this.time).startOf('month').format('yyyy-MM-DD 00:00:00')
           this.queryParams.endTime = moment(this.time).endOf('month').format('yyyy-MM-DD 23:59:59')
-          break;
+          break
         case 'year':
           this.queryParams.startTime = moment(this.time).startOf('year').format('yyyy-MM-DD 00:00:00')
           this.queryParams.endTime = moment(this.time).endOf('year').format('yyyy-MM-DD 23:59:59')
-          break;
+          break
         case 'daterange':
           this.queryParams.startTime = moment(this.dateRange[0]).format('yyyy-MM-DD 00:00:00')
           this.queryParams.endTime = moment(this.dateRange[1]).format('yyyy-MM-DD 23:59:59')
-          break;
+          break
         default:
-          break;
+          break
       }
     },
     getQuarterDate(value) {
-      console.log(value);
+      console.log(value)
     }
   }
 }

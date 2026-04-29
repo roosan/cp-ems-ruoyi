@@ -27,14 +27,14 @@ export default {
     },
     pieData: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
-          { value: 0, name: "正常设备" },
-          { value: 0, name: "报警设备" },
-          { value: 0, name: "离线设备" },
-        ];
-      },
-    },
+          { value: 0, name: '正常设备' },
+          { value: 0, name: '报警设备' },
+          { value: 0, name: '离线设备' }
+        ]
+      }
+    }
   },
   data() {
     return {
@@ -46,29 +46,17 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'pieData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            return;
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -83,9 +71,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
@@ -102,7 +102,7 @@ export default {
             type: 'pie',
             radius: ['0%', '60%'],
             center: ['50%', '50%'],
-            data:this.pieData,
+            data: this.pieData,
             animationDuration: 1500,
             label: {
               formatter: '{b}:{d}%'

@@ -1,47 +1,55 @@
 <template>
   <div id="container" @click="onMouseClick">
-    <div class="progress-box" id="progress" v-if="isShow">
+    <div v-if="isShow" id="progress" class="progress-box">
       <div id="progress-outer" class="progress-outer">
-        <div id="progress-inner" class="progress-inner">{{percentage}}</div>
+        <div id="progress-inner" class="progress-inner">{{ percentage }}</div>
       </div>
     </div>
     <div id="dialog">
       <div class="close-icon" @click="hiddenDialog">×</div>
-      <div style="padding:5px 10px;font-size: 20px;">{{dialogData.name}}</div>
-      <div style="width: 80%;margin: 20px auto;">今日用电：{{dialogData.energy}} kW.h</div>
-      <div style="width: 80%;margin: 20px auto;">今日用水：{{dialogData.water}} t</div>
+      <div style="padding:5px 10px;font-size: 20px;">{{ dialogData.name }}</div>
+      <div style="width: 80%;margin: 20px auto;">今日用电：{{ dialogData.energy }} kW.h</div>
+      <div style="width: 80%;margin: 20px auto;">今日用水：{{ dialogData.water }} t</div>
     </div>
     <div class="back-btn" @click="hiddenDialog">
-      <svg t="1698052353147" class="icon" 
-        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20477" width="32" height="32"><path d="M94.9504 732.13952c-18.84672 0-29.85472-31.49824-29.85472-31.49824V254.93504l509.77792 477.55776c-0.01536 0-370.78016-0.25088-479.9232-0.35328z m766.68928 32.21504c-69.64224 69.64224-159.3088 63.70304-159.3088 63.70304s58.57792-125.83936 63.71328-223.01696c3.45088-65.36704-35.78368-107.89888-63.71328-127.45216-38.86592-27.2384-96.74752-32.896-159.32416 0-78.56128 41.27744-159.3088 127.45216-159.3088 127.45216L192.53248 382.0288S338.47808 264.11008 479.2832 222.71488c198.45632-58.36288 343.23968 15.88224 414.21312 127.44192 99.1232 155.776 81.41824 300.88704-31.85664 414.19776z" fill="#ffffff" p-id="20478"></path></svg>
+      <svg
+        t="1698052353147"
+        class="icon"
+        viewBox="0 0 1024 1024"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        p-id="20477"
+        width="32"
+        height="32"
+      ><path d="M94.9504 732.13952c-18.84672 0-29.85472-31.49824-29.85472-31.49824V254.93504l509.77792 477.55776c-0.01536 0-370.78016-0.25088-479.9232-0.35328z m766.68928 32.21504c-69.64224 69.64224-159.3088 63.70304-159.3088 63.70304s58.57792-125.83936 63.71328-223.01696c3.45088-65.36704-35.78368-107.89888-63.71328-127.45216-38.86592-27.2384-96.74752-32.896-159.32416 0-78.56128 41.27744-159.3088 127.45216-159.3088 127.45216L192.53248 382.0288S338.47808 264.11008 479.2832 222.71488c198.45632-58.36288 343.23968 15.88224 414.21312 127.44192 99.1232 155.776 81.41824 300.88704-31.85664 414.19776z" fill="#ffffff" p-id="20478" /></svg>
       <div style="text-align:center;font-size: 12px;margin-top: -8px;">还原</div>
     </div>
   </div>
 </template>
 
 <script>
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
-import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js"
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js"
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js"
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js"
-import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js"
-import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js"
-import { CSS2DRenderer, CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
-import {debounce} from "@/utils/index"
-import TWEEN from "@tweenjs/tween.js"
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
+import { debounce } from '@/utils/index'
+import TWEEN from '@tweenjs/tween.js'
 // THREE.ColorManagement.enabled = false;
-let camera, scene, renderer, mesh, controls, cone, coneTwo,composer,outlinePass,renderPass, labelRenderer, dialogLabel;
-let mouse = new THREE.Vector2()
-let raycaster = new THREE.Raycaster()
+let camera, scene, renderer, mesh, controls, cone, coneTwo, composer, outlinePass, renderPass, labelRenderer, dialogLabel
+const mouse = new THREE.Vector2()
+const raycaster = new THREE.Raycaster()
 
 export default {
-  name: "Fourth",
+  name: 'Fourth',
   components: {},
   data() {
     return {
@@ -67,31 +75,36 @@ export default {
         water: 12,
         energy: 36
       }
-    };
+    }
   },
   mounted() {
     this.getDomSize()
-    this.init();
+    this.init()
     window.onresize = () => {
-      this.onWindowResize();
-    };
+      this.onWindowResize()
+    }
     // window.addEventListener("click", this.onMouseClick)
-    window.addEventListener("mousemove", this.onMouseMove)
+    window.addEventListener('mousemove', this.onMouseMove)
+  },
+  beforeDestroy() {
+    window.removeEventListener('onresize', this.onWindowResize())
+    window.removeEventListener('click', this.onMouseClick())
+    window.removeEventListener('mousemove', this.onMouseMove())
   },
   methods: {
     getDomSize() {
-      let dom = document.getElementById("build-model")
-      if(!dom) {
+      const dom = document.getElementById('build-model')
+      if (!dom) {
         return
       }
       this.domHeight = dom.clientHeight
       this.domWidth = dom.clientWidth
     },
     init() {
-      let that = this
-      let container = document.getElementById("container");
+      const that = this
+      const container = document.getElementById('container')
       // 创建场景
-      scene = new THREE.Scene();
+      scene = new THREE.Scene()
       // 设置场景背景
       scene.background = new THREE.CubeTextureLoader()
         .setPath(`/static/images/`)
@@ -103,23 +116,23 @@ export default {
         that.domWidth / that.domHeight,
         0.1,
         5000
-      );
-      camera.position.set(this.cameraInit.x, this.cameraInit.y, this.cameraInit.z);
+      )
+      camera.position.set(this.cameraInit.x, this.cameraInit.y, this.cameraInit.z)
 
-      const ambientLight = new THREE.AmbientLight(0xffffff); // 环境光
-      scene.add(ambientLight);
+      const ambientLight = new THREE.AmbientLight(0xffffff) // 环境光
+      scene.add(ambientLight)
 
       // 平面
-      let geometry = new THREE.CircleGeometry( 5000 ) ;
-      let material = new THREE.MeshBasicMaterial( {color: '#f6f6f6', side: THREE.DoubleSide} );
-      let plane = new THREE.Mesh( geometry, material );
-      plane.rotateX(Math.PI/2);
+      const geometry = new THREE.CircleGeometry(5000)
+      const material = new THREE.MeshBasicMaterial({ color: '#f6f6f6', side: THREE.DoubleSide })
+      const plane = new THREE.Mesh(geometry, material)
+      plane.rotateX(Math.PI / 2)
       plane.position.set(0, -201, 0)
       // scene.add( plane );
 
       // 锥体
-      let conegeo = new THREE.ConeGeometry(30, 40, 6)
-      let conemater = new THREE.MeshLambertMaterial({
+      const conegeo = new THREE.ConeGeometry(30, 40, 6)
+      const conemater = new THREE.MeshLambertMaterial({
         color: '#175aa7',
         transparent: true,
         opacity: 0.8
@@ -135,8 +148,6 @@ export default {
       coneTwo.name = 'coneTwo'
       scene.add(coneTwo)
 
-
-
       // const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
       // this.scene.add(ambientLight);
 
@@ -145,7 +156,7 @@ export default {
       // this.camera.add(pointLight);
 
       // 创建辅助坐标轴
-      let axes = new THREE.AxesHelper(2000);
+      const axes = new THREE.AxesHelper(2000)
       axes.position.set(0, -200, 0)
       // scene.add(axes);
 
@@ -157,40 +168,40 @@ export default {
       //   this.scene.environment = texture
       // })
 
-      const mtlLoader = new MTLLoader();
-      mtlLoader.setPath(`/static/obj/exampleOne/`);
-      mtlLoader.load("file.mtl", function (materials) {
-        materials.preload();
+      const mtlLoader = new MTLLoader()
+      mtlLoader.setPath(`/static/obj/exampleOne/`)
+      mtlLoader.load('file.mtl', function(materials) {
+        materials.preload()
 
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath(`/static/obj/exampleOne/`);
+        const objLoader = new OBJLoader()
+        objLoader.setMaterials(materials)
+        objLoader.setPath(`/static/obj/exampleOne/`)
         objLoader.load(
-          "file.obj",
-          function (object) {
+          'file.obj',
+          function(object) {
             that.isShow = false
-            object.scale.set(0.01, 0.01, 0.01);
+            object.scale.set(0.01, 0.01, 0.01)
             object.position.set(0, -200, 0)
-            scene.add(object);
+            scene.add(object)
           },
-          function (xhr) {
-            that.percentage  = Math.round((xhr.loaded / xhr.total) * 100, 2) + '%'
+          function(xhr) {
+            that.percentage = Math.round((xhr.loaded / xhr.total) * 100, 2) + '%'
             document.getElementById('progress-inner').style.width = that.percentage
           }
-        );
-      });
+        )
+      })
 
       // 创建渲染器
       renderer = new THREE.WebGLRenderer({
         antialias: true,
-        logarithmicDepthBuffer: true,
-      });
-      renderer.setSize(that.domWidth, that.domHeight);
+        logarithmicDepthBuffer: true
+      })
+      renderer.setSize(that.domWidth, that.domHeight)
       // renderer.setClearColor("#f6f6f6", 1.0);
-      container.appendChild(renderer.domElement);
+      container.appendChild(renderer.domElement)
 
       // 添加控制器
-      controls = new OrbitControls(camera, renderer.domElement);
+      controls = new OrbitControls(camera, renderer.domElement)
       controls.maxDistance = 2000
       controls.maxPolarAngle = Math.PI / 2
 
@@ -199,70 +210,70 @@ export default {
       labelRenderer.domElement.style.position = 'absolute'
       labelRenderer.domElement.style.top = 0
       // 将渲染器设置为点击穿透
-      labelRenderer.domElement.style.pointerEvents = 'none';
+      labelRenderer.domElement.style.pointerEvents = 'none'
       container.appendChild(labelRenderer.domElement)
 
-      this.render();
+      this.render()
     },
 
     onWindowResize() {
       this.getDomSize()
 
-      camera.aspect = this.domWidth / this.domHeight;
-      camera.updateProjectionMatrix();
+      camera.aspect = this.domWidth / this.domHeight
+      camera.updateProjectionMatrix()
 
-      renderer.setSize(this.domWidth, this.domHeight);
+      renderer.setSize(this.domWidth, this.domHeight)
 
-      renderer.render(scene, camera);
+      renderer.render(scene, camera)
 
-      labelRenderer.setSize(this.domWidth, this.domHeight);
+      labelRenderer.setSize(this.domWidth, this.domHeight)
 
-      labelRenderer.render(scene, camera);
+      labelRenderer.render(scene, camera)
     },
     render() {
-      if(cone.position.y == 420) {
+      if (cone.position.y == 420) {
         this.coneHeight = false
       }
-      if(cone.position.y == 400) {
+      if (cone.position.y == 400) {
         this.coneHeight = true
       }
-      if(this.coneHeight) {
+      if (this.coneHeight) {
         cone.translateY(-0.5)
         coneTwo.translateY(-0.5)
       } else {
         cone.translateY(0.5)
         coneTwo.translateY(0.5)
       }
-      requestAnimationFrame(this.render);
-      renderer.render(scene, camera);
+      requestAnimationFrame(this.render)
+      renderer.render(scene, camera)
 
-      if(composer) {
+      if (composer) {
         composer.render()
       }
 
       TWEEN.update()
 
-      if(labelRenderer) {
+      if (labelRenderer) {
         labelRenderer.render(scene, camera)
       }
     },
 
     onMouseClick(event) {
-      if(!event) {
+      if (!event) {
         return
       }
 
-      mouse.x = (event.offsetX / this.domWidth) * 2 - 1;
-      mouse.y = -(event.offsetY / this.domHeight) * 2 + 1;
+      mouse.x = (event.offsetX / this.domWidth) * 2 - 1
+      mouse.y = -(event.offsetY / this.domHeight) * 2 + 1
       // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
-      raycaster.setFromCamera(mouse, camera);
+      raycaster.setFromCamera(mouse, camera)
       const intersects = raycaster.intersectObjects(scene.children)
       if (intersects.length > 0) {
-        if(intersects[0].object.name == 'cone') {
-          let target1 = new THREE.Vector3(-200, 600, 1500)
-          let target2 = new THREE.Vector3(-200, 220, 150)
+        if (intersects[0].object.name == 'cone') {
+          const target1 = new THREE.Vector3(-200, 600, 1500)
+          const target2 = new THREE.Vector3(-200, 220, 150)
           this.cameraMove(camera.position, controls.target, target1, target2)
-          let position = {x: -200, y: 470, z: 150}
+          const position = { x: -200, y: 470, z: 150 }
           this.dialogData = {
             name: 'A栋',
             water: 12,
@@ -270,13 +281,13 @@ export default {
           }
           this.showTip(position)
         }
-        if(intersects[0].object.name == 'coneTwo') {
+        if (intersects[0].object.name == 'coneTwo') {
           // this.cameraMove(700, 500, 1000)
           // this.outLineObj([intersects[0].object])
-          let target1 = new THREE.Vector3(400, 600, 1200)
-          let target2 = new THREE.Vector3(200, 220, -150)
+          const target1 = new THREE.Vector3(400, 600, 1200)
+          const target2 = new THREE.Vector3(200, 220, -150)
           this.cameraMove(camera.position, controls.target, target1, target2)
-          let position = {x: 260, y: 470, z: -160}
+          const position = { x: 260, y: 470, z: -160 }
           this.dialogData = {
             name: 'B栋',
             water: 9,
@@ -289,35 +300,35 @@ export default {
 
     // 显示弹窗
     showTip(position) {
-      let toolTip = document.getElementById("dialog")
+      const toolTip = document.getElementById('dialog')
       dialogLabel = new CSS2DObject(toolTip)
       dialogLabel.position.set(position.x, position.y, position.z)
       scene.add(dialogLabel)
-      toolTip.style.visibility = "visible"
+      toolTip.style.visibility = 'visible'
       // 将弹窗点击事件设置成‘auto’
-      toolTip.style.pointerEvents = "auto"
+      toolTip.style.pointerEvents = 'auto'
     },
 
     // 隐藏弹窗
     hiddenDialog(position) {
-      let toolTip = document.getElementById("dialog")
-      toolTip.style.visibility = "hidden"
+      const toolTip = document.getElementById('dialog')
+      toolTip.style.visibility = 'hidden'
       this.cameraMove(camera.position, controls.target, this.cameraInit, this.controlInit)
     },
 
     onMouseMove(event) {
-      if(!event) {
-        return;
+      if (!event) {
+        return
       }
 
-      mouse.x = (event.offsetX / this.domWidth) * 2 - 1;
-      mouse.y = -(event.offsetY / this.domHeight) * 2 + 1;
+      mouse.x = (event.offsetX / this.domWidth) * 2 - 1
+      mouse.y = -(event.offsetY / this.domHeight) * 2 + 1
       // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
-      raycaster.setFromCamera(mouse, camera);
+      raycaster.setFromCamera(mouse, camera)
       const intersects = raycaster.intersectObjects(scene.children)
       document.body.style.cursor = 'default'
       if (intersects.length > 0) {
-        if(intersects[0].object.name == 'cone' || intersects[0].object.name == 'coneTwo') {
+        if (intersects[0].object.name == 'cone' || intersects[0].object.name == 'coneTwo') {
           document.body.style.cursor = 'pointer'
         }
       }
@@ -347,13 +358,13 @@ export default {
     },
 
     cameraMove(current1, current2, target1, target2) {
-      let tween = new TWEEN.Tween({
+      const tween = new TWEEN.Tween({
         x1: current1.x,
         y1: current1.y,
         z1: current1.z,
         x2: current2.x,
         y2: current2.y,
-        z2: current2.z,
+        z2: current2.z
       })
       tween.to({
         x1: target1.x,
@@ -361,7 +372,7 @@ export default {
         z1: target1.z,
         x2: target2.x,
         y2: target2.y,
-        z2: target2.z,
+        z2: target2.z
       }, 1000)
       tween.onUpdate(obj => {
         camera.position.x = obj.x1
@@ -382,13 +393,8 @@ export default {
     cameraBack() {
       this.cameraMove(camera.position, controls.target, this.cameraInit, this.controlInit)
     }
-  },
-  beforeDestroy() {
-    window.removeEventListener("onresize", this.onWindowResize())
-    window.removeEventListener("click", this.onMouseClick())
-    window.removeEventListener("mousemove", this.onMouseMove())
   }
-};
+}
 </script>
 
 <style>

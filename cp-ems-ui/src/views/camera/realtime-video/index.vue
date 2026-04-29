@@ -1,7 +1,7 @@
 <template>
   <div class="app-container flex-between bg-container">
     <div class="camera-tree">
-      <TopologicaTree :showCheckbox="true" />
+      <TopologicaTree :show-checkbox="true" />
     </div>
     <div class="camera-list">
       <div
@@ -46,39 +46,39 @@
 </template>
 
 <script>
-import TopologicaTree from "@/components/TopologicaTree";
-import { getUrlBySerialNumber } from "@/api/system/cameraConfig";
-import CameraPlay from "@/components/Camera/CameraPlay.vue";
-import { listCameraConfig } from "@/api/system/cameraConfig";
+import TopologicaTree from '@/components/TopologicaTree'
+import { getUrlBySerialNumber } from '@/api/system/cameraConfig'
+import CameraPlay from '@/components/Camera/CameraPlay.vue'
+import { listCameraConfig } from '@/api/system/cameraConfig'
 export default {
-  name: "RealtimeVideo",
+  name: 'RealtimeVideo',
   components: {
     CameraPlay,
-    TopologicaTree,
+    TopologicaTree
   },
   data() {
     return {
       cameraList: [],
-      cameraActive: 0,
-    };
+      cameraActive: 0
+    }
   },
   created() {
     // this.getMonitors();
-    this.getDefaultCamera();
+    this.getDefaultCamera()
   },
   methods: {
     getDefaultCamera() {
-      let params = {
+      const params = {
         pageSize: 4,
-        PageNum: 1,
-      };
+        PageNum: 1
+      }
       listCameraConfig(params).then((res) => {
-        this.cameraList = res.rows;
-      });
+        this.cameraList = res.rows
+      })
     },
     changeChannel(code) {
-      this.cameraActive = code;
-    },
+      this.cameraActive = code
+    }
     // 获取当前页的监控数据
     // getMonitors() {
     //     let code = "G70578329";
@@ -92,8 +92,8 @@ export default {
     //         this.monitor.push(data);
     //     });
     // },
-  },
-};
+  }
+}
 </script>
 <style scoped>
 .app-container {

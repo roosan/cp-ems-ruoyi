@@ -1,20 +1,20 @@
 <template>
   <el-table class="equipment-table" :data="equipmentList" max-height="400" width="100%" :row-class-name="handleRowStyle" cell-class-name="cellStyle" @row-click="handleSelect">
-    <el-table-column prop="name" label="设备名" align="center"> </el-table-column>
-    <el-table-column prop="sn" label="设备编号" align="center"> </el-table-column>
+    <el-table-column prop="name" label="设备名" align="center" />
+    <el-table-column prop="sn" label="设备编号" align="center" />
     <el-table-column prop="type" label="设备类型" align="center" width="80">
       <template slot-scope="scope">
-        <dict-tag :options="dict.type.energy_type" :value="scope.row.type"/>
+        <dict-tag :options="dict.type.energy_type" :value="scope.row.type" />
       </template>
     </el-table-column>
-    <el-table-column prop="model" label="设备型号" align="center"> </el-table-column>
+    <el-table-column prop="model" label="设备型号" align="center" />
   </el-table>
 </template>
 
 <script>
-import {listEquipmentInfo} from "@/api/system/equipmentInfo"
+import { listEquipmentInfo } from '@/api/system/equipmentInfo'
 export default {
-  dicts: ["energy_type"],
+  dicts: ['energy_type'],
   props: {
     selectIds: {
       type: Array,
@@ -25,7 +25,7 @@ export default {
     return {
       equipmentList: [],
       selectList: []
-    };
+    }
   },
   watch: {
     selectIds: {
@@ -42,12 +42,12 @@ export default {
   methods: {
     handleRowStyle(data) {
       var selected = this.selectList.find(e => e == data.row.sn)
-      if(selected) return 'rowActive'
+      if (selected) return 'rowActive'
       return 'rowNormal'
     },
     handleSelect(row) {
       var selected = this.selectList.find(e => e == row.sn)
-      if(selected) {
+      if (selected) {
         this.selectList = this.selectList.filter(e => e !== selected)
         this.$emit('selectChange', this.selectList)
         return
@@ -63,7 +63,7 @@ export default {
       })
     }
   }
-};
+}
 </script>
 
 <style scoped>

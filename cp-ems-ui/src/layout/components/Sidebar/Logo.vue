@@ -2,21 +2,16 @@
   <div class="sidebar-logo-container" :class="{ 'collapse': collapse }">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title">{{
-            sysTitle }} </h1>
+        <h1 class="sidebar-title">世纪信通能源管理</h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 class="sidebar-title">{{
-            sysTitle }} </h1>
+        <h1 class="sidebar-title">世纪信通能源管理</h1>
       </router-link>
     </transition>
   </div>
 </template>
 
 <script>
-import logoImg from '@/assets/logo/new-logo.png'
 import variables from '@/assets/styles/variables.scss'
 
 export default {
@@ -27,9 +22,15 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      // title: '能源管理平台',
+      // logo: logoImg
+    }
+  },
   computed: {
     variables() {
-      return variables;
+      return variables
     },
     sideTheme() {
       return this.$store.state.settings.sideTheme
@@ -41,13 +42,7 @@ export default {
     logo() {
       return this.$store.getters.logoInfo.sysLogo
     }
-  },
-  data() {
-    return {
-      // title: '能源管理平台',
-      // logo: logoImg
-    }
-  },
+  }
 }
 </script>
 

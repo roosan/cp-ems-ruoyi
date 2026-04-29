@@ -43,7 +43,7 @@ export default {
       default: () => {
         return [79, 52, 200, 334, 390, 330, 34, 79, 52, 123, 334, 34, 56]
       }
-    },
+    }
   },
   data() {
     return {
@@ -55,30 +55,18 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'yData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            this.initChart();
-            return;
+            this.initChart()
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -93,9 +81,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
       // this.chart = echarts.init(this.$el, 'macarons')
 
@@ -134,7 +134,7 @@ export default {
           type: 'value',
           name: this.yName,
           position: 'left',
-          alignTicks: true,
+          alignTicks: true
         }],
         series: [{
           // name: 'pageA',
@@ -144,7 +144,7 @@ export default {
           data: this.yData,
           animationDuration,
           itemStyle: {
-            color: '',
+            color: ''
           }
         }]
       })

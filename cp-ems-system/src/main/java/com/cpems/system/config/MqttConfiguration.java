@@ -47,7 +47,7 @@ public class MqttConfiguration {
                 //   myMQTTClient.subscribe(topic3, 1);
                 //   myMQTTClient.subscribe(topic4, 1);
                 return myMQTTClient;
-            } catch (MqttException e) {
+            } catch (Exception e) {
                 log.error("MQTT connect exception,connect time = " + i);
                 try {
                     Thread.sleep(2000);

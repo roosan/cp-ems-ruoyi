@@ -47,11 +47,26 @@ export default {
       default: () => {
         return [79, 52, 200, 334, 390, 330, 220, 0, 21, 67, 234, 21, 89, 56]
       }
-    },
+    }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  watch: {
+    'xData': {
+      handler() {
+        this.$nextTick(() => {
+          if (!this.chart) {
+            this.initChart()
+            return
+          }
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
+      }
     }
   },
   mounted() {
@@ -66,32 +81,17 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
-  watch: {
-    'xData': {
-      handler() {
-        this.$nextTick(() => {
-          if (!this.chart) {
-            this.initChart();
-            return;
-          }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
-      }
-    }
-  },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el)
       // this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
-        title:{
-          left:'center',
-          text:this.title,
+        title: {
+          left: 'center',
+          text: this.title,
           fontSize: 18,
-          fontWeight: 600,
+          fontWeight: 600
         },
         tooltip: {
           trigger: 'axis',
@@ -127,7 +127,7 @@ export default {
           type: 'value',
           name: this.yName,
           position: 'left',
-          alignTicks: true,
+          alignTicks: true
         }],
         series: [{
           // name: 'pageA',
@@ -137,14 +137,14 @@ export default {
           data: this.yData,
           animationDuration,
           itemStyle: {
-            color: '',
+            color: ''
           },
           markPoint: {
             data: [
               { type: 'max', name: 'Max' },
               { type: 'min', name: 'Min' }
             ]
-          },
+          }
         }]
       })
     }

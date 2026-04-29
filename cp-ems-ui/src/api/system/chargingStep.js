@@ -45,9 +45,9 @@ export function delChargingStep(id) {
 
 // 更新策略的所有价格参数
 export function updateParamList(data) {
-    return request({
-      url: '/system/chargingStep/update',
-      method: 'put',
-      data: data
-    })
-  }
+  return request({
+    url: '/system/chargingStep/update',
+    method: 'put',
+    data: data
+  })
+}

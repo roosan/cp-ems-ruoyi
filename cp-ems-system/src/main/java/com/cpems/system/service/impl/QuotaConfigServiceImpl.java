@@ -1,6 +1,7 @@
 package com.cpems.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.cpems.common.core.page.TableDataInfo;
@@ -331,7 +332,8 @@ public class QuotaConfigServiceImpl implements IQuotaConfigService {
 
     private LambdaQueryWrapper<EnergyStatistics> buildQuery(List<String> devices,Date startTime,Date endTime) {
         return new LambdaQueryWrapper<EnergyStatistics>()
-            .in(EnergyStatistics::getEquipmentSn, devices)
+            // FIX: 解决 SQL IN () 语法错误, 预防空集合导致数据库报错
+            .in(CollUtil.isNotEmpty(devices), EnergyStatistics::getEquipmentSn, devices)
             .between(ObjectUtil.isNotEmpty(startTime) && ObjectUtil.isNotEmpty(endTime),EnergyStatistics::getTime,startTime, endTime)
             .orderByDesc(EnergyStatistics::getUpdateTime);
     }

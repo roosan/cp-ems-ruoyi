@@ -1,10 +1,10 @@
 <template>
-  <div class="app-container bg-container" v-loading="loading">
+  <div v-loading="loading" class="app-container bg-container">
     <el-row :gutter="20">
       <el-col :lg="14" :sm="24" :xs="24">
         <el-card class="box-card">
           <div class="overview-title">
-            <div class="overview-icon"></div><span>个人信息</span>
+            <div class="overview-icon" /><span>个人信息</span>
           </div>
           <div class="info-content">
             <div style="flex: 1;text-align:center;">
@@ -12,17 +12,17 @@
             </div>
             <div class="info-box">
               <div class="info-body">
-                <div><svg-icon icon-class="user" style="margin-right:6px;"/>用户名称：{{user.userName}}</div>
-                <div><svg-icon icon-class="nickname" style="margin-right:6px;"/>用户昵称：{{user.nickName}}</div>
-                <div><svg-icon icon-class="sex" style="margin-right:6px;"/>性别：{{handleSex(user.sex)}}</div>
-                <div><svg-icon icon-class="phone" style="margin-right:6px;"/>手机号码：{{user.phonenumber || '--'}}</div>
-                <div style="height:21px;"><svg-icon icon-class="email" style="margin-right:6px;"/>用户邮箱：{{user.email || '--'}}</div>
+                <div><svg-icon icon-class="user" style="margin-right:6px;" />用户名称：{{ user.userName }}</div>
+                <div><svg-icon icon-class="nickname" style="margin-right:6px;" />用户昵称：{{ user.nickName }}</div>
+                <div><svg-icon icon-class="sex" style="margin-right:6px;" />性别：{{ handleSex(user.sex) }}</div>
+                <div><svg-icon icon-class="phone" style="margin-right:6px;" />手机号码：{{ user.phonenumber || '--' }}</div>
+                <div style="height:21px;"><svg-icon icon-class="email" style="margin-right:6px;" />用户邮箱：{{ user.email || '--' }}</div>
               </div>
               <div class="info-body">
-                <div><svg-icon icon-class="tree" style="margin-right:6px;"/>所属部门：{{ user.dept ? (user.dept.deptName || '--') : '--'}}</div>
-                <div><svg-icon icon-class="post" style="margin-right:6px;"/>所在岗位：{{postGroup || '--'}}</div>
-                <div><svg-icon icon-class="peoples" style="margin-right:6px;"/>所属角色：{{roleGroup || '--'}}</div>
-                <div><svg-icon icon-class="date" style="margin-right:6px;"/>创建时间：{{parseTime(user.createTime, '{y}-{m}-{d}')}}</div>
+                <div><svg-icon icon-class="tree" style="margin-right:6px;" />所属部门：{{ user.dept ? (user.dept.deptName || '--') : '--' }}</div>
+                <div><svg-icon icon-class="post" style="margin-right:6px;" />所在岗位：{{ postGroup || '--' }}</div>
+                <div><svg-icon icon-class="peoples" style="margin-right:6px;" />所属角色：{{ roleGroup || '--' }}</div>
+                <div><svg-icon icon-class="date" style="margin-right:6px;" />创建时间：{{ parseTime(user.createTime, '{y}-{m}-{d}') }}</div>
                 <div style="height:21px;">
                   <el-button size="mini" type="primary" @click="openInfoDialog">修改信息</el-button>
                   <el-button size="mini" type="primary" @click="openPwdDialog">重置密码</el-button>
@@ -35,13 +35,13 @@
       <el-col :lg="5" :sm="12" :xs="12">
         <el-card class="box-card">
           <div class="overview-title">
-            <div class="overview-icon"></div><span>我的工单</span>
+            <div class="overview-icon" /><span>我的工单</span>
           </div>
           <div class="count-body">
             <div class="count-item" @click="toRepairOrder">
               <div style="font-size:14px;color:var(--base-color-3);padding: 8px 10px 0;">待处理</div>
               <div class="count-num">
-                {{repairCount.inProgress}}
+                {{ repairCount.inProgress }}
               </div>
               <!-- <div style="color:var(--theme-color);font-size:36px;font-weight:bold;">{{repairCount.inProgress}}</div>
               <div style="color:var(--base-color-3);font-size:14px;">待处理</div> -->
@@ -49,7 +49,7 @@
             <div class="count-item" @click="toRepairOrder">
               <div style="font-size:14px;color:var(--base-color-3);padding: 8px 10px 0;">已完成</div>
               <div class="count-num">
-                {{repairCount.completed}}
+                {{ repairCount.completed }}
               </div>
               <!-- <div style="color:var(--theme-color);font-size:36px;font-weight:bold;">{{repairCount.completed}}</div>
               <div style="color:var(--base-color-3);font-size:14px;">已完成</div> -->
@@ -60,13 +60,13 @@
       <el-col :lg="5" :sm="12" :xs="12">
         <el-card class="box-card">
           <div class="overview-title">
-            <div class="overview-icon"></div><span>我的巡检</span>
+            <div class="overview-icon" /><span>我的巡检</span>
           </div>
           <div class="count-body">
             <div class="count-item" @click="toInspection">
               <div style="font-size:14px;color:var(--base-color-3);padding: 8px 10px 0;">待处理</div>
               <div class="count-num">
-                {{inspectionCount.inProgress}}
+                {{ inspectionCount.inProgress }}
               </div>
               <!-- <div style="color:var(--theme-color);font-size:36px;font-weight:bold;">{{inspectionCount.inProgress}}</div>
               <div style="color:var(--base-color-3);font-size:14px;">待处理</div> -->
@@ -74,7 +74,7 @@
             <div class="count-item" @click="toInspection">
               <div style="font-size:14px;color:var(--base-color-3);padding: 8px 10px 0;">已完成</div>
               <div class="count-num">
-                {{inspectionCount.completed}}
+                {{ inspectionCount.completed }}
               </div>
               <!-- <div style="color:var(--theme-color);font-size:36px;font-weight:bold;">{{inspectionCount.completed}}</div>
               <div style="color:var(--base-color-3);font-size:14px;">已完成</div> -->
@@ -87,47 +87,47 @@
       <el-col :lg="12" :sm="24" :xs="24">
         <el-card class="box-card" style="height: 480px;margin-bottom: 20px;">
           <div class="overview-title">
-            <div class="overview-icon"></div><span>工单数量（月度）</span>
+            <div class="overview-icon" /><span>工单数量（月度）</span>
           </div>
-          <OrderChartVue style="height:calc(100% - 41px);" height="100%" :setInfo="{yName: '数量', xName: '月份', legendName: ['已完成', '未完成']}" :barData="repairs"/>
+          <OrderChartVue style="height:calc(100% - 41px);" height="100%" :set-info="{yName: '数量', xName: '月份', legendName: ['已完成', '未完成']}" :bar-data="repairs" />
         </el-card>
       </el-col>
       <el-col :lg="12" :sm="24" :xs="24">
         <el-card class="box-card" style="height: 480px;margin-bottom: 20px;">
           <div class="overview-title">
-            <div class="overview-icon"></div><span>巡检数量（月度）</span>
+            <div class="overview-icon" /><span>巡检数量（月度）</span>
           </div>
-          <OrderChartVue style="height:calc(100% - 41px);" height="100%" :setInfo="{yName: '数量', xName: '月份', legendName: ['已完成', '未完成']}" :barData="inspections"/>
+          <OrderChartVue style="height:calc(100% - 41px);" height="100%" :set-info="{yName: '数量', xName: '月份', legendName: ['已完成', '未完成']}" :bar-data="inspections" />
         </el-card>
       </el-col>
     </el-row>
 
     <el-dialog :title="title" :visible.sync="infoDialog" append-to-body destroy-on-close width="500px">
-      <user-info :user="user" @closeDialog="closeInfoDialog"/>
+      <user-info :user="user" @closeDialog="closeInfoDialog" />
     </el-dialog>
     <el-dialog :title="title" :visible.sync="pwdDialog" append-to-body destroy-on-close width="500px">
-      <resetPwd @closeDialog="closePwdDialog"/>
+      <resetPwd @closeDialog="closePwdDialog" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import userAvatar from "./userAvatar";
-import resetPwd from "./resetPwd";
-import { getUserProfile, countRepairAndInspection } from "@/api/system/user";
-import {listOrder} from "@/api/system/repairOrder"
-import OrderChartVue from './orderChart.vue';
-import PieChartVue from './pieChart.vue';
-import UserInfo from './userInfo.vue';
+import userAvatar from './userAvatar'
+import resetPwd from './resetPwd'
+import { getUserProfile, countRepairAndInspection } from '@/api/system/user'
+import { listOrder } from '@/api/system/repairOrder'
+import OrderChartVue from './orderChart.vue'
+import PieChartVue from './pieChart.vue'
+import UserInfo from './userInfo.vue'
 export default {
-  name: "Profile",
+  name: 'Profile',
   components: { userAvatar, resetPwd, PieChartVue, OrderChartVue, UserInfo },
   data() {
     return {
       user: {},
       roleGroup: {},
       postGroup: {},
-      activeTab: "userinfo",
+      activeTab: 'userinfo',
       infoDialog: false,
       pwdDialog: false,
       title: '修改信息',
@@ -137,26 +137,26 @@ export default {
       // inspectionPie: [],
       repairs: {},
       inspections: {},
-      loading: true,
-    };
+      loading: true
+    }
   },
   created() {
-    this.getUser();
+    this.getUser()
   },
   methods: {
     getUser() {
       this.loading = true
       getUserProfile().then(response => {
-        this.user = response.data.user;
-        this.roleGroup = response.data.roleGroup;
-        this.postGroup = response.data.postGroup;
+        this.user = response.data.user
+        this.roleGroup = response.data.roleGroup
+        this.postGroup = response.data.postGroup
         this.getRepairOeder()
       }).finally(() => {
         this.loading = false
-      });
+      })
     },
     handleSex(sex) {
-      if(!sex) return '--'
+      if (!sex) return '--'
       switch (sex) {
         case '1':
           return '女'
@@ -165,7 +165,7 @@ export default {
         case '2':
           return '未知'
         default:
-          break;
+          break
       }
     },
     // 查询我的工单
@@ -184,7 +184,7 @@ export default {
         this.repairCount = res.data.repairCount
         this.inspectionCount = res.data.inspectionCount
         // 柱状图数据
-        let repairData = {
+        const repairData = {
           xData: [],
           currentData: [],
           sameData: []
@@ -195,7 +195,7 @@ export default {
           repairData.sameData.push(item.unfinished)
         })
         this.repairs = repairData
-        let inspectionData = {
+        const inspectionData = {
           xData: [],
           currentData: [],
           sameData: []
@@ -220,7 +220,7 @@ export default {
     },
     // 关闭信息修改弹窗
     closeInfoDialog(value) {
-      if(value) this.getUser()
+      if (value) this.getUser()
       this.infoDialog = false
     },
     // 关闭重置密码弹窗
@@ -229,14 +229,14 @@ export default {
     },
     // 跳转我的工单
     toRepairOrder() {
-      this.$router.push({path: '/maintenance/my-order'})
+      this.$router.push({ path: '/maintenance/my-order' })
     },
     // 跳转我的巡检
     toInspection() {
-      this.$router.push({path: '/maintenance/my-inspection'})
-    },
+      this.$router.push({ path: '/maintenance/my-inspection' })
+    }
   }
-};
+}
 </script>
 <style scoped>
 .app-container {

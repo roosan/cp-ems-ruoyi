@@ -3,70 +3,70 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
+import * as echarts from 'echarts'
 // require('echarts/theme/macarons') // echarts theme
-import resize from "../dashboard/mixins/resize";
+import resize from '../dashboard/mixins/resize'
 
 export default {
   mixins: [resize],
   props: {
     className: {
       type: String,
-      default: "chart",
+      default: 'chart'
     },
     width: {
       type: String,
-      default: "100%",
+      default: '100%'
     },
     height: {
       type: String,
-      default: "300px",
+      default: '300px'
     },
     pieData: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
-          { value: 0, name: "正常" },
-          { value: 0, name: "报警" },
-          { value: 0, name: "离线" },
-        ];
-      },
-    },
+          { value: 0, name: '正常' },
+          { value: 0, name: '报警' },
+          { value: 0, name: '离线' }
+        ]
+      }
+    }
   },
   data() {
     return {
-      chart: null,
-    };
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart();
-    });
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return;
+      chart: null
     }
-    this.chart.dispose();
-    this.chart = null;
   },
   watch: {
     'pieData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            return;
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el);
+      this.chart = echarts.init(this.$el)
       // this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
@@ -80,28 +80,28 @@ export default {
           }
         },
         legend: {
-          top: "bottom",
+          top: 'bottom',
           textStyle: {
             color: '#ff'
-          },
+          }
         },
         grid: {
           left: 5,
           right: 5,
-          bottom: '10%',
+          bottom: '10%'
         },
         series: [
           {
-            name: "设备状态",
-            type: "pie",
+            name: '设备状态',
+            type: 'pie',
             radius: [0, '65%'],
-            center: ["50%", "40%"],
-            roseType: "area",
+            center: ['50%', '40%'],
+            roseType: 'area',
             itemStyle: {
             },
             label: {
               show: true,
-              position: "outside",
+              position: 'outside',
               color: '#1be5e7',
               formatter: '{b}({d}%)'
             },
@@ -110,7 +110,7 @@ export default {
                 show: true,
                 fontSize: 16,
                 color: 'data'
-              },
+              }
             },
             // labelLine: {
             //   show: true,
@@ -120,12 +120,12 @@ export default {
             //   { value: 38, name: "报警", itemStyle: {color: '#e0c464'} },
             //   { value: 32, name: "离线", itemStyle: {color: '#297ef8'} },
             // ],
-            data:this.pieData,
-            animationDuration: 1500,
-          },
-        ],
-      });
-    },
-  },
-};
+            data: this.pieData,
+            animationDuration: 1500
+          }
+        ]
+      })
+    }
+  }
+}
 </script>

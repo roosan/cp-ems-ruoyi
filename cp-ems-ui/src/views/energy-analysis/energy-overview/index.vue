@@ -1,11 +1,11 @@
 <template>
-  <div class="app-container bg-container" v-loading="loading">
+  <div v-loading="loading" class="app-container bg-container">
     <el-row :gutter="10">
       <el-col :span="24">
         <div class="top-query-box">
           <el-form
-            :model="queryParams"
             ref="queryForm"
+            :model="queryParams"
             size="small"
             :inline="true"
             class="query-form"
@@ -17,8 +17,8 @@
                 :show-count="true"
                 placeholder="请选择区域"
                 style="width: 200px"
-                @select="areaChange"
                 :clearable="false"
+                @select="areaChange"
               />
               <!-- <el-select v-model="queryParams.address" placeholder="请选择">
                 <el-option
@@ -37,8 +37,7 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                >
-                </el-option>
+                />
               </el-select>
             </el-form-item>
           </el-form>
@@ -49,18 +48,18 @@
       <el-col :sm="24" :lg="10">
         <div class="ratio-month">
           <div class="overview-title">
-            <div class="overview-icon"></div>
+            <div class="overview-icon" />
             <span>环比</span>
           </div>
           <div class="ratio-content flex-column-between">
             <div class="flex-between content-row">
               <div class="ratio-item flex-column-center">
                 <div>{{ chainData.now ? chainData.now : "--" }}</div>
-                <span>今日用能({{showText.unit}})</span>
+                <span>今日用能({{ showText.unit }})</span>
               </div>
               <div class="ratio-item flex-column-center">
                 <div>{{ chainData.last ? chainData.last : "--" }}</div>
-                <span>昨日同期({{showText.unit}})</span>
+                <span>昨日同期({{ showText.unit }})</span>
               </div>
               <div class="ratio-change flex-column-center">
                 <div
@@ -77,8 +76,8 @@
                   --
                 </div>
                 <div class="item-center">
-                  <span>{{chainData.nowTrend > 0 ? ('+' + chainData.nowTrend) : chainData.nowTrend}}</span>
-                  {{showText.unit}}
+                  <span>{{ chainData.nowTrend > 0 ? ('+' + chainData.nowTrend) : chainData.nowTrend }}</span>
+                  {{ showText.unit }}
                 </div>
                 <div class="item-bottom">趋势</div>
               </div>
@@ -86,20 +85,20 @@
             <div class="flex-between content-row">
               <div class="ratio-item flex-column-center">
                 <div>{{ chainData.nowMonth ? chainData.nowMonth : "--" }}</div>
-                <span>当月用能({{showText.unit}})</span>
+                <span>当月用能({{ showText.unit }})</span>
               </div>
               <div class="ratio-item flex-column-center">
                 <div>
                   {{ chainData.lastMonth ? chainData.lastMonth : "--" }}
                 </div>
-                <span>上月同期({{showText.unit}})</span>
+                <span>上月同期({{ showText.unit }})</span>
               </div>
               <div class="ratio-change flex-column-center">
                 <div
                   v-if="chainData.monthPer"
                   :class="chainData.monthPer > 0 ? 'item-top' : 'item-top-down'"
                 >
-                <span v-if="chainData.monthPer<=0">{{ (chainData.monthPer * 100).toFixed(2) }} </span>
+                  <span v-if="chainData.monthPer<=0">{{ (chainData.monthPer * 100).toFixed(2) }} </span>
                   <span v-if="chainData.monthPer>0">+{{ (chainData.monthPer * 100).toFixed(2) }} </span> %
                 </div>
                 <div
@@ -109,14 +108,14 @@
                   --
                 </div>
                 <div class="item-center">
-                  <span>{{chainData.monthTrend > 0 ? ('+' + chainData.monthTrend) : chainData.monthTrend}}</span>
+                  <span>{{ chainData.monthTrend > 0 ? ('+' + chainData.monthTrend) : chainData.monthTrend }}</span>
                   <!-- <span v-if="chainData.monthTrend<=0">{{
                     chainData.monthTrend ? chainData.monthTrend : "--"
                   }}</span>
                   <span v-if="chainData.monthTrend>0">{{
                     chainData.monthTrend ? ('+'+chainData.monthTrend) : "--"
                   }}</span> -->
-                  {{showText.unit}}
+                  {{ showText.unit }}
                 </div>
                 <div class="item-bottom">趋势</div>
               </div>
@@ -124,11 +123,11 @@
             <div class="flex-between content-row">
               <div class="ratio-item flex-column-center">
                 <div>{{ chainData.nowYear ? chainData.nowYear : "--" }}</div>
-                <span>今年用能({{showText.unit}})</span>
+                <span>今年用能({{ showText.unit }})</span>
               </div>
               <div class="ratio-item flex-column-center">
                 <div>{{ chainData.lastYear ? chainData.lastYear : "--" }}</div>
-                <span>去年同期({{showText.unit}})</span>
+                <span>去年同期({{ showText.unit }})</span>
               </div>
               <div class="ratio-change flex-column-center">
                 <div
@@ -145,14 +144,14 @@
                   --
                 </div>
                 <div class="item-center">
-                  <span>{{chainData.yearTrend > 0 ? ('+' + chainData.yearTrend) : chainData.yearTrend}}</span>
+                  <span>{{ chainData.yearTrend > 0 ? ('+' + chainData.yearTrend) : chainData.yearTrend }}</span>
                   <!-- <span v-if="chainData.yearTrend<=0">{{
                     chainData.yearTrend ? chainData.yearTrend : "--"
                   }}</span>
                   <span v-if="chainData.yearTrend>0">{{
                     chainData.yearTrend ? ('+'+chainData.yearTrend) : "--"
                   }}</span> -->
-                  {{showText.unit}}
+                  {{ showText.unit }}
                 </div>
                 <div class="item-bottom">趋势</div>
               </div>
@@ -163,7 +162,7 @@
       <el-col :sm="24" :lg="14">
         <div class="energy-trend">
           <div class="overview-title">
-            <div class="overview-icon"></div>
+            <div class="overview-icon" />
             <span>能耗趋势</span>
           </div>
           <div style="text-align: right">
@@ -176,33 +175,33 @@
           <div v-show="tabPosition === 'day'">
             <MinMaxBarChartVue
               v-if="tabPosition === 'day'"
-              className="day-bar"
-              :yName="showText.unit"
-              :xName="title"
-              :xData="xData"
-              :yData="yData"
+              class-name="day-bar"
+              :y-name="showText.unit"
+              :x-name="title"
+              :x-data="xData"
+              :y-data="yData"
               height="307px"
             />
           </div>
           <div v-show="tabPosition === 'month'">
             <MinMaxBarChartVue
               v-if="tabPosition === 'month'"
-              className="month-bar"
-              :yName="showText.unit"
-              :xName="title"
-              :xData="xData"
-              :yData="yData"
+              class-name="month-bar"
+              :y-name="showText.unit"
+              :x-name="title"
+              :x-data="xData"
+              :y-data="yData"
               height="307px"
             />
           </div>
           <div v-show="tabPosition === 'year'">
             <MinMaxBarChartVue
               v-if="tabPosition === 'year'"
-              className="year-bar"
-              :yName="showText.unit"
-              :xName="title"
-              :xData="xData"
-              :yData="yData"
+              class-name="year-bar"
+              :y-name="showText.unit"
+              :x-name="title"
+              :x-data="xData"
+              :y-data="yData"
               height="307px"
             />
           </div>
@@ -213,17 +212,17 @@
       <el-col :xs="24" :sm="20">
         <div class="daily-power">
           <div class="overview-title">
-            <div class="overview-icon"></div>
-            <span>{{showText.chartTitle}}</span>
+            <div class="overview-icon" />
+            <span>{{ showText.chartTitle }}</span>
           </div>
-          <line-chart width="100%" :chartData="dailyP" :yName="showText.maxUnit" height="310px" />
+          <line-chart width="100%" :chart-data="dailyP" :y-name="showText.maxUnit" height="310px" />
         </div>
       </el-col>
       <el-col :xs="0" :sm="4">
         <div class="power-max">
           <div class="overview-title">
-            <div class="overview-icon"></div>
-            <span>{{showText.maxTitle}}</span>
+            <div class="overview-icon" />
+            <span>{{ showText.maxTitle }}</span>
           </div>
           <div class="max-content">
             <div class="max-top flex-column-center">
@@ -234,7 +233,7 @@
                 typeof todayMax == "string" ? todayMax : todayMax.createTime
               }}</span>
             </div>
-            <div class="max-bottom">当日({{showText.maxUnit}})</div>
+            <div class="max-bottom">当日({{ showText.maxUnit }})</div>
           </div>
           <div class="max-content">
             <div class="max-top flex-column-center">
@@ -249,7 +248,7 @@
                 typeof yesterdayMax == "string" ? yesterdayMax : yesterdayMax.createTime
               }}</span>
             </div>
-            <div class="max-bottom">昨日({{showText.maxUnit}})</div>
+            <div class="max-bottom">昨日({{ showText.maxUnit }})</div>
           </div>
         </div>
       </el-col>
@@ -258,34 +257,34 @@
 </template>
 
 <script>
-import MinMaxBarChartVue from "@/views/dashboard/MinMaxBarChart.vue";
-import LineChart from "@/views/dashboard/LineChart.vue";
+import MinMaxBarChartVue from '@/views/dashboard/MinMaxBarChart.vue'
+import LineChart from '@/views/dashboard/LineChart.vue'
 import {
   getChainData,
   getDayTrend,
   getMonthTrend,
   getYearTrend,
   getDailyP,
-  getWTrendByDay,
-} from "@/api/system/energy";
-import moment from "moment/moment";
-import { topologyTreeSelect } from "@/api/system/itemTopology";
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import {timerInterval} from "@/settings"
+  getWTrendByDay
+} from '@/api/system/energy'
+import moment from 'moment/moment'
+import { topologyTreeSelect } from '@/api/system/itemTopology'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import { timerInterval } from '@/settings'
 export default {
   dicts: ['energy_type'],
   components: {
     MinMaxBarChartVue,
     LineChart,
-    Treeselect,
+    Treeselect
   },
   data() {
     return {
-      tabPosition: "day",
+      tabPosition: 'day',
       xData: [],
       yData: [],
-      title: "时间",
+      title: '时间',
       chainData: {},
       dailyP: {},
       todayMax: {},
@@ -299,7 +298,7 @@ export default {
       energyType: [
         {
           value: 0,
-          label: "电",
+          label: '电',
           unit: 'kW.h',
           maxUnit: 'kW',
           chartTitle: '日用电功率曲线',
@@ -307,179 +306,179 @@ export default {
         },
         {
           value: 1,
-          label: "水",
+          label: '水',
           unit: 't',
           maxUnit: 't',
           chartTitle: '日实时水流量曲线',
           maxTitle: '水流量峰值'
-        },
+        }
       ],
       areaList: [],
       showText: {
         value: 0,
-        label: "电",
+        label: '电',
         unit: 'kW.h',
         maxUnit: 'kW',
         chartTitle: '日用电功率曲线',
         maxTitle: '电功率峰值'
       },
       timer: null, // 定时器
-      loading: true,
-    };
+      loading: true
+    }
+  },
+  created() {
+    this.getAreaList()
+  },
+  destroyed() {
+    clearInterval(this.timer)
+    this.timer = null
   },
   methods: {
     change() {
-      let date = moment().format("yyyy-MM-DD HH:mm:ss");
-      this.xData = [];
-      this.yData = [];
-      let data = {
+      const date = moment().format('yyyy-MM-DD HH:mm:ss')
+      this.xData = []
+      this.yData = []
+      const data = {
         ...this.queryParams,
-        nowTime: date,
-      };
-      if (this.tabPosition === "day") {
-        this.title = "时间";
+        nowTime: date
+      }
+      if (this.tabPosition === 'day') {
+        this.title = '时间'
         getDayTrend(data).then((res) => {
-          this.xData = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'];
+          this.xData = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
           if (res.data.length <= 0) {
-            return;
+            return
           }
           this.xData = this.xData.slice(0, res.data.length)
-          this.yData = res.data;
-        });
-      } else if (this.tabPosition === "month") {
-        this.title = "日期";
+          this.yData = res.data
+        })
+      } else if (this.tabPosition === 'month') {
+        this.title = '日期'
         getMonthTrend(data).then((res) => {
           if (res.data.length <= 0) {
-            this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-            return;
+            this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+            return
           }
           res.data.forEach((item, index) => {
-            this.xData.push(index + 1);
-          });
-          this.yData = res.data;
-        });
-      } else if (this.tabPosition === "year") {
-        this.title = "月份";
+            this.xData.push(index + 1)
+          })
+          this.yData = res.data
+        })
+      } else if (this.tabPosition === 'year') {
+        this.title = '月份'
         getYearTrend(data).then((res) => {
           if (res.data.length <= 0) {
-            this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-            return;
+            this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            return
           }
           res.data.forEach((item, index) => {
-            this.xData.push(index + 1);
-          });
-          this.yData = res.data;
-        });
+            this.xData.push(index + 1)
+          })
+          this.yData = res.data
+        })
       }
     },
     getChain() {
       this.loading = true
       getChainData(this.queryParams).then((res) => {
-        this.chainData = res.data;
+        this.chainData = res.data
       }).finally(() => {
         this.loading = false
-      });
+      })
     },
     // 获取当日-昨日电功率曲线
     getDailyPData() {
       getDailyP(this.queryParams).then((res) => {
-        let result = {
+        const result = {
           todayData: res.data.todayData,
-          yesterdayData: res.data.yesterdayData,
-        };
-        this.dailyP = result;
-        this.todayMax = res.data.todayMax;
-        this.yesterdayMax = res.data.yesterdayMax;
-      });
+          yesterdayData: res.data.yesterdayData
+        }
+        this.dailyP = result
+        this.todayMax = res.data.todayMax
+        this.yesterdayMax = res.data.yesterdayMax
+      })
     },
     // 获取当日-昨日水流量曲线
     getDailyWater() {
-        let params = {
-            ...this.queryParams,
-            time: moment().format("yyyy-MM-DD")
+      const params = {
+        ...this.queryParams,
+        time: moment().format('yyyy-MM-DD')
+      }
+      getWTrendByDay(params).then(res => {
+        const result = {
+          todayData: res.data.currentList,
+          yesterdayData: res.data.beforeList
         }
-        getWTrendByDay(params).then(res => {
-            let result = {
-                todayData: res.data.currentList,
-                yesterdayData: res.data.beforeList,
-            }
-            this.dailyP = result
-            let beforeData = [], currentData = []
-            res.data.beforeList.forEach(item => {
-              if(!isNaN(item)) beforeData.push(item)
-            })
-            res.data.currentList.forEach(item => {
-              if(!isNaN(item)) currentData.push(item)
-            })
-            let yMax = Math.max.apply(null, beforeData)
-            let tMax = Math.max.apply(null, currentData)
-            let todayStart = moment().format("yyyy-MM-DD")
-            let yesterdayStart = moment().subtract(1, 'days').format('yyyy-MM-DD')
-            if(yMax < 0) {
-              this.yesterdayMax = '--'
-            } else {
-              let yIndex = res.data.beforeList.findIndex(i => i == yMax)
-              this.yesterdayMax = {
-                  createTime: moment(yesterdayStart).add(yIndex, 'hours').format("yyyy-MM-DD HH:mm:ss"),
-                  max: yMax
-              }
-            }
-            if(tMax < 0) {
-              this.todayMax = '--'
-            } else {
-              let tIndex = res.data.currentList.findIndex(i => i == tMax)
-              this.todayMax = {
-                  createTime: moment(todayStart).add(tIndex, 'hours').format("yyyy-MM-DD HH:mm:ss"),
-                  max: tMax
-              }
-            }
+        this.dailyP = result
+        const beforeData = []; const currentData = []
+        res.data.beforeList.forEach(item => {
+          if (!isNaN(item)) beforeData.push(item)
         })
+        res.data.currentList.forEach(item => {
+          if (!isNaN(item)) currentData.push(item)
+        })
+        const yMax = Math.max.apply(null, beforeData)
+        const tMax = Math.max.apply(null, currentData)
+        const todayStart = moment().format('yyyy-MM-DD')
+        const yesterdayStart = moment().subtract(1, 'days').format('yyyy-MM-DD')
+        if (yMax < 0) {
+          this.yesterdayMax = '--'
+        } else {
+          const yIndex = res.data.beforeList.findIndex(i => i == yMax)
+          this.yesterdayMax = {
+            createTime: moment(yesterdayStart).add(yIndex, 'hours').format('yyyy-MM-DD HH:mm:ss'),
+            max: yMax
+          }
+        }
+        if (tMax < 0) {
+          this.todayMax = '--'
+        } else {
+          const tIndex = res.data.currentList.findIndex(i => i == tMax)
+          this.todayMax = {
+            createTime: moment(todayStart).add(tIndex, 'hours').format('yyyy-MM-DD HH:mm:ss'),
+            max: tMax
+          }
+        }
+      })
     },
     // 获取区域拓扑
     getAreaList() {
       this.loading = true
-      topologyTreeSelect({itemType: 'building'}).then((res) => {
-        this.areaList = res.data;
+      topologyTreeSelect({ itemType: 'building' }).then((res) => {
+        this.areaList = res.data
         this.getData()
       }).finally(() => {
         this.loading = false
-      });
+      })
     },
     areaChange(value) {
-      this.queryParams.areaId = value.id;
+      this.queryParams.areaId = value.id
       this.getData()
     },
     typeChange(value) {
-        let item = this.energyType.find(t => t.value == value)
-        if(item) {
-            this.showText = item
-        }
-        this.getData()
+      const item = this.energyType.find(t => t.value == value)
+      if (item) {
+        this.showText = item
+      }
+      this.getData()
     },
     getData() {
       // 定时获取数据
-      if(this.timer) {
+      if (this.timer) {
         clearInterval(this.timer)
         this.timer = null
       }
-      this.change();
-      this.getChain();
+      this.change()
+      this.getChain()
       this.queryParams.energyType == '0' ? this.getDailyPData() : this.getDailyWater()
       this.timer = setInterval(() => {
-        this.change();
-        this.getChain();
+        this.change()
+        this.getChain()
         this.queryParams.energyType == '0' ? this.getDailyPData() : this.getDailyWater()
-      }, timerInterval);
-    },
-  },
-  created() {
-    this.getAreaList();
-  },
-  destroyed() {
-    clearInterval(this.timer)
-    this.timer = null
+      }, timerInterval)
+    }
   }
-};
+}
 </script>
 
 <style lang='scss' scoped>

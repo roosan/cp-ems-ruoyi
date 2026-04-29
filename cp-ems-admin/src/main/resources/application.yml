@@ -1,3 +1,7 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
 # 项目相关配置
 cp-ems:
   # 名称
@@ -37,7 +41,7 @@ captcha:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8090
+  port: 8088
   servlet:
     # 应用的访问路径
     context-path: /
@@ -117,6 +121,11 @@ spring:
     publisher-confirm-type: correlated
     #确认消息已发送到队列(Queue)
     publisher-returns: true
+    listener:
+      simple:
+        auto-startup: false
+      direct:
+        auto-startup: false
 
 # Sa-Token配置
 sa-token:
@@ -271,6 +280,28 @@ thread-pool:
   queueCapacity: 128
   # 线程池维护线程所允许的空闲时间
   keepAliveSeconds: 300
+
+redisson:
+  # redis key前缀
+  keyPrefix:
+  # 线程池数量
+  threads: 16
+  # Netty线程池数量
+  nettyThreads: 32
+  # 单节点配置
+  singleServerConfig:
+    # 客户端名称
+    clientName: ${cp-ems.name}
+    # 最小空闲连接数
+    connectionMinimumIdleSize: 24
+    # 连接池大小
+    connectionPoolSize: 128
+    # 连接空闲超时，单位：毫秒
+    idleConnectionTimeout: 10000
+    # 命令等待超时，单位：毫秒
+    timeout: 10000
+    # 发布和订阅连接池大小
+    subscriptionConnectionPoolSize: 50
 
 --- # 分布式锁 lock4j 全局配置
 lock4j:

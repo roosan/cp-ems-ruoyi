@@ -6,7 +6,7 @@
     :preview-src-list="realSrcList"
   >
     <div slot="error" class="image-slot">
-      <i class="el-icon-picture-outline"></i>
+      <i class="el-icon-picture-outline" />
     </div>
   </el-image>
 </template>
@@ -14,48 +14,48 @@
 <script>
 
 export default {
-  name: "ImagePreview",
+  name: 'ImagePreview',
   props: {
     src: {
       type: String,
-      default: ""
+      default: ''
     },
     width: {
       type: [Number, String],
-      default: ""
+      default: ''
     },
     height: {
       type: [Number, String],
-      default: ""
+      default: ''
     }
   },
   computed: {
     realSrc() {
       if (!this.src) {
-        return;
+        return
       }
-      let real_src = this.src.split(",")[0];
-      return real_src;
+      const real_src = this.src.split(',')[0]
+      return real_src
     },
     realSrcList() {
       if (!this.src) {
-        return;
+        return
       }
-      let real_src_list = this.src.split(",");
-      let srcList = [];
+      const real_src_list = this.src.split(',')
+      const srcList = []
       real_src_list.forEach(item => {
-        return srcList.push(item);
-      });
-      return srcList;
+        return srcList.push(item)
+      })
+      return srcList
     },
     realWidth() {
-      return typeof this.width == "string" ? this.width : `${this.width}px`;
+      return typeof this.width === 'string' ? this.width : `${this.width}px`
     },
     realHeight() {
-      return typeof this.height == "string" ? this.height : `${this.height}px`;
+      return typeof this.height === 'string' ? this.height : `${this.height}px`
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -30,8 +30,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          yData: [79,65, 21, 67, 21, 89, 56],
-          xData: ['09-22','09-23','09-24','09-25','09-26','09-27','09-28']
+          yData: [79, 65, 21, 67, 21, 89, 56],
+          xData: ['09-22', '09-23', '09-24', '09-25', '09-26', '09-27', '09-28']
         }
       }
       // required: true
@@ -49,7 +49,7 @@ export default {
       default: '充电次数'
     },
     itemColor: {
-      type: String, 
+      type: String,
       default: ''
     }
 
@@ -68,7 +68,7 @@ export default {
     chartData: {
       deep: true,
       handler(val) {
-        if(!this.chart) return
+        if (!this.chart) return
         this.setOptions()
       }
     },
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
       this.setOptions()
     },
@@ -139,7 +139,7 @@ export default {
         series: [{
           name: this.seriesName,
           itemStyle: {
-            color: this.itemColor,
+            color: this.itemColor
           },
           lineStyle: {
             // color: '#FF005A',
@@ -148,21 +148,21 @@ export default {
           areaStyle: {
             opacity: 0.6,
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: this.itemColor
-            },
-            {
-              offset: 1,
-              color: 'rgba(255, 255, 255, .255)'
-            }
-          ])
+              {
+                offset: 0,
+                color: this.itemColor
+              },
+              {
+                offset: 1,
+                color: 'rgba(255, 255, 255, .255)'
+              }
+            ])
           },
           smooth: true,
           type: 'line',
           data: this.chartData.yData,
           animationDuration: 1500,
-          animationEasing: 'cubicInOut',
+          animationEasing: 'cubicInOut'
         }]
       })
     }

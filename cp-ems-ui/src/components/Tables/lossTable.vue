@@ -1,26 +1,26 @@
 <template>
   <div class="table-container">
     <el-table class="currentTable" :data="tableData" height="100%" border style="width: 100%" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column prop="label" label="能源节点"> </el-table-column>
+      <el-table-column prop="label" label="能源节点" />
       <el-table-column prop="currentConsumption" :label="'当前支路能耗(' + unit + ')'">
         <template slot-scope="scope">
-          {{scope.row.currentConsumption ? scope.row.currentConsumption: '--'}}
+          {{ scope.row.currentConsumption ? scope.row.currentConsumption: '--' }}
         </template>
       </el-table-column>
       <el-table-column prop="lowerConsumption" :label="'下级支路能耗合计(' + unit + ')'">
         <template slot-scope="scope">
-          {{scope.row.lowerConsumption ? scope.row.lowerConsumption: '--'}}
+          {{ scope.row.lowerConsumption ? scope.row.lowerConsumption: '--' }}
         </template>
       </el-table-column>
       <el-table-column prop="difference" :label="'上级支路和下级支路能耗合计的差值(' + unit + ')'">
         <template slot-scope="scope">
-          {{scope.row.difference ? scope.row.difference: '--'}}
+          {{ scope.row.difference ? scope.row.difference: '--' }}
         </template>
       </el-table-column>
       <el-table-column prop="percentage" label="相差百分比(%)">
         <template slot-scope="scope">
           <span v-if="!scope.row.percentage">--</span>
-          <span v-else :class="scope.row.percentage > 0 ? 'yoy-up' : 'yoy-down'">{{scope.row.percentage}}</span>
+          <span v-else :class="scope.row.percentage > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.percentage }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -55,7 +55,7 @@ export default {
               currentConsumption: 1334,
               lowerConsumption: 3455,
               difference: 1213,
-              percentage: 23.21,
+              percentage: 23.21
 
             },
             {
@@ -64,11 +64,11 @@ export default {
               currentConsumption: 3445,
               lowerConsumption: 2312,
               difference: 1532,
-              percentage: 56.41,
+              percentage: 56.41
 
-            },
+            }
           ]
-        },
+        }
         // {
         //   id: '2',
         //   time: 'test2',
@@ -319,7 +319,7 @@ export default {
   methods: {
 
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

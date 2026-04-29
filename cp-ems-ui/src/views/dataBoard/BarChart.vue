@@ -31,7 +31,7 @@ export default {
     barColor: {
       type: Array,
       default: () => {
-        return ['#00d0ff','#2969e8']
+        return ['#00d0ff', '#2969e8']
       }
     },
     xData: {
@@ -43,13 +43,28 @@ export default {
     yData: {
       type: Array,
       default: () => {
-        return [79, 52, 200, 334, 390, 330, 34,79, 52, 123, 334, 34, 56]
+        return [79, 52, 200, 334, 390, 330, 34, 79, 52, 123, 334, 34, 56]
       }
-    },
+    }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  watch: {
+    'yData': {
+      handler() {
+        this.$nextTick(() => {
+          if (!this.chart) {
+            this.initChart()
+            return
+          }
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
+      }
     }
   },
   mounted() {
@@ -63,21 +78,6 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
-  },
-  watch: {
-    'yData': {
-      handler() {
-        this.$nextTick(() => {
-          if (!this.chart) {
-            this.initChart();
-            return;
-          }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
-      }
-    }
   },
   methods: {
     initChart() {
@@ -162,7 +162,7 @@ export default {
           itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               { offset: 1, color: this.barColor[0] },
-              { offset: 0, color: this.barColor[1] },
+              { offset: 0, color: this.barColor[1] }
             ])
           }
         }]

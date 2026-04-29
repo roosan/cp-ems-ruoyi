@@ -27,16 +27,16 @@ export default {
     },
     pieData: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
-          { value: 23, name: "睡眠" },
-          { value: 11, name: "充电" },
-          { value: 5, name: "待机" },
-          { value: 0, name: "其他" },
-          { value: 0, name: "故障" },
-        ];
-      },
-    },
+          { value: 23, name: '睡眠' },
+          { value: 11, name: '充电' },
+          { value: 5, name: '待机' },
+          { value: 0, name: '其他' },
+          { value: 0, name: '故障' }
+        ]
+      }
+    }
   },
   data() {
     return {
@@ -49,29 +49,17 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'pieData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            return;
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -86,9 +74,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       // 计算总值
@@ -110,9 +110,9 @@ export default {
           bottom: '0%',
           // top: '80%',
           formatter: (param) => {
-            let item = this.pieData.find(c => c.name == param)
-            if(!item) return ''
-            let rate = this.total == 0 ? 0 : item.value / this.total * 100
+            const item = this.pieData.find(c => c.name == param)
+            if (!item) return ''
+            const rate = this.total == 0 ? 0 : item.value / this.total * 100
             return `{name|${param}}{count|${item.value}` + this.unit + `}{percent|${rate.toFixed(1)}%}`
           },
           itemWidth: 14,
@@ -131,7 +131,7 @@ export default {
                 // color: '#fff',
                 width: 40
               }
-            },
+            }
           }
         },
         series: [
@@ -140,7 +140,7 @@ export default {
             type: 'pie',
             radius: ['35%', '50%'],
             center: ['50%', '38%'],
-            data:this.pieData,
+            data: this.pieData,
             animationDuration: 1500,
             label: {
               // show: false,

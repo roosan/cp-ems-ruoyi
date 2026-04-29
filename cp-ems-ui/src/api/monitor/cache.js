@@ -43,7 +43,7 @@ export function clearCacheName(cacheName) {
 // 清理指定键名缓存
 export function clearCacheKey(cacheName, cacheKey) {
   return request({
-    url: '/monitor/cache/clearCacheKey/'+ cacheName + "/" + cacheKey,
+    url: '/monitor/cache/clearCacheKey/' + cacheName + '/' + cacheKey,
     method: 'delete'
   })
 }

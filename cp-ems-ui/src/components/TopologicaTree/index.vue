@@ -1,20 +1,20 @@
 <template>
   <div class="tree-container">
     <el-tree
-        :data="topologyOptions"
-        :props="defaultProps"
-        :expand-on-click-node="false"
-        :filter-node-method="filterNode"
-        ref="tree"
-        node-key="id"
-        :default-checked-keys="defaultSelect"
-        default-expand-all
-        highlight-current
-        @node-click="handleNodeClick"
-        :show-checkbox="showCheckbox"
-        @check="handleNodeClick"
-        check-strictly
-      />
+      ref="tree"
+      :data="topologyOptions"
+      :props="defaultProps"
+      :expand-on-click-node="false"
+      :filter-node-method="filterNode"
+      node-key="id"
+      :default-checked-keys="defaultSelect"
+      default-expand-all
+      highlight-current
+      :show-checkbox="showCheckbox"
+      check-strictly
+      @node-click="handleNodeClick"
+      @check="handleNodeClick"
+    />
     <!-- <el-scrollbar height="100%">
 
     </el-scrollbar> -->
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { topologyTreeSelect } from "@/api/system/itemTopology";
+import { topologyTreeSelect } from '@/api/system/itemTopology'
 // import Treeselect from "@riophae/vue-treeselect";
 // import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
@@ -30,7 +30,7 @@ export default {
   props: {
     showCheckbox: {
       type: Boolean,
-      default: false,
+      default: false
     },
     itemType: {
       type: String,
@@ -41,11 +41,14 @@ export default {
     return {
       topologyOptions: [],
       defaultProps: {
-        children: "children",
-        label: "label",
+        children: 'children',
+        label: 'label'
       },
-      defaultSelect: [],
-    };
+      defaultSelect: []
+    }
+  },
+  created() {
+    this.getTopologyTree()
   },
   // watch: {
   //   defaultSelect: function (newVal, oldVal) {
@@ -60,36 +63,33 @@ export default {
   // },
   methods: {
     getTopologyTree() {
-      let data = {
+      const data = {
         itemType: this.itemType
       }
       topologyTreeSelect(data).then((response) => {
-        this.topologyOptions = response.data;
+        this.topologyOptions = response.data
         if (response.data && response.data.length > 0) {
-          this.defaultSelect.push(this.topologyOptions[0].id);
+          this.defaultSelect.push(this.topologyOptions[0].id)
           this.$nextTick(() => {
-            this.$refs.tree.setCurrentKey(this.topologyOptions[0].id); //默认选中第一条
-            this.handleNodeClick(this.topologyOptions[0]);// 默认点击第一个
+            this.$refs.tree.setCurrentKey(this.topologyOptions[0].id) // 默认选中第一条
+            this.handleNodeClick(this.topologyOptions[0])// 默认点击第一个
           })
         }
-      });
+      })
     },
     // 筛选节点
     filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     },
     // 节点单击事件
     handleNodeClick(data) {
-      this.$emit("selectAreaId",this.$refs.tree.getCheckedKeys());
-      this.$emit("treeOptions",this.topologyOptions)
-      this.$emit("selectItem",data)
-    },
-  },
-  created() {
-    this.getTopologyTree()
-  },
-};
+      this.$emit('selectAreaId', this.$refs.tree.getCheckedKeys())
+      this.$emit('treeOptions', this.topologyOptions)
+      this.$emit('selectItem', data)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

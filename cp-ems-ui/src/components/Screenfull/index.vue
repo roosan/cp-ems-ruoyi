@@ -2,8 +2,8 @@
   <div>
     <!-- <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" @click="click" /> -->
     <div style="height: 100%;display:flex;align-items:center;">
-      <svg class="icon-fullscreen" @click="click" >
-        <use :xlink:href="isFullscreen?`#icon-exit-fullscreen`:`#icon-fullscreen`"/>
+      <svg class="icon-fullscreen" @click="click">
+        <use :xlink:href="isFullscreen?`#icon-exit-fullscreen`:`#icon-fullscreen`" />
       </svg>
     </div>
   </div>

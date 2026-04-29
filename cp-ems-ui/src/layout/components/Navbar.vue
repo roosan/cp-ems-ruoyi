@@ -2,20 +2,20 @@
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!topNav"/>
-    <top-nav id="topmenu-container" class="topmenu-container" v-if="topNav"/>
+    <breadcrumb v-if="!topNav" id="breadcrumb-container" class="breadcrumb-container" />
+    <top-nav v-if="topNav" id="topmenu-container" class="topmenu-container" />
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <!-- <search id="header-search" class="right-menu-item" /> -->
 
         <div class="right-menu-item">
-          <AlarmBtn class="right-menu-item"/>
+          <AlarmBtn class="right-menu-item" />
         </div>
 
-        <ThemeSwitch class="right-menu-item hover-effect"/>
+        <ThemeSwitch class="right-menu-item hover-effect" />
 
-        <AppCode class="right-menu-item hover-effect" v-if="appletShow"/>
+        <AppCode v-if="appletShow" class="right-menu-item hover-effect" />
 
         <!-- <AlarmBtn class="right-menu-item"/> -->
 
@@ -67,8 +67,8 @@ import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
 import AlarmBtn from '@/components/HeaderAlarmBtn'
-import ThemeSwitch from "@/components/ThemeSwitch"
-import AppCode from "@/components/AppCode"
+import ThemeSwitch from '@/components/ThemeSwitch'
+import AppCode from '@/components/AppCode'
 
 export default {
   components: {
@@ -107,8 +107,8 @@ export default {
       }
     },
     appletShow() {
-      return this.$store.getters.logoInfo.appletShow;
-    },
+      return this.$store.getters.logoInfo.appletShow
+    }
   },
   methods: {
     toggleSideBar() {
@@ -121,11 +121,11 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('LogOut').then(() => {
-          //location.href = process.env.VUE_APP_CONTEXT_PATH + "index";
-          location.href = this.$store.state.settings.indexPage;
+          // location.href = process.env.VUE_APP_CONTEXT_PATH + "index";
+          location.href = this.$store.state.settings.indexPage
         })
-      }).catch(() => {});
-    },
+      }).catch(() => {})
+    }
   }
 }
 </script>

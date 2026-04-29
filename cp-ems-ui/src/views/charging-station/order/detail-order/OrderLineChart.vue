@@ -30,8 +30,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          require: [79,65, 21, 67, 21, 89, 56],
-          real: [48,73, 63, 82, 16, 38, 61]
+          require: [79, 65, 21, 67, 21, 89, 56],
+          real: [48, 73, 63, 82, 16, 38, 61]
         }
       }
       // required: true
@@ -47,7 +47,7 @@ export default {
     xData: {
       type: Array,
       default: () => {
-        return ['2023-10-08 08:23:52','2023-10-08 08:57:21','2023-10-08 08:16:36','2023-10-08 09:48:19','2023-10-08 10:03:51','2023-10-08 10:37:28','2023-10-08 10:55:49',]
+        return ['2023-10-08 08:23:52', '2023-10-08 08:57:21', '2023-10-08 08:16:36', '2023-10-08 09:48:19', '2023-10-08 10:03:51', '2023-10-08 10:37:28', '2023-10-08 10:55:49']
       }
     },
     seriesName: {
@@ -55,7 +55,7 @@ export default {
       required: true
     },
     itemColor: {
-      type: Array, 
+      type: Array,
       default: () => {
         return ['#5470c6', '#91cc75']
       }
@@ -76,7 +76,7 @@ export default {
     chartData: {
       deep: true,
       handler(val) {
-        if(!this.chart) return
+        if (!this.chart) return
         this.setOptions()
       }
     },
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
       this.setOptions()
     },
@@ -128,7 +128,7 @@ export default {
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: 'axis'
         },
         legend: {
           right: '10%'
@@ -142,7 +142,7 @@ export default {
         series: [{
           name: this.seriesName[0],
           itemStyle: {
-            color: this.itemColor[0],
+            color: this.itemColor[0]
           },
           lineStyle: {
             // color: '#FF005A',
@@ -151,27 +151,27 @@ export default {
           areaStyle: {
             opacity: 0.6,
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: this.itemColor[0]
-            },
-            {
-              offset: 1,
-              color: 'rgba(255, 255, 255, .255)'
-            }
-          ])
+              {
+                offset: 0,
+                color: this.itemColor[0]
+              },
+              {
+                offset: 1,
+                color: 'rgba(255, 255, 255, .255)'
+              }
+            ])
           },
           showSymbol: false,
           smooth: true,
           type: 'line',
           data: this.chartData.require,
           animationDuration: 1500,
-          animationEasing: 'cubicInOut',
+          animationEasing: 'cubicInOut'
         },
         {
           name: this.seriesName[1],
           itemStyle: {
-            color: this.itemColor[1],
+            color: this.itemColor[1]
           },
           lineStyle: {
             // color: '#FF005A',
@@ -180,22 +180,22 @@ export default {
           areaStyle: {
             opacity: 0.6,
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: this.itemColor[1]
-            },
-            {
-              offset: 1,
-              color: 'rgba(255, 255, 255, .255)'
-            }
-          ])
+              {
+                offset: 0,
+                color: this.itemColor[1]
+              },
+              {
+                offset: 1,
+                color: 'rgba(255, 255, 255, .255)'
+              }
+            ])
           },
           showSymbol: false,
           smooth: true,
           type: 'line',
           data: this.chartData.real,
           animationDuration: 1500,
-          animationEasing: 'cubicInOut',
+          animationEasing: 'cubicInOut'
         }]
       })
     }

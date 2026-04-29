@@ -1,10 +1,10 @@
 <template>
-  <div class="app-container bg-container" v-loading="loading">
+  <div v-loading="loading" class="app-container bg-container">
     <div class="itemized-top">
       <div style="margin-bottom: 12px; padding: 8px;">
         <el-form
-          :model="queryParams"
           ref="queryForm"
+          :model="queryParams"
           size="small"
           :inline="true"
           class="query-form"
@@ -17,8 +17,7 @@
                 :label="item.label"
                 :value="item.id"
                 :disabled="!item.children"
-              >
-              </el-option>
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="日期" prop="dateType">
@@ -33,8 +32,7 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              >
-              </el-option>
+              />
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -46,7 +44,7 @@
               placeholder="选择时间"
               :picker-options="pickerOptions"
               @change="dateChange"
-            ></el-date-picker>
+            />
           </el-form-item>
           <el-form-item>
             <el-button
@@ -54,41 +52,40 @@
               icon="el-icon-search"
               size="mini"
               @click="search"
-              >查询</el-button
-            >
+            >查询</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
     <div class="itemized-middle">
       <el-row :gutter="12">
-        <el-col  :lg="8" :sm="24">
+        <el-col :lg="8" :sm="24">
           <div class="itemized-percent">
             <div class="overview-title">
-              <div class="overview-icon"></div>
+              <div class="overview-icon" />
               <span>能耗排行</span>
             </div>
-            <div><ItemizedRankingBarVue height="400px" :barData="rankingBarData" /></div>
+            <div><ItemizedRankingBarVue height="400px" :bar-data="rankingBarData" /></div>
           </div>
         </el-col>
-        <el-col  :lg="16" :sm="24">
+        <el-col :lg="16" :sm="24">
           <div class="itemized-total">
             <div class="overview-title">
-              <div class="overview-icon"></div>
+              <div class="overview-icon" />
               <span>分项统计</span>
             </div>
-            <div><ItemizedBarVue height="400px" :barData="barData" :xName="showText.xName"/></div>
+            <div><ItemizedBarVue height="400px" :bar-data="barData" :x-name="showText.xName" /></div>
           </div>
         </el-col>
       </el-row>
     </div>
     <div class="itemized-bottom">
       <el-row :gutter="12">
-        <el-col :lg="12" :sm="24" v-for="(item, index) in barData" :key="index">
+        <el-col v-for="(item, index) in barData" :key="index" :lg="12" :sm="24">
           <div class="itemized-bottom-item">
             <div class="overview-title">
-              <div class="overview-icon"></div>
-              <span>{{item.itemizeName}}</span>
+              <div class="overview-icon" />
+              <span>{{ item.itemizeName }}</span>
             </div>
             <div class="ratio-content flex-column-between">
               <div class="flex-between content-row">
@@ -106,7 +103,7 @@
                     :class="item.nowPer > 0 ? 'item-top' : 'item-top-down'"
                   >
                     <span v-if="item.nowPer<=0">{{ (item.nowPer * 100).toFixed(2) }} </span>
-                  <span v-if="item.nowPer>0">+{{ (item.nowPer * 100).toFixed(2) }} </span> %
+                    <span v-if="item.nowPer>0">+{{ (item.nowPer * 100).toFixed(2) }} </span> %
                   </div>
                   <div
                     v-else
@@ -115,7 +112,7 @@
                     --
                   </div>
                   <div class="item-center">
-                    <span>{{item.nowTrend > 0 ? ('+' + item.nowTrend) : item.nowTrend}}</span>
+                    <span>{{ item.nowTrend > 0 ? ('+' + item.nowTrend) : item.nowTrend }}</span>
                     <!-- <span v-if="item.nowTrend<=0">{{
                       item.nowTrend ? item.nowTrend : "--"
                     }}</span>
@@ -148,7 +145,7 @@
                     "
                   >
                     <span v-if="item.monthPer<=0">{{ (item.monthPer * 100).toFixed(2) }} </span>
-                  <span v-if="item.monthPer>0">+{{ (item.monthPer * 100).toFixed(2) }} </span> %
+                    <span v-if="item.monthPer>0">+{{ (item.monthPer * 100).toFixed(2) }} </span> %
                   </div>
                   <div
                     v-else
@@ -157,7 +154,7 @@
                     --
                   </div>
                   <div class="item-center">
-                    <span>{{item.monthTrend > 0 ? ('+' + item.monthTrend) : item.monthTrend}}</span>
+                    <span>{{ item.monthTrend > 0 ? ('+' + item.monthTrend) : item.monthTrend }}</span>
                     <!-- <span v-if="item.monthTrend<=0">{{
                       item.monthTrend ? item.monthTrend : "--"
                     }}</span>
@@ -197,7 +194,7 @@
                     --
                   </div>
                   <div class="item-center">
-                    <span>{{item.yearTrend > 0 ? ('+' + item.yearTrend) : item.yearTrend}}</span>
+                    <span>{{ item.yearTrend > 0 ? ('+' + item.yearTrend) : item.yearTrend }}</span>
                     <!-- <span v-if="item.yearTrend<=0">{{
                       item.yearTrend ? item.yearTrend : "--"
                     }}</span>
@@ -218,13 +215,13 @@
 </template>
 
 <script>
-import moment from "moment";
-import ItemizedBarVue from "./ItemizedBar.vue";
-import ItemizedRankingBarVue from './ItemizedRankingBar.vue';
-import { topologyTreeSelect } from "@/api/system/itemTopology";
-import {itemizedOverview} from "@/api/system/itemizedAnalysis"
+import moment from 'moment'
+import ItemizedBarVue from './ItemizedBar.vue'
+import ItemizedRankingBarVue from './ItemizedRankingBar.vue'
+import { topologyTreeSelect } from '@/api/system/itemTopology'
+import { itemizedOverview } from '@/api/system/itemizedAnalysis'
 export default {
-  name: "itemizedOverview",
+  name: 'ItemizedOverview',
   // dicts: ["energy_type"],
   components: {
     ItemizedBarVue,
@@ -233,43 +230,43 @@ export default {
   data() {
     return {
       queryParams: {
-        itemId: "0",
-        dateType: "date",
-        date: moment(new Date()).format("yyyy-MM-DD HH:mm:ss"),
-        dateTime: moment(new Date()).format("yyyy-MM-DD HH:mm:ss")
+        itemId: '0',
+        dateType: 'date',
+        date: moment(new Date()).format('yyyy-MM-DD HH:mm:ss'),
+        dateTime: moment(new Date()).format('yyyy-MM-DD HH:mm:ss')
       },
       dateTypeList: [
         {
-          value: "date",
-          label: "日",
+          value: 'date',
+          label: '日'
         },
         // {
         //   value: "week",
         //   label: "周",
         // },
         {
-          value: "month",
-          label: "月",
+          value: 'month',
+          label: '月'
         },
         {
-          value: "year",
-          label: "年",
-        },
+          value: 'year',
+          label: '年'
+        }
       ],
       rankingBarData: {},
       showText: {
-        unit: "kW·h",
+        unit: 'kW·h',
         xName: '时'
       },
       topologyTree: [],
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
       },
       barData: [],
-      loading: true,
-    };
+      loading: true
+    }
   },
   created() {
     this.getTopologyTree()
@@ -280,34 +277,34 @@ export default {
     },
     // 日期类型改变
     dateTypeChange(value) {
-      if(value == 'date') {
+      if (value == 'date') {
         this.queryParams.date = this.queryParams.dateTime
         this.showText.xName = '时'
       }
-      if(value == 'month') {
+      if (value == 'month') {
         this.showText.xName = '日'
       }
-      if(value == 'year') {
+      if (value == 'year') {
         this.showText.xName = '月份'
       }
     },
     // 时间改变
     dateChange(value) {
-      if(this.queryParams.dateType == 'date' || this.queryParams.dateType == 'week') {
+      if (this.queryParams.dateType == 'date' || this.queryParams.dateType == 'week') {
         this.queryParams.dateTime = value
       }
-      let nowDate = this.queryParams.dateTime
-      if(this.queryParams.dateType == 'month') {
+      const nowDate = this.queryParams.dateTime
+      if (this.queryParams.dateType == 'month') {
         this.queryParams.date = value.substr(0, 7) + nowDate.slice(7)
       }
-      if(this.queryParams.dateType == 'year') {
+      if (this.queryParams.dateType == 'year') {
         this.queryParams.date = value.substr(0, 4) + nowDate.slice(4)
       }
       this.queryParams.dateTime = this.queryParams.date
     },
     // 获取能源分项数
     getTopologyTree() {
-      topologyTreeSelect({itemType: 'energySubsections'}).then(res => {
+      topologyTreeSelect({ itemType: 'energySubsections' }).then(res => {
         this.topologyTree = res.data[0] ? res.data[0].children : []
         this.queryParams.itemId = this.topologyTree[0].id
       }).then(() => {
@@ -321,22 +318,22 @@ export default {
         this.barData = res.data
 
         // 先升序
-        let result = res.data
+        const result = res.data
         result.sort((a, b) => { return a.itemizeTotal - b.itemizeTotal })
-        let rankingData = {
+        const rankingData = {
           xData: [], yData: []
         }
-        result.forEach((item => {
+        result.forEach(item => {
           rankingData.xData.push(item.itemizeName)
           rankingData.yData.push(item.itemizeTotal)
-        }))
+        })
         this.rankingBarData = rankingData
       }).finally(() => {
         this.loading = false
       })
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

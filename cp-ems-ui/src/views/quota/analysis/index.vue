@@ -4,20 +4,20 @@
       <div>
         <el-tabs v-model="item" type="card">
           <el-tab-pane name="first">
-            <span slot="label"><i class="el-icon-help"></i> 能源区域</span>
-            <topologicaTree v-if="item=='first'" item-type="building" :showCheckbox="false" @selectItem="treeItem($event)"/>
+            <span slot="label"><i class="el-icon-help" /> 能源区域</span>
+            <topologicaTree v-if="item=='first'" item-type="building" :show-checkbox="false" @selectItem="treeItem($event)" />
           </el-tab-pane>
           <el-tab-pane name="second">
-            <span slot="label"><i class="el-icon-set-up"></i> 能源分项</span>
-            <topologicaTree v-if="item=='second'" item-type="energySubsections" :showCheckbox="false" @selectItem="treeItem($event)"/>
+            <span slot="label"><i class="el-icon-set-up" /> 能源分项</span>
+            <topologicaTree v-if="item=='second'" item-type="energySubsections" :show-checkbox="false" @selectItem="treeItem($event)" />
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
-    <div class="content-detail" v-loading="loading">
+    <div v-loading="loading" class="content-detail">
       <div class="month-overview">
         <div class="overview-title">
-          <div class="overview-icon"></div>
+          <div class="overview-icon" />
           <span>月能耗概述</span>
         </div>
         <div class="mini-title">
@@ -26,27 +26,27 @@
         </div>
         <div class="mini-title">
           <div class="mb10">月总定额</div>
-          <div class="unit" v-if="analysisData.monthQuota == 0.00"><span>不限</span></div>
-          <div class="unit" v-else><span>{{ analysisData.monthQuota }}</span> kW.h</div>
+          <div v-if="analysisData.monthQuota == 0.00" class="unit"><span>不限</span></div>
+          <div v-else class="unit"><span>{{ analysisData.monthQuota }}</span> kW.h</div>
         </div>
         <div style="display: flex">
           <div class="percent-title">已过时间占比：</div>
           <div class="unit">{{ analysisData.monthTimePer }} %</div>
         </div>
         <div>
-          <el-progress v-if="analysisData.monthTimePer" :text-inside="true" text-color="#fffff" :stroke-width="24" :percentage="Number(analysisData.monthTimePer)"></el-progress>
+          <el-progress v-if="analysisData.monthTimePer" :text-inside="true" text-color="#fffff" :stroke-width="24" :percentage="Number(analysisData.monthTimePer)" />
         </div>
         <div style="display: flex;margin-top: 10px">
           <div class="percent-title">当前累计能耗占月定额比：</div>
           <div class="unit">{{ analysisData.monthPer }} %</div>
         </div>
         <div>
-          <el-progress v-if="analysisData.monthPer" :text-inside="true" text-color="white" :stroke-width="24" :percentage="Number(analysisData.monthPer)" status="success"></el-progress>
+          <el-progress v-if="analysisData.monthPer" :text-inside="true" text-color="white" :stroke-width="24" :percentage="Number(analysisData.monthPer)" status="success" />
         </div>
       </div>
       <div class="year-overview">
         <div class="overview-title">
-          <div class="overview-icon"></div>
+          <div class="overview-icon" />
           <span>年能耗概述</span>
         </div>
         <div class="mini-title">
@@ -55,43 +55,44 @@
         </div>
         <div class="mini-title">
           <div class="mb10">年总定额</div>
-          <div class="unit" v-if="analysisData.yearQuota == 0.00"><span>不限</span></div>
-          <div class="unit" v-else><span>{{ analysisData.yearQuota }}</span> kW.h</div>
+          <div v-if="analysisData.yearQuota == 0.00" class="unit"><span>不限</span></div>
+          <div v-else class="unit"><span>{{ analysisData.yearQuota }}</span> kW.h</div>
         </div>
         <div style="display: flex">
           <div class="percent-title">已过时间占比：</div>
           <div class="unit">{{ analysisData.yearTimePer }} %</div>
         </div>
         <div>
-          <el-progress v-if="analysisData.yearTimePer" :text-inside="true" text-color="#fffff" :stroke-width="24" :percentage="Number(analysisData.yearTimePer)"></el-progress>
+          <el-progress v-if="analysisData.yearTimePer" :text-inside="true" text-color="#fffff" :stroke-width="24" :percentage="Number(analysisData.yearTimePer)" />
         </div>
         <div style="display: flex;margin-top: 10px">
           <div class="percent-title">当前累计能耗占年定额比：</div>
           <div class="unit">{{ analysisData.yearPer }} %</div>
         </div>
         <div>
-          <el-progress v-if="analysisData.yearPer" :text-inside="true" text-color="white" :stroke-width="24" :percentage="Number(analysisData.yearPer)" status="success"></el-progress>
+          <el-progress v-if="analysisData.yearPer" :text-inside="true" text-color="white" :stroke-width="24" :percentage="Number(analysisData.yearPer)" status="success" />
         </div>
       </div>
     </div>
-    <div class="content-data flex-between" v-loading="loading">
+    <div v-loading="loading" class="content-data flex-between">
       <div class="self-box">
         <div class="overview-title flex-between">
           <div style="display: flex">
-            <div class="overview-icon"></div>
+            <div class="overview-icon" />
             <span>自标(月度)</span>
           </div>
           <div>
-            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
+            <el-form ref="queryForm" :model="queryParams" size="small" :inline="true" label-width="68px">
               <el-form-item label="时间" prop="quotaTime">
-                <el-date-picker :clearable="false"
-                                :editable="false"
-                                v-model="queryParams.quotaTime"
-                                :type="queryParams.dateType"
-                                value-format="yyyy-MM-dd HH:mm:ss"
-                                placeholder="请选择定额时间"
-                                :picker-options="pickerOptions">
-                </el-date-picker>
+                <el-date-picker
+                  v-model="queryParams.quotaTime"
+                  :clearable="false"
+                  :editable="false"
+                  :type="queryParams.dateType"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  placeholder="请选择定额时间"
+                  :picker-options="pickerOptions"
+                />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="search">查询</el-button>
@@ -137,11 +138,11 @@
       </div>
       <div class="table-box">
         <div class="overview-title">
-          <div class="overview-icon"></div>
+          <div class="overview-icon" />
           <span>能耗对标</span>
         </div>
         <div class="data-table">
-          <quota-table :chain-data="chainData"/>
+          <quota-table :chain-data="chainData" />
         </div>
       </div>
     </div>
@@ -149,76 +150,76 @@
 </template>
 
 <script>
-import { analysis } from "@/api/system/quota";
-import topologicaTree from "@/components/TopologicaTree/index";
+import { analysis } from '@/api/system/quota'
+import topologicaTree from '@/components/TopologicaTree/index'
 import moment from 'moment'
 import QuotaTable from '@/components/Tables/quotaTable.vue'
 
 export default {
-  name: "Quota",
+  name: 'Quota',
   dicts: ['quota_type'],
   components: {
     QuotaTable,
-    topologicaTree,
+    topologicaTree
   },
   data() {
     return {
       // 定额配置表格数据
       chainData: [],
-      //选项卡
-      item:"first",
-      //括朴类型
-      itemType:"building",
-      treeOptions:[],
-      itemId:undefined,
+      // 选项卡
+      item: 'first',
+      // 括朴类型
+      itemType: 'building',
+      treeOptions: [],
+      itemId: undefined,
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        dateType:"month",
+        dateType: 'month',
         quotaType: undefined,
         itemId: undefined,
         quotaTime: undefined,
         quotaValue: undefined,
         realEnergy: undefined,
         critical: undefined,
-        overMedian: undefined,
+        overMedian: undefined
       },
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
       },
-      //定额分析数据
-      analysisData:{},
-      loading: true, // 加载遮罩层
-    };
+      // 定额分析数据
+      analysisData: {},
+      loading: true // 加载遮罩层
+    }
   },
   created() {
-    this.queryParams.quotaTime = moment().format("yyyy-MM-01 00:00:00");
+    this.queryParams.quotaTime = moment().format('yyyy-MM-01 00:00:00')
     // this.search();
   },
   methods: {
     treeItem(value) {
-      this.itemId = value.id;
-      this.queryParams.itemId = value.id;
-      this.search();
+      this.itemId = value.id
+      this.queryParams.itemId = value.id
+      this.search()
     },
-    getTree(value){
-      this.treeOptions = value;
+    getTree(value) {
+      this.treeOptions = value
     },
     /** 查询按钮操作 */
     search() {
       this.loading = true
       analysis(this.queryParams).then(response => {
-        this.analysisData = response.data;
-        this.chainData = response.data.quotaList;
+        this.analysisData = response.data
+        this.chainData = response.data.quotaList
       }).finally(() => {
         this.loading = false
-      });
-    },
+      })
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

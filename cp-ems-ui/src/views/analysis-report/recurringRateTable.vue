@@ -1,17 +1,16 @@
 <template>
   <div class="table-container">
     <el-table class="currentTable unchanged" :data="tableData" height="100%" border style="width: 100%">
-      <el-table-column label="" align="center" prop="type">
-      </el-table-column>
+      <el-table-column label="" align="center" prop="type" />
       <el-table-column prop="chain" label="电量(kW·h)" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.data != 0">{{scope.row.data}}</span>
+          <span v-if="scope.row.data != 0">{{ scope.row.data }}</span>
           <span v-else>--</span>
         </template>
       </el-table-column>
       <el-table-column prop="same" label="环比(%)" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{scope.row.chain}}</span>
+          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.chain }}</span>
           <span v-else>--</span>
         </template>
       </el-table-column>
@@ -21,17 +20,17 @@
 
 <script>
 export default {
-  name: 'reportTable',
+  name: 'ReportTable',
   props: {
     chainData: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
       tableData: [
         {
-          type: "尖",
+          type: '尖',
           data: 1756,
           chain: 35.23,
           same: 35.23
@@ -43,33 +42,33 @@ export default {
           same: 35.23
         },
         {
-          type: "平",
+          type: '平',
           data: 343,
           chain: 34.21,
           same: 35.23
         },
         {
-          type: "谷",
+          type: '谷',
           data: 343,
           chain: 34.21,
           same: 35.23
-        },
-      ],
+        }
+      ]
     }
   },
   watch: {
     'chainData': {
       handler() {
-        this.tableData = this.chainData;
+        this.tableData = this.chainData
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    
+
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

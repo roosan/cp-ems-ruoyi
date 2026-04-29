@@ -42,7 +42,7 @@ export const constantRoutes = [
         component: () => import('@/views/system/user/profile/index'),
         hidden: true,
         name: 'default-index',
-        meta: {title: '个人中心'}
+        meta: { title: '个人中心' }
       }
     ]
   },
@@ -99,7 +99,7 @@ export const constantRoutes = [
     path: '/applyAccount',
     component: () => import('@/views/applyAccount'),
     hidden: true
-  },
+  }
   /* {
     path: '',
     component: Layout,
@@ -256,11 +256,11 @@ export const dynamicRoutes = [
         meta: { title: '商户管理互联电桩' }
       }
     ]
-  },
+  }
 ]
 
 // 防止连续点击多次路由报错
-let routerPush = Router.prototype.push;
+const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
   return routerPush.call(this, location).catch(err => err)
 }

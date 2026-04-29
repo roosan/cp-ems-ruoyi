@@ -30,10 +30,10 @@ export default {
       type: Object,
       default: () => {
         return {
-          xData: ['2023-09-17','2023-09-18','2023-09-19','2023-09-20','2023-09-21','2023-09-22','2023-09-23','2023-09-24'],
-          minData: [123,145,167,172,127,152,118,172],
-          avgData: [263,271,283,251,229,239,216,201],
-          maxData: [361,379,358,367,391,326,371,340]
+          xData: ['2023-09-17', '2023-09-18', '2023-09-19', '2023-09-20', '2023-09-21', '2023-09-22', '2023-09-23', '2023-09-24'],
+          minData: [123, 145, 167, 172, 127, 152, 118, 172],
+          avgData: [263, 271, 283, 251, 229, 239, 216, 201],
+          maxData: [361, 379, 358, 367, 391, 326, 371, 340]
         }
       }
       // required: true
@@ -41,7 +41,7 @@ export default {
     configData: {
       type: Object,
       default: () => {
-        return { yName: '电流', unit: 'A', energyType: 'electricityi'}
+        return { yName: '电流', unit: 'A', energyType: 'electricityi' }
       }
     },
     dateRange: {
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
       // this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
@@ -105,7 +105,7 @@ export default {
         xAxis: {
           type: 'category',
           data: data.xData,
-          boundaryGap: false,
+          boundaryGap: false
           // axisTick: {
           //   show: false
           // },
@@ -158,7 +158,7 @@ export default {
               show: false
             },
             min: this.configData.energyType == 'electricityu' ? 215 : 0
-          },
+          }
         ],
         legend: {
           // show: false,

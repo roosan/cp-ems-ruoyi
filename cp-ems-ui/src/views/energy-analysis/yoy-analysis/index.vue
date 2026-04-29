@@ -3,17 +3,16 @@
     <div class="content-tree">
       <topologicaTree @selectItem="treeItem($event)" />
     </div>
-    <div class="content-data" v-loading="showLoading">
+    <div v-loading="showLoading" class="content-data">
       <div class="data-select">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+        <el-form ref="queryForm" :model="queryParams" size="small" :inline="true">
           <el-form-item label="分类能耗" prop="energyType">
             <el-select v-model="queryParams.energyType" placeholder="请选择">
-              <el-option v-for="item in dict.type.energy_type" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
+              <el-option v-for="item in dict.type.energy_type" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
           <el-form-item label="年份">
-            <el-date-picker v-model="queryParams.year" type="year" value-format="yyyy" placeholder="选择年份"></el-date-picker>
+            <el-date-picker v-model="queryParams.year" type="year" value-format="yyyy" placeholder="选择年份" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
@@ -21,19 +20,19 @@
         </el-form>
       </div>
       <div class="data-chart">
-        <MinMaxDoubleBarVue :xData="xData" :yData="yData" :setInfo="chartSetInfo" height="100%" />
+        <MinMaxDoubleBarVue :x-data="xData" :y-data="yData" :set-info="chartSetInfo" height="100%" />
       </div>
       <div class="data-table">
-        <currentTable :tableData="tableData" :unit="chartSetInfo.yName"/>
+        <currentTable :table-data="tableData" :unit="chartSetInfo.yName" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import topologicaTree from "@/components/TopologicaTree/index";
-import MinMaxDoubleBarVue from '@/views/dashboard/MinMaxDoubleBar.vue';
-import currentTable from "@/components/Tables/index"
+import topologicaTree from '@/components/TopologicaTree/index'
+import MinMaxDoubleBarVue from '@/views/dashboard/MinMaxDoubleBar.vue'
+import currentTable from '@/components/Tables/index'
 import { getYearAnalysis } from '@/api/system/energy'
 export default {
   dicts: ['energy_type'],
@@ -55,7 +54,7 @@ export default {
       queryParams: {
         energyType: '0',
         year: undefined,
-        areaId: undefined,
+        areaId: undefined
       },
       energyType: [
         {
@@ -67,7 +66,7 @@ export default {
           value: '1',
           label: '水',
           unit: 't'
-        },
+        }
       ],
       showLoading: true,
       chartSetInfo: {
@@ -75,33 +74,36 @@ export default {
         yName: 'kW.h',
         legendName: ['同期', '本期']
       }
-    };
+    }
+  },
+  created() {
+    this.getNowYear()
   },
   methods: {
     handleQuery() {
       // 能源单位
-      let item = this.energyType.find(t => t.value == this.queryParams.energyType)
-      if(item) {
+      const item = this.energyType.find(t => t.value == this.queryParams.energyType)
+      if (item) {
         this.chartSetInfo.yName = item.unit
       }
 
       // this.analysisParams.year = this.queryParams.year.getFullYear().toString();
       getYearAnalysis(this.queryParams).then((res) => {
-        this.xData = [];
+        this.xData = []
         this.tableData = [],
-          this.yData = {}
-        let result = {
+        this.yData = {}
+        const result = {
           currentData: [],
           sameData: []
         }
-        const analy = res.data;
-        this.tableData = analy;
+        const analy = res.data
+        this.tableData = analy
         if (analy !== null) {
           analy.forEach((item) => {
             this.xData.push(item.month)
             result.currentData.push(item.correspondingPeriod)
             result.sameData.push(item.currentPeriod)
-          });
+          })
           this.yData = result
         }
       })
@@ -116,14 +118,11 @@ export default {
       this.handleQuery()
     },
     getNowYear() {
-      var year = new Date();
+      var year = new Date()
       this.queryParams.year = year.getFullYear().toString()
     }
-  },
-  created() {
-    this.getNowYear();
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

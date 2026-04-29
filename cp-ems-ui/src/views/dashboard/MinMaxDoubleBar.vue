@@ -48,11 +48,11 @@ export default {
       type: Object,
       default: () => {
         return {
-          currentData:[79, 52, 200, 334, 390, 330, 220, 0, 21, 67, 234, 21],
+          currentData: [79, 52, 200, 334, 390, 330, 220, 0, 21, 67, 234, 21],
           sameData: [23, 432, 123, 34, 9, 23, 220, 34, 21, 67, 234, 12]
         }
       }
-    },
+    }
   },
   data() {
     return {
@@ -64,22 +64,10 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'yData': {
       handler() {
-        if(this.chart) {
+        if (this.chart) {
           this.chart.dispose()
           this.chart = null
         }
@@ -98,9 +86,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
@@ -114,7 +114,7 @@ export default {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'], title: '' },
-            restore: { show: true, title: '' },
+            restore: { show: true, title: '' }
           }
         },
         grid: {
@@ -148,7 +148,7 @@ export default {
           type: 'value',
           name: this.setInfo.yName,
           position: 'left',
-          alignTicks: true,
+          alignTicks: true
         }],
         series: [
           {
@@ -159,14 +159,14 @@ export default {
             data: this.yData.currentData,
             animationDuration,
             itemStyle: {
-              color: '',
+              color: ''
             },
             markPoint: {
               data: [
                 { type: 'max', name: 'Max' },
                 { type: 'min', name: 'Min' }
               ]
-            },
+            }
           },
           {
             name: this.setInfo.legendName[1],
@@ -176,14 +176,14 @@ export default {
             data: this.yData.sameData,
             animationDuration,
             itemStyle: {
-              color: '',
+              color: ''
             },
             markPoint: {
               data: [
                 { type: 'max', name: 'Max' },
                 { type: 'min', name: 'Min' }
               ]
-            },
+            }
           }
         ]
       })

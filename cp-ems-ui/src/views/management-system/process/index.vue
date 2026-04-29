@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" size="small" :inline="true" label-width="68px">
       <el-form-item label="事件名称" prop="eventName">
         <el-input
           v-model="queryParams.eventName"
@@ -10,21 +10,22 @@
         />
       </el-form-item>
       <el-form-item label="触发时间" prop="touchTime">
-        <el-date-picker clearable
-                        v-model="queryParams.touchTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择触发时间">
-        </el-date-picker>
+        <el-date-picker
+          v-model="queryParams.touchTime"
+          clearable
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择触发时间"
+        />
       </el-form-item>
-<!--      <el-form-item label="处理结果" prop="handleResult">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.handleResult"-->
-<!--          placeholder="请输入处理结果"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="处理结果" prop="handleResult">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.handleResult"-->
+      <!--          placeholder="请输入处理结果"-->
+      <!--          clearable-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
       <el-form-item label="处理人" prop="handlePerson">
         <el-input
           v-model="queryParams.handlePerson"
@@ -42,53 +43,53 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:process:add']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:process:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:process:edit']"
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:process:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:process:remove']"
           type="danger"
           plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:process:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:process:export']"
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:process:export']"
         >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="processList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column type="index" width="55" align="center" />
-<!--      <el-table-column label="主键" align="center" prop="processId" v-if="true"/>-->
+      <!--      <el-table-column label="主键" align="center" prop="processId" v-if="true"/>-->
       <el-table-column label="事件名称" align="center" prop="eventName" />
       <el-table-column label="事件类型" align="center" prop="eventType" />
       <el-table-column label="触发时间" align="center" prop="touchTime" width="180">
@@ -102,18 +103,18 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['system:process:edit']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:process:edit']"
           >修改</el-button>
           <el-button
+            v-hasPermi="['system:process:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:process:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -137,12 +138,13 @@
           <el-input v-model="form.eventType" placeholder="请输入事件类型" />
         </el-form-item>
         <el-form-item label="触发时间" prop="touchTime">
-          <el-date-picker clearable
-                          v-model="form.touchTime"
-                          type="datetime"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          placeholder="请选择触发时间">
-          </el-date-picker>
+          <el-date-picker
+            v-model="form.touchTime"
+            clearable
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="请选择触发时间"
+          />
         </el-form-item>
         <el-form-item label="处理结果" prop="handleResult">
           <el-input v-model="form.handleResult" placeholder="请输入处理结果" />
@@ -163,10 +165,10 @@
 </template>
 
 <script>
-import { listProcess, getProcess, delProcess, addProcess, updateProcess } from "@/api/system/process";
+import { listProcess, getProcess, delProcess, addProcess, updateProcess } from '@/api/system/process'
 
 export default {
-  name: "Process",
+  name: 'Process',
   data() {
     return {
       // 按钮loading
@@ -186,7 +188,7 @@ export default {
       // 流程管理表格数据
       processList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -197,24 +199,24 @@ export default {
         eventType: undefined,
         touchTime: undefined,
         handleResult: undefined,
-        handlePerson: undefined,
+        handlePerson: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         processId: [
-          { required: true, message: "主键不能为空", trigger: "blur" }
+          { required: true, message: '主键不能为空', trigger: 'blur' }
         ],
         eventName: [
-          { required: true, message: "事件名称不能为空", trigger: "blur" }
+          { required: true, message: '事件名称不能为空', trigger: 'blur' }
         ],
         eventType: [
-          { required: true, message: "事件类型不能为空", trigger: "change" }
+          { required: true, message: '事件类型不能为空', trigger: 'change' }
         ],
         touchTime: [
-          { required: true, message: "触发时间不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '触发时间不能为空', trigger: 'blur' }
+        ]
         /* handleResult: [
           { required: true, message: "处理结果不能为空", trigger: "blur" }
         ], */
@@ -225,25 +227,25 @@ export default {
         //   { required: true, message: "备注不能为空", trigger: "blur" }
         // ],
       }
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     /** 查询流程管理列表 */
     getList() {
-      this.loading = true;
+      this.loading = true
       listProcess(this.queryParams).then(response => {
-        this.processList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.processList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -259,82 +261,82 @@ export default {
         createTime: undefined,
         updateBy: undefined,
         updateTime: undefined
-      };
-      this.resetForm("form");
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.processId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加流程管理";
+      this.reset()
+      this.open = true
+      this.title = '添加流程管理'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
+      this.loading = true
+      this.reset()
       const processId = row.processId || this.ids
       getProcess(processId).then(response => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改流程管理";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改流程管理'
+      })
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.processId != null) {
             updateProcess(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           } else {
             addProcess(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const processIds = row.processId || this.ids;
+      const processIds = row.processId || this.ids
       this.$modal.confirm('是否确认删除？').then(() => {
-        this.loading = true;
-        return delProcess(processIds);
+        this.loading = true
+        return delProcess(processIds)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -343,6 +345,6 @@ export default {
       }, `process_${new Date().getTime()}.xlsx`)
     }
   }
-};
+}
 </script>
 

@@ -29,14 +29,14 @@ export default {
     chartData: {
       type: Array,
       default: () => {
-        return [['2023-04-17 10:01:00',234.23], ['2023-04-17 12:30:10',12.98], ['2023-04-17 12:41:20', 89.16], ['2023-04-17 13:01:00',160.54], ['2023-04-17 13:16:00',68.23], ['2023-04-17 13:40:20', 381.91], ['2023-04-17 13:54:10',21.00], ['2023-04-17 14:12:30', 56.03], ['2023-04-17 14:23:00',167.05], ['2023-04-17 14:33:00', 5.62], ['2023-04-17 14:41:00', 221.06], ['2023-04-17 14:57:00', 123.60], ['2023-04-17 15:01:00', 29.23], ['2023-04-17 15:28:00',15.71]]
+        return [['2023-04-17 10:01:00', 234.23], ['2023-04-17 12:30:10', 12.98], ['2023-04-17 12:41:20', 89.16], ['2023-04-17 13:01:00', 160.54], ['2023-04-17 13:16:00', 68.23], ['2023-04-17 13:40:20', 381.91], ['2023-04-17 13:54:10', 21.00], ['2023-04-17 14:12:30', 56.03], ['2023-04-17 14:23:00', 167.05], ['2023-04-17 14:33:00', 5.62], ['2023-04-17 14:41:00', 221.06], ['2023-04-17 14:57:00', 123.60], ['2023-04-17 15:01:00', 29.23], ['2023-04-17 15:28:00', 15.71]]
       }
       // required: true
     },
     configData: {
       type: Object,
       default: () => {
-        return { yName: '电流', unit: 'A', energyType: 'electricityi'}
+        return { yName: '电流', unit: 'A', energyType: 'electricityi' }
       }
     },
     xData: {
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       chart: null,
-      areaColor: ['rgba(84, 112, 198, 1)','rgba(84, 112, 198, 0.1)']
+      areaColor: ['rgba(84, 112, 198, 1)', 'rgba(84, 112, 198, 0.1)']
     }
   },
   computed: {
@@ -97,8 +97,8 @@ export default {
   },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
-      this.areaColor = this.theme == 'theme-light' ? ['rgba(84, 112, 198, 1)','rgba(84, 112, 198, 0.1)'] : ['rgba(83, 82, 246, 0.3)','rgba(83, 82, 246, 0.1)']
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      this.areaColor = this.theme == 'theme-light' ? ['rgba(84, 112, 198, 1)', 'rgba(84, 112, 198, 0.1)'] : ['rgba(83, 82, 246, 0.3)', 'rgba(83, 82, 246, 0.1)']
       this.chart = echarts.init(this.$el, echartsTheme)
       this.setOptions(this.chartData)
     },
@@ -158,10 +158,10 @@ export default {
               show: false
             },
             min: this.configData.energyType == 'electricityu' ? 215 : 0
-          },
+          }
         ],
         legend: {
-          show: false,
+          show: false
         },
         series: [{
           name: this.configData.yName,

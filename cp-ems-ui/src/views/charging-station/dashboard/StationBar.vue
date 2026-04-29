@@ -35,13 +35,13 @@ export default {
     barColor: {
       type: Array,
       default: () => {
-        return ['#75c7f7','#3671e8']
+        return ['#75c7f7', '#3671e8']
       }
     },
     setting: {
       type: Object,
       default: () => {
-        return {seriesName: '充电订单数量', yName: ''}
+        return { seriesName: '充电订单数量', yName: '' }
       }
     },
     chartData: {
@@ -49,10 +49,10 @@ export default {
       default: () => {
         return {
           xData: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-          yData: [79, 52, 200, 334, 390, 330, 34,79, 52, 123, 334, 34, 56]
+          yData: [79, 52, 200, 334, 390, 330, 34, 79, 52, 123, 334, 34, 56]
         }
       }
-    },
+    }
   },
   data() {
     return {
@@ -64,30 +64,18 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'chartData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            this.initChart();
-            return;
+            this.initChart()
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -102,9 +90,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
@@ -112,7 +112,7 @@ export default {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          },
+          }
           // backgroundColor: 'rgba(28, 37, 80, 0.9)',
           // borderColor: '#2969e8',
           // textStyle: {
@@ -133,7 +133,7 @@ export default {
         xAxis: [{
           name: this.xName,
           type: 'category',
-          data: this.chartData.xData,
+          data: this.chartData.xData
           // axisTick: {
           //   alignWithLabel: true
           // },
@@ -163,7 +163,7 @@ export default {
           type: 'value',
           name: this.setting.yName,
           position: 'left',
-          alignTicks: true,
+          alignTicks: true
           // nameTextStyle: {
           //   color: '#fff'
           // },
@@ -186,7 +186,7 @@ export default {
           itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               { offset: 1, color: this.barColor[0] },
-              { offset: 0, color: this.barColor[1] },
+              { offset: 0, color: this.barColor[1] }
             ])
           },
           markLine: {

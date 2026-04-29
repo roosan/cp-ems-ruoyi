@@ -12,7 +12,7 @@
         :clearable="false"
         :editable="false"
         :default-time="['00:00:00', '23:59:59']"
-      ></el-date-picker>
+      />
       <div class="content-tree">
         <topologicaTree @selectItem="treeItem($event)" />
       </div>
@@ -21,45 +21,45 @@
       </div>
     </div>
     <div class="content-right">
-      <el-button class="print-btn" type="primary" icon="el-icon-printer" v-print="printObj">打印</el-button>
+      <el-button v-print="printObj" class="print-btn" type="primary" icon="el-icon-printer">打印</el-button>
       <!-- 这里是需要打印的内容 -->
       <div id="printableContent">
         <div class="print-cover">
           <div class="report-name">分析报告</div>
-          <div class="report-date" v-if="show">{{ dateRange[0].split(" ")[0] }}~{{ dateRange[1].split(" ")[0] }}</div>
+          <div v-if="show" class="report-date">{{ dateRange[0].split(" ")[0] }}~{{ dateRange[1].split(" ")[0] }}</div>
         </div>
-        <div class="print-content" v-if="show">
+        <div v-if="show" class="print-content">
           <div class="report-title">1、用能统计</div>
           <div style="padding: 20px 20px; height: 261px;width: 100%">
-            <report-table :chain-data="tableData"/>
+            <report-table :chain-data="tableData" />
           </div>
           <div class="report-title">2、用电量</div>
-          <div class="report-content">本周期内，共计使用电力{{electricityTotal}}kW·h，最大用电量{{electricityMax}}kW·h， 最大负荷发生时间{{electricityMaxDate}}。</div>
+          <div class="report-content">本周期内，共计使用电力{{ electricityTotal }}kW·h，最大用电量{{ electricityMax }}kW·h， 最大负荷发生时间{{ electricityMaxDate }}。</div>
           <div style="padding: 20px 20px;">
-            <report-chart :yName="'kW.h'" :xName="title" :xData="xData" :yData="electricityData" :title="'用电量'"/>
+            <report-chart :y-name="'kW.h'" :x-name="title" :x-data="xData" :y-data="electricityData" :title="'用电量'" />
           </div>
           <div class="report-content">建议：通过在变压器下端增多监测回路，收集末端数据，判断各个监测点的能耗情况，有无电量浪费现象。或将楼宇内照明等设备更换节能产品。降低能耗，实现节能减排。</div>
           <div class="report-title">3、电费</div>
           <div class="report-content">本周期内，共计使用电费￥{{ electricityChargingTotal }} 元</div>
           <div style="padding: 20px 20px;">
-            <report-chart :yName="'￥'" :xName="title" :xData="xChargingData" :yData="electricityChargingData" :title="'电费'"/>
+            <report-chart :y-name="'￥'" :x-name="title" :x-data="xChargingData" :y-data="electricityChargingData" :title="'电费'" />
           </div>
           <div class="report-title">4、用水量</div>
-          <div class="report-content">本周期内，共计使用水{{ waterTotal }}t，最大用水量{{waterMax}}t，最大流量发生时间{{waterMaxDate}}。</div>
+          <div class="report-content">本周期内，共计使用水{{ waterTotal }}t，最大用水量{{ waterMax }}t，最大流量发生时间{{ waterMaxDate }}。</div>
           <div style="padding: 20px 20px;">
-            <report-chart :yName="'t'" :xName="title" :xData="xData" :yData="waterData" :title="'用水量'"/>
+            <report-chart :y-name="'t'" :x-name="title" :x-data="xData" :y-data="waterData" :title="'用水量'" />
           </div>
           <div class="report-title">5、水费</div>
           <div class="report-content">本周期内，共计使用水费￥{{ waterChargingTotal }} 元</div>
           <div style="padding: 20px 20px;">
-            <report-chart :yName="'￥'" :xName="title" :xData="xChargingData" :yData="waterChargingData" :title="'水费'"/>
+            <report-chart :y-name="'￥'" :x-name="title" :x-data="xChargingData" :y-data="waterChargingData" :title="'水费'" />
           </div>
           <div class="report-title">6、复费率</div>
           <div style="padding: 20px 20px;">
             <div style="height: 221px;width: 100%">
-              <RecurringRateTableVue :chainData="recurringRateTableData"/>
+              <RecurringRateTableVue :chain-data="recurringRateTableData" />
             </div>
-            <RecurringRatePieVue :pieData="recurringRatePie"/>
+            <RecurringRatePieVue :pie-data="recurringRatePie" />
           </div>
         </div>
       </div>
@@ -69,12 +69,12 @@
 
 <script>
 import moment from 'moment'
-import topologicaTree from "@/components/TopologicaTree/index";
-import ReportTable from '@/components/Tables/reportTable.vue';
+import topologicaTree from '@/components/TopologicaTree/index'
+import ReportTable from '@/components/Tables/reportTable.vue'
 import { getReportChart, getReportTable, getReportChargingChart, getRecurringRate } from '@/api/system/energy'
 import ReportChart from '@/views/analysis-report/reportChart.vue'
-import RecurringRatePieVue from './recurringRatePie.vue';
-import RecurringRateTableVue from './recurringRateTable.vue';
+import RecurringRatePieVue from './recurringRatePie.vue'
+import RecurringRateTableVue from './recurringRateTable.vue'
 export default {
   components: {
     ReportChart,
@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       printObj: {
-        id: "printableContent", // 必要，打印元素的id
+        id: 'printableContent' // 必要，打印元素的id
         // popTitle: "", // 打印配置页上方标题
         // extraHead: "", //最上方的头部文字，附加在head标签上的额外标签,使用逗号分隔
         // preview: "", // 是否启动预览模式，默认是false（开启预览模式，可以先预览后打印）
@@ -103,119 +103,119 @@ export default {
         // extraCss: "",
       },
       dateRange: [],
-      areaId:1,
+      areaId: 1,
       pickerOptions: {
         disabledDate(date) {
           return date.getTime() > Date.now() // 禁用大于今天的日期
-        },
+        }
       },
       unit: 'kW.h',
       xData: [],
-      xChargingData:[],
-      electricityChargingData:[],
-      waterChargingData:[],
+      xChargingData: [],
+      electricityChargingData: [],
+      waterChargingData: [],
       electricityData: [],
-      waterData:[],
-      title: "日期",
-      electricityTotal:0,
-      electricityMax:0,
-      electricityMaxDate:"",
-      waterTotal:0,
-      waterMax:0,
-      waterMaxDate:"",
-      electricityChargingTotal:0,
-      waterChargingTotal:0,
-      show:false,
-      tableData:[],
+      waterData: [],
+      title: '日期',
+      electricityTotal: 0,
+      electricityMax: 0,
+      electricityMaxDate: '',
+      waterTotal: 0,
+      waterMax: 0,
+      waterMaxDate: '',
+      electricityChargingTotal: 0,
+      waterChargingTotal: 0,
+      show: false,
+      tableData: [],
       recurringRateTableData: [],
       recurringRatePie: []
-    };
+    }
+  },
+  created() {
+    this.defaultDate()
   },
   methods: {
-    defaultDate(){
-      this.dateRange = [moment().format("yyyy-MM-01 00:00:00"),moment().format("yyyy-MM-DD 23:59:59")]
+    defaultDate() {
+      this.dateRange = [moment().format('yyyy-MM-01 00:00:00'), moment().format('yyyy-MM-DD 23:59:59')]
     },
     treeItem(value) {
-      this.areaId = value.id;
+      this.areaId = value.id
     },
-    search(){
-      this.getReport("0")
-      this.getReport("1")
+    search() {
+      this.getReport('0')
+      this.getReport('1')
       this.getTable()
       this.getRecurringRateData()
     },
-    getTable(){
-      let query={
-        areaId:this.areaId,
-        startTime:this.dateRange[0],
-        endTime:this.dateRange[1],
+    getTable() {
+      const query = {
+        areaId: this.areaId,
+        startTime: this.dateRange[0],
+        endTime: this.dateRange[1]
       }
-      getReportTable(query).then(res=>{
-        this.tableData = res.data;
+      getReportTable(query).then(res => {
+        this.tableData = res.data
       })
     },
-    getReport(type){
-      let query={
-        areaId:this.areaId,
-        startTime:this.dateRange[0],
-        endTime:this.dateRange[1],
-        energyType:type,
+    getReport(type) {
+      const query = {
+        areaId: this.areaId,
+        startTime: this.dateRange[0],
+        endTime: this.dateRange[1],
+        energyType: type
       }
-      getReportChart(query).then(res=>{
+      getReportChart(query).then(res => {
         if (res.data.length <= 0) {
-          return;
+          return
         }
-        this.xData = Object.keys(res.data.chartData);
-        if(type == "0"){
-          this.electricityTotal = res.data.total;
-          this.electricityMax = res.data.max;
-          this.electricityMaxDate = res.data.maxDate;
-          this.electricityData = Object.values(res.data.chartData);
-        }else if(type == "1"){
-          this.waterTotal = res.data.total;
-          this.waterMax = res.data.max;
-          this.waterMaxDate = res.data.maxDate;
-          this.waterData = Object.values(res.data.chartData);
+        this.xData = Object.keys(res.data.chartData)
+        if (type == '0') {
+          this.electricityTotal = res.data.total
+          this.electricityMax = res.data.max
+          this.electricityMaxDate = res.data.maxDate
+          this.electricityData = Object.values(res.data.chartData)
+        } else if (type == '1') {
+          this.waterTotal = res.data.total
+          this.waterMax = res.data.max
+          this.waterMaxDate = res.data.maxDate
+          this.waterData = Object.values(res.data.chartData)
         }
-        this.show = true;
+        this.show = true
       })
-      getReportChargingChart(query).then(res=>{
+      getReportChargingChart(query).then(res => {
         if (res.data.length <= 0) {
-          return;
+          return
         }
-        this.xChargingData = Object.keys(res.data.chartData);
-        if(type == "0"){
-          this.electricityChargingTotal = res.data.total;
-          this.electricityChargingData = Object.values(res.data.chartData);
-        }else if(type == "1"){
-          this.waterChargingTotal = res.data.total;
-          this.waterChargingData = Object.values(res.data.chartData);
+        this.xChargingData = Object.keys(res.data.chartData)
+        if (type == '0') {
+          this.electricityChargingTotal = res.data.total
+          this.electricityChargingData = Object.values(res.data.chartData)
+        } else if (type == '1') {
+          this.waterChargingTotal = res.data.total
+          this.waterChargingData = Object.values(res.data.chartData)
         }
-        this.show = true;
+        this.show = true
       })
     },
     // 复费率
     getRecurringRateData() {
-      let query={
-        areaId:this.areaId,
-        startTime:this.dateRange[0],
-        endTime:this.dateRange[1],
-        energyType:'0',
+      const query = {
+        areaId: this.areaId,
+        startTime: this.dateRange[0],
+        endTime: this.dateRange[1],
+        energyType: '0'
       }
       getRecurringRate(query).then(res => {
-          this.recurringRateTableData = res.data
-          let pieData = []
-          res.data.forEach(item => {
-            pieData.push({value: item.data, name: item.type})
-          })
-          this.recurringRatePie = pieData
+        this.recurringRateTableData = res.data
+        const pieData = []
+        res.data.forEach(item => {
+          pieData.push({ value: item.data, name: item.type })
+        })
+        this.recurringRatePie = pieData
       })
     }
-  },
-  created() {
-    this.defaultDate();
   }
-};
+}
 </script>
 <style scoped>
 .app-container {

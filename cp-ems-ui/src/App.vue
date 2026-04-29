@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import ThemePicker from "@/components/ThemePicker";
+import ThemePicker from '@/components/ThemePicker'
 
 export default {
-  name: "App",
+  name: 'App',
   components: { ThemePicker },
   // metaInfo() {
   //   return {
@@ -20,10 +20,10 @@ export default {
   //   }
   // }
   mounted() {
-    let theme = localStorage.getItem('theme')
+    const theme = localStorage.getItem('theme')
     document.getElementById('app').style = theme == 'theme-dark' ? 'background: #46576e;' : 'background: #3671e8;'
   }
-};
+}
 </script>
 <style scoped>
 #app .theme-picker {

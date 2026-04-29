@@ -1,7 +1,9 @@
-# cp-ems-ruoyi - 开源能源管理系统（EMS）
+# 世纪信通能源管理平台
 
-## 项目简介
-cp-ems-ruoyi 是一款基于 Ruoyi 框架开发的开源能源管理系统（EMS）。  
+## 平台简介
+
+世纪信通能源管理平台（Cp-Ems） 是基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue) 官方仓库 开发的。
+
 该系统为企业和个人提供能耗监控、定额管理和运维管理等功能，支持实时数据采集和分析，帮助用户优化能耗，提升管理效率。  
 
 ## 项目网站
@@ -71,14 +73,14 @@ https://www.szcloudpulse.com/contact.html
 <img src='docs/小程序截图四.png' width='150'> 
 
 ## 技术交流与使用说明  
-- 公众号：关注“云脉软件”公众号，获取更多案例和技术支持。  
+- 公众号：关注“世纪信通”公众号，获取更多案例和技术支持。  
 <img src='docs/公众号二维码.jpg' width='200'><br> 
 
 - 微信咨询：扫码添加微信获取更多咨询。  
 <img src='docs/联系人二维码.jpg' width='150'><br>
 
 ## 关于我们
-苏州云脉软件技术有限公司  
+世纪信通  
 <a href='https://www.szcloudpulse.com' target='_blank'>www.szcloudpulse.com</a>
 
 ## 免责声明
@@ -86,6 +88,6 @@ https://www.szcloudpulse.com/contact.html
 本软件“按现状”提供，不保证适用于特定用途、无错误或安全可靠。使用本软件即表示用户同意上述条款。
 
 ## 其他开源项目  
-- 云脉生产管理系统  
+- 世纪信通生产管理系统  
 本项目是基于ruoyi开发的生产工单管理系统（mes），权限部分沿用了框架自带的体系，其余功能为定制开发，UI样式做了改造。 
-<a href='苏州云脉软件技术有限公司/cp-mes-ruoyi' target='_blank'>苏州云脉软件技术有限公司/cp-mes-ruoyi</a>
+<a href='世纪信通/cp-mes-ruoyi' target='_blank'>世纪信通/cp-mes-ruoyi</a>

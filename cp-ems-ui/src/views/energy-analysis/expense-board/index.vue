@@ -62,8 +62,8 @@
           <el-card class="box-card" shadow="never">
             <div class="card-title">当月费用分布</div>
             <div style="height: calc(100% - 30px);">
-              <StationPieVue height="100%" :pieData="[{name: '电费',value: 3461.46},{name: '水费',value: 1543.82}]" unit="元"></StationPieVue>
-              <div></div>
+              <StationPieVue height="100%" :pie-data="[{name: '电费',value: 3461.46},{name: '水费',value: 1543.82}]" unit="元" />
+              <div />
             </div>
           </el-card>
         </el-col>
@@ -71,14 +71,14 @@
           <el-card class="box-card" shadow="never">
             <div style="display:flex;justify-content: space-between;align-items: center;">
               <div class="card-title">能耗费用趋势</div>
-              <el-radio-group v-model="tabPosition" @change="dateChange" size="mini">
+              <el-radio-group v-model="tabPosition" size="mini" @change="dateChange">
                 <!-- <el-radio-button label="day">当日</el-radio-button> -->
                 <el-radio-button label="month">本月</el-radio-button>
                 <el-radio-button label="year">今年</el-radio-button>
               </el-radio-group>
             </div>
             <div style="height: calc(100% - 30px);">
-              <StationBarVue height="100%" :chartData="barChartData" :xName="barXName" :setting="{seriesName: '费用', yName: '元'}"/>
+              <StationBarVue height="100%" :chart-data="barChartData" :x-name="barXName" :setting="{seriesName: '费用', yName: '元'}" />
             </div>
           </el-card>
         </el-col>
@@ -90,7 +90,7 @@
           <el-card class="box-card" shadow="never">
             <div class="card-title">近7日用电量</div>
             <div style="height: calc(100% - 30px);">
-              <StationLineVue height="100%" yName="kW·h" seriesName="用电量" itemColor="#ee4368" :chartData="lineDataOne"/>
+              <StationLineVue height="100%" y-name="kW·h" series-name="用电量" item-color="#ee4368" :chart-data="lineDataOne" />
             </div>
           </el-card>
         </el-col>
@@ -98,7 +98,7 @@
           <el-card class="box-card" shadow="never">
             <div class="card-title">近7日电费</div>
             <div style="height: calc(100% - 30px);">
-              <StationLineVue height="100%" yName="元" seriesName="电费" :chartData="lineDataTwo" itemColor="#5470c6"/>
+              <StationLineVue height="100%" y-name="元" series-name="电费" :chart-data="lineDataTwo" item-color="#5470c6" />
             </div>
           </el-card>
         </el-col>
@@ -106,7 +106,7 @@
           <el-card class="box-card" shadow="never">
             <div class="card-title">近7日用水量</div>
             <div style="height: calc(100% - 30px);">
-              <StationLineVue height="100%" yName="t" seriesName="用水量" :chartData="lineDataThree" itemColor="#c58bea"/>
+              <StationLineVue height="100%" y-name="t" series-name="用水量" :chart-data="lineDataThree" item-color="#c58bea" />
             </div>
           </el-card>
         </el-col>
@@ -114,7 +114,7 @@
           <el-card class="box-card" shadow="never">
             <div class="card-title">近7日水费</div>
             <div style="height: calc(100% - 30px);">
-              <StationLineVue height="100%" yName="元" seriesName="水费" :chartData="lineDataFour" itemColor="#c7a428"/>
+              <StationLineVue height="100%" y-name="元" series-name="水费" :chart-data="lineDataFour" item-color="#c7a428" />
             </div>
           </el-card>
         </el-col>
@@ -124,10 +124,10 @@
 </template>
 
 <script>
-import moment from 'moment';
-import StationBarVue from '@/views/charging-station/dashboard/StationBar.vue';
-import StationLineVue from '@/views/charging-station/dashboard/StationLine.vue';
-import StationPieVue from '@/views/charging-station/dashboard/StationPie.vue';
+import moment from 'moment'
+import StationBarVue from '@/views/charging-station/dashboard/StationBar.vue'
+import StationLineVue from '@/views/charging-station/dashboard/StationLine.vue'
+import StationPieVue from '@/views/charging-station/dashboard/StationPie.vue'
 export default {
   components: {
     StationPieVue,
@@ -139,25 +139,25 @@ export default {
       tabPosition: 'month',
       barChartData: {
         xData: ['10-01', '10-02', '10-03', '10-04', '10-05', '10-06', '10-07', '10-08', '10-09', '10-10', '10-12', '10-13', '10-14', '10-15'],
-        yData: [79, 68, 56, 72, 51, 63, 67,71, 58, 81, 64, 77, 56, 69]
+        yData: [79, 68, 56, 72, 51, 63, 67, 71, 58, 81, 64, 77, 56, 69]
       },
       barXName: '日',
       lineDataOne: {
-        yData: [79,65, 21, 67, 21, 89, 56],
-        xData: ['09-22','09-23','09-24','09-25','09-26','09-27','09-28']
+        yData: [79, 65, 21, 67, 21, 89, 56],
+        xData: ['09-22', '09-23', '09-24', '09-25', '09-26', '09-27', '09-28']
       },
       lineDataTwo: {
-        yData: [45,72, 16, 37, 64, 28, 46],
-        xData: ['09-22','09-23','09-24','09-25','09-26','09-27','09-28']
+        yData: [45, 72, 16, 37, 64, 28, 46],
+        xData: ['09-22', '09-23', '09-24', '09-25', '09-26', '09-27', '09-28']
       },
       lineDataThree: {
-        yData: [16,27, 37, 16, 27, 21, 11],
-        xData: ['09-22','09-23','09-24','09-25','09-26','09-27','09-28']
+        yData: [16, 27, 37, 16, 27, 21, 11],
+        xData: ['09-22', '09-23', '09-24', '09-25', '09-26', '09-27', '09-28']
       },
       lineDataFour: {
-        yData: [134,107, 94, 173, 37, 143, 86],
-        xData: ['09-22','09-23','09-24','09-25','09-26','09-27','09-28']
-      },
+        yData: [134, 107, 94, 173, 37, 143, 86],
+        xData: ['09-22', '09-23', '09-24', '09-25', '09-26', '09-27', '09-28']
+      }
     }
   },
   created() {
@@ -170,18 +170,18 @@ export default {
       var date = new Date()
       var month = date.getMonth() + 1
       var day = date.getDate()
-      let barXData = []
-      let barYData = []
-      if(value == 'year') {
-        for(var i = 0; i < month; i++) {
+      const barXData = []
+      const barYData = []
+      if (value == 'year') {
+        for (var i = 0; i < month; i++) {
           barXData.push(moment().subtract(i, 'months').format('YYYY-MM'))
-          barYData.push(Math.floor(Math.random()*(15341.69-10493.76+1))+10493.76)
+          barYData.push(Math.floor(Math.random() * (15341.69 - 10493.76 + 1)) + 10493.76)
         }
         this.barXName = '月'
       } else {
-        for(var i = 0; i < day; i++) {
+        for (var i = 0; i < day; i++) {
           barXData.push(moment().subtract(i, 'days').format('MM-DD'))
-          barYData.push(Math.floor(Math.random()*(1521.76-1076.47+1))+1521.76)
+          barYData.push(Math.floor(Math.random() * (1521.76 - 1076.47 + 1)) + 1521.76)
         }
         this.barXName = '日'
       }
@@ -193,7 +193,7 @@ export default {
     // 初始化时间模拟数据
     initTime() {
       let lineXData = []
-      for(var i = 0; i < 7; i++) {
+      for (var i = 0; i < 7; i++) {
         lineXData.push(moment().subtract(i, 'days').format('MM-DD'))
       }
       lineXData = lineXData.reverse()

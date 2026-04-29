@@ -1,7 +1,7 @@
 // 获取计算数据
 import request from '@/utils/request'
 
-//获取指定日期用能统计
+// 获取指定日期用能统计
 export function getByDay(date) {
   return request({
     url: '/data/energy/getByDay/' + date,
@@ -18,7 +18,7 @@ export function getFlowData(query) {
   })
 }
 
-//获取指定日期的用电量趋势（按小时）
+// 获取指定日期的用电量趋势（按小时）
 export function getHourlyData(date) {
   return request({
     url: '/data/energy/getHourlyData/' + date,
@@ -26,7 +26,7 @@ export function getHourlyData(date) {
   })
 }
 
-//获取指定日期所属月的用电量趋势（按日）
+// 获取指定日期所属月的用电量趋势（按日）
 export function getDailyData(date) {
   return request({
     url: '/data/energy/getDailyData/' + date,
@@ -34,7 +34,7 @@ export function getDailyData(date) {
   })
 }
 
-//获取指定日期所属年的用电量趋势（按月）
+// 获取指定日期所属年的用电量趋势（按月）
 export function getMonthlyData(date) {
   return request({
     url: '/data/energy/getMonthlyData/' + date,
@@ -51,7 +51,7 @@ export function getChainData(data) {
   })
 }
 
-//获取指定日期的用电量趋势（按小时）
+// 获取指定日期的用电量趋势（按小时）
 export function getDayTrend(data) {
   return request({
     url: '/data/energy/dayTrend',
@@ -60,7 +60,7 @@ export function getDayTrend(data) {
   })
 }
 
-//获取指定日期的用电量趋势（按天）
+// 获取指定日期的用电量趋势（按天）
 export function getMonthTrend(data) {
   return request({
     url: '/data/energy/monthTrend',
@@ -69,7 +69,7 @@ export function getMonthTrend(data) {
   })
 }
 
-//获取指定日期的用电量趋势（按月）
+// 获取指定日期的用电量趋势（按月）
 export function getYearTrend(data) {
   return request({
     url: '/data/energy/yearTrend',
@@ -113,7 +113,6 @@ export function getWTrendByYear(data) {
     params: data
   })
 }
-
 
 // 同比分析
 export function getYearAnalysis(query) {

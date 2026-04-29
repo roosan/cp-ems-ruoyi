@@ -39,15 +39,15 @@ export default {
     xData: {
       type: Array,
       default: () => {
-        return ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13','00', '01', '02', '03', '04', '05', '06', '07', '08', '09']
+        return ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09']
       }
     },
     yData: {
       type: Array,
       default: () => {
-        return [79, 52, 200, 334, 390, 330, 220, 0, 21, 67, 234, 21, 89, 56,79, 52, 200, 334, 390, 330, 220, 44, 21,34]
+        return [79, 52, 200, 334, 390, 330, 220, 0, 21, 67, 234, 21, 89, 56, 79, 52, 200, 334, 390, 330, 220, 44, 21, 34]
       }
-    },
+    }
   },
   data() {
     return {
@@ -59,30 +59,18 @@ export default {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
   watch: {
     'xData': {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            this.initChart();
-            return;
+            this.initChart()
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
       }
     },
     theme: {
@@ -97,9 +85,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
@@ -140,7 +140,7 @@ export default {
           type: 'value',
           name: this.yName,
           position: 'left',
-          alignTicks: true,
+          alignTicks: true
         }],
         series: [{
           name: this.legendName,
@@ -150,14 +150,14 @@ export default {
           data: this.yData,
           animationDuration,
           itemStyle: {
-            color: '',
+            color: ''
           },
           markPoint: {
             data: [
               { type: 'max', name: 'Max' },
               { type: 'min', name: 'Min' }
             ]
-          },
+          }
         }]
       })
     }

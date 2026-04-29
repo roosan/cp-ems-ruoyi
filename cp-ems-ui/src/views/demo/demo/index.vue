@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
       <el-form-item label="key键" prop="testKey">
         <el-input
           v-model="queryParams.testKey"
@@ -30,7 +30,7 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           :default-time="['00:00:00', '23:59:59']"
-        ></el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
@@ -42,62 +42,62 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['demo:demo:add']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['demo:demo:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['demo:demo:edit']"
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['demo:demo:edit']"
         >编辑</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['demo:demo:remove']"
           type="danger"
           plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['demo:demo:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['demo:demo:import']"
           type="info"
           plain
           icon="el-icon-upload2"
           size="mini"
           @click="handleImport"
-          v-hasPermi="['demo:demo:import']"
         >导入(校验)</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['demo:demo:export']"
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['demo:demo:export']"
         >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="demoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" v-if="false"/>
+      <el-table-column v-if="false" label="主键" align="center" prop="id" />
       <el-table-column label="部门id" align="center" prop="deptId" />
       <el-table-column label="用户id" align="center" prop="userId" />
       <el-table-column label="排序号" align="center" prop="orderNum" />
@@ -118,18 +118,18 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['demo:demo:edit']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['demo:demo:edit']"
           >编辑</el-button>
           <el-button
+            v-hasPermi="['demo:demo:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['demo:demo:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -162,12 +162,14 @@
           <el-input v-model="form.value" placeholder="请输入值" />
         </el-form-item>
         <el-form-item label="创建时间" prop="createTime">
-          <el-date-picker clearable size="small"
-                          v-model="form.createTime"
-                          type="datetime"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          placeholder="选择创建时间">
-          </el-date-picker>
+          <el-date-picker
+            v-model="form.createTime"
+            clearable
+            size="small"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择创建时间"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -189,7 +191,7 @@
         :auto-upload="false"
         drag
       >
-        <i class="el-icon-upload"></i>
+        <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
@@ -201,16 +203,16 @@
 </template>
 
 <script>
-import { listDemo, pageDemo, getDemo, delDemo, addDemo, updateDemo } from "@/api/demo/demo";
-import {getToken} from "@/utils/auth";
+import { listDemo, pageDemo, getDemo, delDemo, addDemo, updateDemo } from '@/api/demo/demo'
+import { getToken } from '@/utils/auth'
 
 export default {
-  name: "Demo",
+  name: 'Demo',
   components: {
   },
   data() {
     return {
-      //按钮loading
+      // 按钮loading
       buttonLoading: false,
       // 遮罩层
       loading: true,
@@ -227,7 +229,7 @@ export default {
       // 测试单表表格数据
       demoList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
       // 创建时间时间范围
@@ -237,13 +239,13 @@ export default {
         // 是否显示弹出层（用户导入）
         open: false,
         // 弹出层标题（用户导入）
-        title: "",
+        title: '',
         // 是否禁用上传
         isUploading: false,
         // 设置上传的请求头部
-        headers: { Authorization: "Bearer " + getToken() },
+        headers: { Authorization: 'Bearer ' + getToken() },
         // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/demo/demo/importData"
+        url: process.env.VUE_APP_BASE_API + '/demo/demo/importData'
       },
       // 查询参数
       queryParams: {
@@ -251,57 +253,57 @@ export default {
         pageSize: 10,
         testKey: undefined,
         value: undefined,
-        createTime: undefined,
+        createTime: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         testKey: [
-          { required: true, message: "key键不能为空", trigger: "blur" }
+          { required: true, message: 'key键不能为空', trigger: 'blur' }
         ],
         value: [
-          { required: true, message: "值不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '值不能为空', trigger: 'blur' }
+        ]
       }
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     /** 查询测试单表列表 */
     getList() {
-      this.loading = true;
-      this.queryParams.params = {};
-      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
-        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
-        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      this.loading = true
+      this.queryParams.params = {}
+      if (this.daterangeCreateTime != null && this.daterangeCreateTime != '') {
+        this.queryParams.params['beginCreateTime'] = this.daterangeCreateTime[0]
+        this.queryParams.params['endCreateTime'] = this.daterangeCreateTime[1]
       }
       listDemo(this.queryParams).then(response => {
-        this.demoList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.demoList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     /** 自定义分页查询 */
     getPage() {
-      this.loading = true;
-      this.queryParams.params = {};
-      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
-        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
-        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      this.loading = true
+      this.queryParams.params = {}
+      if (this.daterangeCreateTime != null && this.daterangeCreateTime != '') {
+        this.queryParams.params['beginCreateTime'] = this.daterangeCreateTime[0]
+        this.queryParams.params['endCreateTime'] = this.daterangeCreateTime[1]
       }
       pageDemo(this.queryParams).then(response => {
-        this.demoList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.demoList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -318,92 +320,92 @@ export default {
         updateTime: undefined,
         updateBy: undefined,
         delFlag: undefined
-      };
-      this.resetForm("form");
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 查询按钮操作 */
     handlePage() {
-      this.queryParams.pageNum = 1;
-      this.getPage();
+      this.queryParams.pageNum = 1
+      this.getPage()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.daterangeCreateTime = [];
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.daterangeCreateTime = []
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加测试单表";
+      this.reset()
+      this.open = true
+      this.title = '添加测试单表'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
+      this.loading = true
+      this.reset()
       const id = row.id || this.ids
       getDemo(id).then(response => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改测试单表";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改测试单表'
+      })
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.id != null) {
             updateDemo(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           } else {
             addDemo(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id || this.ids;
+      const ids = row.id || this.ids
       this.$modal.confirm('是否确认删除？').then(() => {
-        this.loading = true;
-        return delDemo(ids);
+        this.loading = true
+        return delDemo(ids)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 导入按钮操作 */
     handleImport() {
-      this.upload.title = "用户导入";
-      this.upload.open = true;
+      this.upload.title = '用户导入'
+      this.upload.open = true
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -413,20 +415,20 @@ export default {
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
-      this.upload.isUploading = true;
+      this.upload.isUploading = true
     },
     // 文件上传成功处理
     handleFileSuccess(response, file, fileList) {
-      this.upload.open = false;
-      this.upload.isUploading = false;
-      this.$refs.upload.clearFiles();
-      this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
-      this.getList();
+      this.upload.open = false
+      this.upload.isUploading = false
+      this.$refs.upload.clearFiles()
+      this.$alert(response.msg, '导入结果', { dangerouslyUseHTMLString: true })
+      this.getList()
     },
     // 提交上传文件
     submitFileForm() {
-      this.$refs.upload.submit();
+      this.$refs.upload.submit()
     }
   }
-};
+}
 </script>

@@ -1,14 +1,21 @@
 <template>
   <div class="table-container">
-    <el-table class="currentTable" :data="tableData" :header-cell-style="{'text-align':'center'}"
-              :cell-style="{'text-align':'center'}" height="100%" border style="width: 100%">
-      <el-table-column prop="date" label="时间"> </el-table-column>
-      <el-table-column prop="unit" label="单位"> </el-table-column>
-      <el-table-column prop="realEnergy" label="实际能耗"> </el-table-column>
-      <el-table-column prop="chainEnergy" label="能耗环比"> </el-table-column>
-      <el-table-column prop="yoyEnergy" label="能耗同比"> </el-table-column>
-      <el-table-column prop="quotaAverage" label="日均定额"> </el-table-column>
-      <el-table-column prop="quotaPercent" label="定额完成百分比" min-width="100"> </el-table-column>
+    <el-table
+      class="currentTable"
+      :data="tableData"
+      :header-cell-style="{'text-align':'center'}"
+      :cell-style="{'text-align':'center'}"
+      height="100%"
+      border
+      style="width: 100%"
+    >
+      <el-table-column prop="date" label="时间" />
+      <el-table-column prop="unit" label="单位" />
+      <el-table-column prop="realEnergy" label="实际能耗" />
+      <el-table-column prop="chainEnergy" label="能耗环比" />
+      <el-table-column prop="yoyEnergy" label="能耗同比" />
+      <el-table-column prop="quotaAverage" label="日均定额" />
+      <el-table-column prop="quotaPercent" label="定额完成百分比" min-width="100" />
     </el-table>
   </div>
 </template>
@@ -17,8 +24,8 @@
 export default {
   props: {
     chainData: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
@@ -30,15 +37,15 @@ export default {
           chainEnergy: 453,
           yoyEnergy: 3523,
           quotaAverage: 453,
-          quotaPercent: "35%"
-        },
-      ],
+          quotaPercent: '35%'
+        }
+      ]
     }
   },
   watch: {
     'chainData': {
       handler() {
-        this.tableData = this.chainData;
+        this.tableData = this.chainData
       },
       deep: true,
       immediate: true
@@ -47,7 +54,7 @@ export default {
   methods: {
 
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

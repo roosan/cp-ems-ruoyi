@@ -221,7 +221,8 @@ public class SysConfigServiceImpl implements ISysConfigService, ConfigService {
     @Override
     public Map<String, Object> logoInfo() {
         Map<String, Object> result = new HashMap<>(5);
-        result.put("sysTitle", selectConfigByKey("sys.title"));
+        result.put("sysTitle", "世纪信通能源管理平台");
+        result.put("systemName", "世纪信通能源管理平台");
         result.put("sysLogo", selectConfigByKey("sys.logo"));
         result.put("browserLogo", selectConfigByKey("browser.logo"));
         result.put("appletShow", Boolean.parseBoolean(selectConfigByKey("applet.show")));

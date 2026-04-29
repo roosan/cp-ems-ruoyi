@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
       <el-form-item label="文件名" prop="fileName">
         <el-input
           v-model="queryParams.fileName"
@@ -39,7 +39,7 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           :default-time="['00:00:00', '23:59:59']"
-        ></el-date-picker>
+        />
       </el-form-item>
       <el-form-item label="上传人" prop="createBy">
         <el-input
@@ -68,63 +68,67 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:oss:upload']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleFile"
-          v-hasPermi="['system:oss:upload']"
         >上传文件</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:oss:upload']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleImage"
-          v-hasPermi="['system:oss:upload']"
         >上传图片</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:oss:remove']"
           type="danger"
           plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:oss:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:oss:edit']"
           :type="previewListResource ? 'danger' : 'warning'"
           plain
           size="mini"
           @click="handlePreviewListResource(!previewListResource)"
-          v-hasPermi="['system:oss:edit']"
-        >预览开关 : {{previewListResource ? "禁用" : "启用"}}</el-button>
+        >预览开关 : {{ previewListResource ? "禁用" : "启用" }}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:oss:list']"
           type="info"
           plain
           icon="el-icon-s-operation"
           size="mini"
           @click="handleOssConfig"
-          v-hasPermi="['system:oss:list']"
         >配置管理</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
-    <el-table v-loading="loading" :data="ossList" @selection-change="handleSelectionChange"
-              :header-cell-class-name="handleHeaderClass"
-              @header-click="handleHeaderCLick"
-              v-if="showTable">
+    <el-table
+      v-if="showTable"
+      v-loading="loading"
+      :data="ossList"
+      :header-cell-class-name="handleHeaderClass"
+      @selection-change="handleSelectionChange"
+      @header-click="handleHeaderCLick"
+    >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="对象存储主键" align="center" prop="ossId" v-if="false"/>
+      <el-table-column v-if="false" label="对象存储主键" align="center" prop="ossId" />
       <el-table-column label="文件名" align="center" prop="fileName" />
       <el-table-column label="原名" align="center" prop="originalName" />
       <el-table-column label="文件后缀" align="center" prop="fileSuffix" />
@@ -132,37 +136,50 @@
         <template slot-scope="scope">
           <ImagePreview
             v-if="previewListResource && checkFileSuffix(scope.row.fileSuffix)"
-            :width=100 :height=100
+            :width="100"
+            :height="100"
             :src="scope.row.url"
-            :preview-src-list="[scope.row.url]"/>
-          <span v-text="scope.row.url"
-                v-if="!checkFileSuffix(scope.row.fileSuffix) || !previewListResource"/>
+            :preview-src-list="[scope.row.url]"
+          />
+          <span
+            v-if="!checkFileSuffix(scope.row.fileSuffix) || !previewListResource"
+            v-text="scope.row.url"
+          />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180"
-                       sortable="custom">
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        width="180"
+        sortable="custom"
+      >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="上传人" align="center" prop="createBy" />
-      <el-table-column label="服务商" align="center" prop="service"
-                       sortable="custom"/>
+      <el-table-column
+        label="服务商"
+        align="center"
+        prop="service"
+        sortable="custom"
+      />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['system:oss:download']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleDownload(scope.row)"
-            v-hasPermi="['system:oss:download']"
           >下载</el-button>
           <el-button
+            v-hasPermi="['system:oss:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:oss:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -180,8 +197,8 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="文件名">
-          <fileUpload v-model="form.file" v-if="type === 0"/>
-          <imageUpload v-model="form.file" v-if="type === 1"/>
+          <fileUpload v-if="type === 0" v-model="form.file" />
+          <imageUpload v-if="type === 1" v-model="form.file" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -193,10 +210,10 @@
 </template>
 
 <script>
-import { listOss, delOss } from "@/api/system/oss";
+import { listOss, delOss } from '@/api/system/oss'
 
 export default {
-  name: "Oss",
+  name: 'Oss',
   data() {
     return {
       showTable: true,
@@ -219,7 +236,7 @@ export default {
       // OSS对象存储表格数据
       ossList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 弹出层标题
       type: 0,
       // 是否显示弹出层
@@ -229,7 +246,7 @@ export default {
       // 创建时间时间范围
       daterangeCreateTime: [],
       // 默认排序
-      defaultSort: {prop: 'createTime', order: 'ascending'},
+      defaultSort: { prop: 'createTime', order: 'ascending' },
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -247,73 +264,73 @@ export default {
       // 表单校验
       rules: {
         file: [
-          { required: true, message: "文件不能为空", trigger: "blur" }
+          { required: true, message: '文件不能为空', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     /** 查询OSS对象存储列表 */
     getList() {
-      this.loading = true;
-      this.queryParams.params = {};
-      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
-        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
-        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      this.loading = true
+      this.queryParams.params = {}
+      if (this.daterangeCreateTime != null && this.daterangeCreateTime != '') {
+        this.queryParams.params['beginCreateTime'] = this.daterangeCreateTime[0]
+        this.queryParams.params['endCreateTime'] = this.daterangeCreateTime[1]
       }
-      this.getConfigKey("sys.oss.previewListResource").then(response => {
-        this.previewListResource = response.msg === undefined ? true : response.msg === 'true';
-      });
+      this.getConfigKey('sys.oss.previewListResource').then(response => {
+        this.previewListResource = response.msg === undefined ? true : response.msg === 'true'
+      })
       listOss(this.queryParams).then(response => {
-        this.ossList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-        this.showTable = true;
-      });
+        this.ossList = response.rows
+        this.total = response.total
+        this.loading = false
+        this.showTable = true
+      })
     },
     checkFileSuffix(fileSuffix) {
-      let arr = ["png", "jpg", "jpeg"];
+      const arr = ['png', 'jpg', 'jpeg']
       return arr.some(type => {
-        return fileSuffix.indexOf(type) > -1;
-      });
+        return fileSuffix.indexOf(type) > -1
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
       this.form = {
-        file: undefined,
-      };
-      this.resetForm("form");
+        file: undefined
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.showTable = false;
-      this.daterangeCreateTime = [];
-      this.resetForm("queryForm");
-      this.queryParams.orderByColumn = this.defaultSort.prop;
-      this.queryParams.isAsc = this.defaultSort.order;
-      this.handleQuery();
+      this.showTable = false
+      this.daterangeCreateTime = []
+      this.resetForm('queryForm')
+      this.queryParams.orderByColumn = this.defaultSort.prop
+      this.queryParams.isAsc = this.defaultSort.order
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.ossId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     // 设置列的排序为我们自定义的排序
-    handleHeaderClass({column}) {
+    handleHeaderClass({ column }) {
       column.order = column.multiOrder
     },
     // 点击表头进行排序
@@ -323,62 +340,62 @@ export default {
       }
       switch (column.multiOrder) {
         case 'descending':
-          column.multiOrder = 'ascending';
-          break;
+          column.multiOrder = 'ascending'
+          break
         case 'ascending':
-          column.multiOrder = '';
-          break;
+          column.multiOrder = ''
+          break
         default:
-          column.multiOrder = 'descending';
-          break;
+          column.multiOrder = 'descending'
+          break
       }
       this.handleOrderChange(column.property, column.multiOrder)
     },
     handleOrderChange(prop, order) {
-      let orderByArr = this.queryParams.orderByColumn ? this.queryParams.orderByColumn.split(",") : [];
-      let isAscArr = this.queryParams.isAsc ? this.queryParams.isAsc.split(",") : [];
-      let propIndex = orderByArr.indexOf(prop)
+      const orderByArr = this.queryParams.orderByColumn ? this.queryParams.orderByColumn.split(',') : []
+      const isAscArr = this.queryParams.isAsc ? this.queryParams.isAsc.split(',') : []
+      const propIndex = orderByArr.indexOf(prop)
       if (propIndex !== -1) {
         if (order) {
-          //排序里已存在 只修改排序
-          isAscArr[propIndex] = order;
+          // 排序里已存在 只修改排序
+          isAscArr[propIndex] = order
         } else {
-          //如果order为null 则删除排序字段和属性
-          isAscArr.splice(propIndex, 1);//删除排序
-          orderByArr.splice(propIndex, 1);//删除属性
+          // 如果order为null 则删除排序字段和属性
+          isAscArr.splice(propIndex, 1)// 删除排序
+          orderByArr.splice(propIndex, 1)// 删除属性
         }
       } else {
-        //排序里不存在则新增排序
-        orderByArr.push(prop);
-        isAscArr.push(order);
+        // 排序里不存在则新增排序
+        orderByArr.push(prop)
+        isAscArr.push(order)
       }
-      //合并排序
-      this.queryParams.orderByColumn = orderByArr.join(",");
-      this.queryParams.isAsc = isAscArr.join(",");
-      this.getList();
+      // 合并排序
+      this.queryParams.orderByColumn = orderByArr.join(',')
+      this.queryParams.isAsc = isAscArr.join(',')
+      this.getList()
     },
     /** 任务日志列表查询 */
     handleOssConfig() {
-      this.$router.push({ path: '/system/oss-config/index'})
+      this.$router.push({ path: '/system/oss-config/index' })
     },
     /** 文件按钮操作 */
     handleFile() {
-      this.reset();
-      this.open = true;
-      this.title = "上传文件";
-      this.type = 0;
+      this.reset()
+      this.open = true
+      this.title = '上传文件'
+      this.type = 0
     },
     /** 图片按钮操作 */
     handleImage() {
-      this.reset();
-      this.open = true;
-      this.title = "上传图片";
-      this.type = 1;
+      this.reset()
+      this.open = true
+      this.title = '上传图片'
+      this.type = 1
     },
     /** 提交按钮 */
     submitForm() {
-      this.open = false;
-      this.getList();
+      this.open = false
+      this.getList()
     },
     /** 下载按钮操作 */
     handleDownload(row) {
@@ -386,30 +403,30 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ossIds = row.ossId || this.ids;
+      const ossIds = row.ossId || this.ids
       this.$modal.confirm('是否确认删除？').then(() => {
-        this.loading = true;
-        return delOss(ossIds);
+        this.loading = true
+        return delOss(ossIds)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     // 预览列表图片状态修改
     handlePreviewListResource(previewListResource) {
-      let text = previewListResource ? "启用" : "停用";
+      const text = previewListResource ? '启用' : '停用'
       this.$modal.confirm('确认要"' + text + '""预览列表图片"配置吗?').then(() => {
-        return this.updateConfigByKey("sys.oss.previewListResource", previewListResource);
+        return this.updateConfigByKey('sys.oss.previewListResource', previewListResource)
       }).then(() => {
         this.getList()
-        this.$modal.msgSuccess(text + "成功");
+        this.$modal.msgSuccess(text + '成功')
       }).catch(() => {
-        this.previewListResource = previewListResource !== true;
+        this.previewListResource = previewListResource !== true
       })
     }
   }
-};
+}
 </script>

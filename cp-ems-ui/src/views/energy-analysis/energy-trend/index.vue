@@ -3,11 +3,11 @@
     <div class="content-tree">
       <topologicaTree @selectItem="treeItem($event)" />
     </div>
-    <div class="content-data" v-loading="loading">
+    <div v-loading="loading" class="content-data">
       <div class="data-select">
         <el-form
-          :model="queryParams"
           ref="queryForm"
+          :model="queryParams"
           size="small"
           :inline="true"
         >
@@ -18,8 +18,7 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              >
-              </el-option>
+              />
             </el-select>
           </el-form-item>
           <!-- <el-form-item label="年份">
@@ -47,12 +46,12 @@
               :clearable="false"
               :editable="false"
               @change="changeDayTime"
-            ></el-date-picker>
-            <div class="day-select-text">当日能耗总值：{{dayTotal}}kW·h</div>
+            />
+            <div class="day-select-text">当日能耗总值：{{ dayTotal }}kW·h</div>
           </div>
           <MinMaxDoubleBarVue
             height="100%"
-            :xData="[
+            :x-data="[
               '00:00',
               '01:00',
               '02:00',
@@ -78,8 +77,8 @@
               '22:00',
               '23:00',
             ]"
-            :yData="dayDataY"
-            :setInfo="{
+            :y-data="dayDataY"
+            :set-info="{
               xName: '时',
               yName: unit,
               legendName: ['当日', '昨日'],
@@ -99,12 +98,12 @@
               :editable="false"
               :picker-options="pickerOptions"
               @change="changeMonthTime"
-            ></el-date-picker>
-            <div class="day-select-text">当月能耗总值：{{monthTotal}}kW·h</div>
+            />
+            <div class="day-select-text">当月能耗总值：{{ monthTotal }}kW·h</div>
           </div>
           <MinMaxDoubleBarVue
             height="100%"
-            :xData="[
+            :x-data="[
               '01',
               '02',
               '03',
@@ -137,8 +136,8 @@
               '30',
               '31',
             ]"
-            :yData="monthDataY"
-            :setInfo="{
+            :y-data="monthDataY"
+            :set-info="{
               xName: '日',
               yName: unit,
               legendName: ['当月', '上月'],
@@ -158,13 +157,13 @@
               :editable="false"
               :picker-options="pickerOptions"
               @change="changeYearTime"
-            ></el-date-picker>
-            <div class="day-select-text">当年能耗总值：{{yearTotal}}kW·h</div>
+            />
+            <div class="day-select-text">当年能耗总值：{{ yearTotal }}kW·h</div>
           </div>
           <MinMaxDoubleBarVue
             height="100%"
-            :yData="yearDataY"
-            :setInfo="{
+            :y-data="yearDataY"
+            :set-info="{
               xName: '月',
               yName: unit,
               legendName: ['当年', '去年'],
@@ -184,37 +183,37 @@
 </template>
 
 <script>
-import topologicaTree from "@/components/TopologicaTree/index";
+import topologicaTree from '@/components/TopologicaTree/index'
 // import LineChart from '@/views/dashboard/LineChart';
-import MinMaxDoubleBarVue from "@/views/dashboard/MinMaxDoubleBar.vue";
-import moment from "moment/moment";
-import { getWTrendByDay, getWTrendByMonth, getWTrendByYear } from "@/api/system/energy";
+import MinMaxDoubleBarVue from '@/views/dashboard/MinMaxDoubleBar.vue'
+import moment from 'moment/moment'
+import { getWTrendByDay, getWTrendByMonth, getWTrendByYear } from '@/api/system/energy'
 export default {
   dicts: ['energy_type'],
   components: {
     topologicaTree,
-    MinMaxDoubleBarVue,
+    MinMaxDoubleBarVue
   },
   data() {
     return {
       queryParams: {
         energyType: '0',
-        dayTime: "2023-04-13",
-        monthTime: "",
-        yearTime: "",
-        areaId: '',
+        dayTime: '2023-04-13',
+        monthTime: '',
+        yearTime: '',
+        areaId: ''
       },
       energyType: [
         {
           value: '0',
-          label: "电",
+          label: '电',
           unit: 'kW.h'
         },
         {
           value: '1',
-          label: "水",
+          label: '水',
           unit: 't'
-        },
+        }
       ],
       dayDataY: {},
       dayTotal: null,
@@ -224,74 +223,74 @@ export default {
       yearTotal: null,
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
       },
       unit: 'kW.h',
-      loading: true,
-    };
+      loading: true
+    }
   },
   created() {
-    this.queryParams.dayTime = moment().format("yyyy-MM-DD");
-    this.queryParams.monthTime = moment().format("yyyy-MM");
-    this.queryParams.yearTime = moment().format("yyyy");
+    this.queryParams.dayTime = moment().format('yyyy-MM-DD')
+    this.queryParams.monthTime = moment().format('yyyy-MM')
+    this.queryParams.yearTime = moment().format('yyyy')
   },
   methods: {
     treeItem(value) {
       this.queryParams.areaId = value.id
-      this.getDayTrend();
+      this.getDayTrend()
       this.getMonthTrend()
       this.getYearTrend()
     },
     getDayTrend() {
-      let data = {
+      const data = {
         areaId: this.queryParams.areaId,
         time: this.queryParams.dayTime,
         energyType: this.queryParams.energyType
-      };
+      }
       getWTrendByDay(data).then((res) => {
         this.dayDataY = {
           currentData: res.data.currentList,
-          sameData: res.data.beforeList,
-        };
+          sameData: res.data.beforeList
+        }
         this.dayTotal = res.data.currentTotal
-      });
+      })
     },
     getMonthTrend() {
-      let data = {
+      const data = {
         areaId: this.queryParams.areaId,
         time: this.queryParams.monthTime,
         energyType: this.queryParams.energyType
-      };
+      }
       getWTrendByMonth(data).then((res) => {
         this.monthDataY = {
           currentData: res.data.currentList,
-          sameData: res.data.beforeList,
-        };
+          sameData: res.data.beforeList
+        }
         this.monthTotal = res.data.currentTotal
-      });
+      })
     },
     getYearTrend() {
-      let data = {
+      const data = {
         areaId: this.queryParams.areaId,
         time: this.queryParams.yearTime,
         energyType: this.queryParams.energyType
-      };
+      }
       this.loading = true
       getWTrendByYear(data).then((res) => {
         this.yearDataY = {
           currentData: res.data.currentList,
-          sameData: res.data.beforeList,
-        };
+          sameData: res.data.beforeList
+        }
         this.yearTotal = res.data.currentTotal
       }).finally(() => {
         this.loading = false
-      });
+      })
     },
     // 能耗类型切换
     energyTypeChange(value) {
-      let item = this.energyType.find(t => t.value == value)
-      if(item) {
+      const item = this.energyType.find(t => t.value == value)
+      if (item) {
         this.unit = item.unit
       }
 
@@ -307,9 +306,9 @@ export default {
     },
     changeYearTime(value) {
       this.getYearTrend()
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

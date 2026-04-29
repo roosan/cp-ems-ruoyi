@@ -4,22 +4,22 @@
       <div>
         <el-tabs v-model="item" type="card">
           <el-tab-pane name="first">
-            <span slot="label"><i class="el-icon-help"></i> 能源区域</span>
-            <topologicaTree v-if="item=='first'" item-type="building" :showCheckbox="false" @selectItem="treeItem($event)"/>
+            <span slot="label"><i class="el-icon-help" /> 能源区域</span>
+            <topologicaTree v-if="item=='first'" item-type="building" :show-checkbox="false" @selectItem="treeItem($event)" />
           </el-tab-pane>
           <el-tab-pane name="second">
-            <span slot="label"><i class="el-icon-set-up"></i> 能源分项</span>
-            <topologicaTree v-if="item=='second'" item-type="energySubsections" :showCheckbox="false" @selectItem="treeItem($event)"/>
+            <span slot="label"><i class="el-icon-set-up" /> 能源分项</span>
+            <topologicaTree v-if="item=='second'" item-type="energySubsections" :show-checkbox="false" @selectItem="treeItem($event)" />
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
     <div class="content-data">
       <div class="overview-title">
-        <div class="overview-icon"></div>
+        <div class="overview-icon" />
         <span>定额配置</span>
       </div>
-      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form v-show="showSearch" ref="queryForm" :model="queryParams" size="small" :inline="true" label-width="68px">
         <el-form-item label="定额时间">
           <el-date-picker
             v-model="dateRange"
@@ -30,12 +30,11 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :default-time="['00:00:00', '23:59:59']"
-          ></el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="定额类型" prop="quotaType">
           <el-select v-model="queryParams.quotaType" placeholder="请选择定额类型">
-            <el-option v-for="item in dict.type.quota_type" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
+            <el-option v-for="item in dict.type.quota_type" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -47,55 +46,55 @@
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
           <el-button
+            v-hasPermi="['system:quota:add']"
             type="primary"
             plain
             icon="el-icon-plus"
             size="mini"
             @click="handleAdd"
-            v-hasPermi="['system:quota:add']"
           >新增</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button
+            v-hasPermi="['system:quota:edit']"
             type="success"
             plain
             icon="el-icon-edit"
             size="mini"
             :disabled="single"
             @click="handleUpdate"
-            v-hasPermi="['system:quota:edit']"
           >修改</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button
+            v-hasPermi="['system:quota:remove']"
             type="danger"
             plain
             icon="el-icon-delete"
             size="mini"
             :disabled="multiple"
             @click="handleDelete"
-            v-hasPermi="['system:quota:remove']"
           >删除</el-button>
         </el-col>
         <el-col :span="1.5">
           <el-button
+            v-hasPermi="['system:quota:export']"
             type="warning"
             plain
             icon="el-icon-download"
             size="mini"
             @click="handleExport"
-            v-hasPermi="['system:quota:export']"
           >导出</el-button>
         </el-col>
-        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+        <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
       </el-row>
 
       <el-table v-loading="loading" :data="quotaList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column type="index" label="序号" width="55" align="center" />
-        <el-table-column label="定额类型" align="center" prop="quotaType" >
+        <el-table-column label="定额类型" align="center" prop="quotaType">
           <template slot-scope="scope">
-            <dict-tag :options="dict.type.quota_type" :value="scope.row.quotaType"/>
+            <dict-tag :options="dict.type.quota_type" :value="scope.row.quotaType" />
           </template>
         </el-table-column>
         <el-table-column label="定额对象" align="center" prop="itemName" />
@@ -111,18 +110,18 @@
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button
+              v-hasPermi="['system:quota:edit']"
               size="mini"
               type="text"
               icon="el-icon-edit"
               @click="handleUpdate(scope.row)"
-              v-hasPermi="['system:quota:edit']"
             >修改</el-button>
             <el-button
+              v-hasPermi="['system:quota:remove']"
               size="mini"
               type="text"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
-              v-hasPermi="['system:quota:remove']"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -141,19 +140,20 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="定额类型" prop="quotaType">
-          <el-select v-model="form.quotaType" placeholder="请选择定额类型" @change="changeType" :disabled="edit">
-            <el-option v-for="item in dict.type.quota_type" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
+          <el-select v-model="form.quotaType" placeholder="请选择定额类型" :disabled="edit" @change="changeType">
+            <el-option v-for="item in dict.type.quota_type" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="定额时间" prop="quotaTime">
-          <el-date-picker clearable :disabled="edit"
-                          v-model="form.quotaTime"
-                          :type="form.dateType"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          placeholder="请选择定额时间"
-                          :picker-options="pickerOptions">
-          </el-date-picker>
+          <el-date-picker
+            v-model="form.quotaTime"
+            clearable
+            :disabled="edit"
+            :type="form.dateType"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="请选择定额时间"
+            :picker-options="pickerOptions"
+          />
         </el-form-item>
         <el-form-item label="定额数值" prop="quotaValue">
           <el-input v-model="form.quotaValue" placeholder="填写定额数值,如10000,20000等" />
@@ -174,15 +174,15 @@
 </template>
 
 <script>
-import { listQuota, getQuota, delQuota, addQuota, updateQuota } from "@/api/system/quota";
-import topologicaTree from "@/components/TopologicaTree/index";
+import { listQuota, getQuota, delQuota, addQuota, updateQuota } from '@/api/system/quota'
+import topologicaTree from '@/components/TopologicaTree/index'
 import moment from 'moment'
 
 export default {
-  name: "Quota",
+  name: 'Quota',
   dicts: ['quota_type'],
   components: {
-    topologicaTree,
+    topologicaTree
   },
   data() {
     return {
@@ -203,18 +203,18 @@ export default {
       // 定额配置表格数据
       quotaList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
-      //选项卡
-      item:"first",
-      //括朴类型
-      itemType:"building",
-      treeOptions:[],
-      itemId:undefined,
+      // 选项卡
+      item: 'first',
+      // 括朴类型
+      itemType: 'building',
+      treeOptions: [],
+      itemId: undefined,
       // 日期范围
       dateRange: [],
-      edit:false,
+      edit: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -225,76 +225,76 @@ export default {
         quotaValue: undefined,
         realEnergy: undefined,
         critical: undefined,
-        overMedian: undefined,
+        overMedian: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         quotaId: [
-          { required: true, message: "主键不能为空", trigger: "blur" }
+          { required: true, message: '主键不能为空', trigger: 'blur' }
         ],
         quotaType: [
-          { required: true, message: "定额类型不能为空", trigger: "change" }
+          { required: true, message: '定额类型不能为空', trigger: 'change' }
         ],
         itemId: [
-          { required: true, message: "区域不能为空", trigger: "blur" }
+          { required: true, message: '区域不能为空', trigger: 'blur' }
         ],
         quotaTime: [
-          { required: true, message: "定额时间不能为空", trigger: "blur" }
+          { required: true, message: '定额时间不能为空', trigger: 'blur' }
         ],
         quotaValue: [
-          { required: true, message: "定额数值不能为空", trigger: "blur" }
+          { required: true, message: '定额数值不能为空', trigger: 'blur' }
         ],
         realEnergy: [
-          { required: true, message: "实际累计能耗不能为空", trigger: "blur" }
+          { required: true, message: '实际累计能耗不能为空', trigger: 'blur' }
         ],
         critical: [
-          { required: true, message: "临界范围不能为空", trigger: "blur" }
+          { required: true, message: '临界范围不能为空', trigger: 'blur' }
         ],
         overMedian: [
-          { required: true, message: "越限范围不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '越限范围不能为空', trigger: 'blur' }
+        ]
       },
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
-      },
-    };
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
+      }
+    }
   },
   created() {
     // this.getList();
   },
   methods: {
     treeItem(value) {
-      this.itemId = value.id;
-      this.queryParams.itemId = value.id;
-      this.getList();
+      this.itemId = value.id
+      this.queryParams.itemId = value.id
+      this.getList()
     },
-    getTree(value){
-      this.treeOptions = value;
+    getTree(value) {
+      this.treeOptions = value
     },
-    changeType(){
-      if(this.form.quotaType == "0"){
-        this.form.dateType = "month"
-      }if(this.form.quotaType == "1"){
-        this.form.dateType = "year"
+    changeType() {
+      if (this.form.quotaType == '0') {
+        this.form.dateType = 'month'
+      } if (this.form.quotaType == '1') {
+        this.form.dateType = 'year'
       }
     },
     /** 查询定额配置列表 */
     getList() {
-      this.loading = true;
+      this.loading = true
       listQuota(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        this.quotaList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.quotaList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -311,94 +311,94 @@ export default {
         createTime: undefined,
         updateBy: undefined,
         updateTime: undefined
-      };
-      this.resetForm("form");
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.dateRange = [];
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.dateRange = []
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.quotaId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.form.quotaTime = moment().format("yyyy-MM-01 00:00:00");
-      this.form.quotaType = "0"
-      this.form.dateType = "month"
-      this.form.itemId = this.itemId;
-      this.edit = false;
-      this.open = true;
-      this.title = "添加定额配置";
+      this.reset()
+      this.form.quotaTime = moment().format('yyyy-MM-01 00:00:00')
+      this.form.quotaType = '0'
+      this.form.dateType = 'month'
+      this.form.itemId = this.itemId
+      this.edit = false
+      this.open = true
+      this.title = '添加定额配置'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
-      this.edit = true;
+      this.loading = true
+      this.reset()
+      this.edit = true
       const quotaId = row.quotaId || this.ids
       getQuota(quotaId).then(response => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改定额配置";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改定额配置'
+      })
     },
     /** 提交按钮 */
     submitForm() {
-      if(this.form.quotaType == "0"){
-        this.form.quotaTime = moment(this.form.quotaTime).format("yyyy-MM-01 00:00:00")
-      }if(this.form.quotaType == "1"){
-        this.form.quotaTime = moment(this.form.quotaTime).format("yyyy-01-01 00:00:00")
+      if (this.form.quotaType == '0') {
+        this.form.quotaTime = moment(this.form.quotaTime).format('yyyy-MM-01 00:00:00')
+      } if (this.form.quotaType == '1') {
+        this.form.quotaTime = moment(this.form.quotaTime).format('yyyy-01-01 00:00:00')
       }
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.quotaId != null) {
             updateQuota(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           } else {
             addQuota(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const quotaIds = row.quotaId || this.ids;
+      const quotaIds = row.quotaId || this.ids
       this.$modal.confirm('是否确认删除？').then(() => {
-        this.loading = true;
-        return delQuota(quotaIds);
+        this.loading = true
+        return delQuota(quotaIds)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -407,7 +407,7 @@ export default {
       }, `quota_${new Date().getTime()}.xlsx`)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

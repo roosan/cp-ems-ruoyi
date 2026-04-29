@@ -15,45 +15,45 @@
       </div> -->
   </div>
 </template>
-  
+
 <script>
 export default {
   props: {
     selectIds: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       days: Array.from({ length: 31 }, (_, i) =>
-        i + 1 > 9 ? i + 1 : "0" + (i + 1)
+        i + 1 > 9 ? i + 1 : '0' + (i + 1)
       ),
-      selectedDays: [],
-    };
+      selectedDays: []
+    }
   },
   watch: {
     selectIds: {
       handler() {
-        this.selectedDays = this.selectIds;
+        this.selectedDays = this.selectIds
       },
       deep: true,
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     toggleDay(day) {
       if (this.selectedDays.includes(day)) {
-        this.selectedDays = this.selectedDays.filter((d) => d !== day);
+        this.selectedDays = this.selectedDays.filter((d) => d !== day)
       } else {
-        this.selectedDays.push(day);
+        this.selectedDays.push(day)
       }
-      this.$emit("selectChange", this.selectedDays);
-    },
-  },
-};
+      this.$emit('selectChange', this.selectedDays)
+    }
+  }
+}
 </script>
-  
+
   <style>
 .calendar {
   display: grid;
@@ -84,4 +84,3 @@ export default {
   margin-top: 10px;
 }
 </style>
-  

@@ -3,34 +3,34 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
+import * as echarts from 'echarts'
 // require('echarts/theme/macarons') // echarts theme
-import resize from "@/views/dashboard/mixins/resize";
+import resize from '@/views/dashboard/mixins/resize'
 
-const animationDuration = 1500;
+const animationDuration = 1500
 
 export default {
   mixins: [resize],
   props: {
     className: {
       type: String,
-      default: "chart",
+      default: 'chart'
     },
     width: {
       type: String,
-      default: "100%",
+      default: '100%'
     },
     height: {
       type: String,
-      default: "300px",
+      default: '300px'
     },
     yName: {
       type: String,
-      default: "kM·h",
+      default: 'kM·h'
     },
     xName: {
       type: String,
-      default: "能源分项",
+      default: '能源分项'
     },
     barData: {
       type: Object,
@@ -44,39 +44,27 @@ export default {
   },
   data() {
     return {
-      chart: null,
-    };
+      chart: null
+    }
   },
   computed: {
     theme() {
       return this.$store.getters.logoInfo.theme || 'theme-light'
     }
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.initChart();
-  //   });
-  // },
-  beforeDestroy() {
-    if (!this.chart) {
-      return;
-    }
-    this.chart.dispose();
-    this.chart = null;
-  },
   watch: {
     barData: {
       handler() {
         this.$nextTick(() => {
           if (!this.chart) {
-            this.initChart();
-            return;
+            this.initChart()
+            return
           }
-          this.chart.dispose();
-          this.chart = null;
-          this.initChart();
-        });
-      },
+          this.chart.dispose()
+          this.chart = null
+          this.initChart()
+        })
+      }
     },
     theme: {
       deep: true,
@@ -90,17 +78,29 @@ export default {
       }
     }
   },
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.initChart();
+  //   });
+  // },
+  beforeDestroy() {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
   methods: {
     initChart() {
-      let echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
+      const echartsTheme = this.theme == 'theme-light' ? 'lightTheme' : 'darkTheme'
       this.chart = echarts.init(this.$el, echartsTheme)
 
       this.chart.setOption({
         tooltip: {
-          trigger: "axis",
+          trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
           // formatter: (params) => {
           //   let result = params[0].axisValue ?? ''
@@ -112,46 +112,46 @@ export default {
           valueFormatter: (value) => value + ' ' + this.yName
         },
         grid: {
-          top: "10%",
-          left: "2%",
-          right: "10%",
-          bottom: "3%",
-          containLabel: true,
+          top: '10%',
+          left: '2%',
+          right: '10%',
+          bottom: '3%',
+          containLabel: true
         },
         xAxis: [
           {
-            type: "value",
+            type: 'value',
             name: this.yName,
-            position: "left",
-            alignTicks: true,
-          },
+            position: 'left',
+            alignTicks: true
+          }
         ],
         yAxis: [
           {
-            type: "category",
+            type: 'category',
             name: this.xName,
             data: this.barData.xData,
             axisTick: {
-              alignWithLabel: true,
-            },
-          },
+              alignWithLabel: true
+            }
+          }
         ],
         series: [
           {
             name: '能耗',
-            type: "bar",
-            stack: "vistors",
-            barWidth: "50%",
+            type: 'bar',
+            stack: 'vistors',
+            barWidth: '50%',
             data: this.barData.yData,
             animationDuration,
             label: {
               show: true,
-              position: 'insideLeft',
+              position: 'insideLeft'
             }
           }
-        ],
-      });
-    },
-  },
-};
+        ]
+      })
+    }
+  }
+}
 </script>

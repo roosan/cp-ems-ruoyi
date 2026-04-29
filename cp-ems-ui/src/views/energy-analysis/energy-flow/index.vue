@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container bg-container" v-loading="loading">
+  <div v-loading="loading" class="app-container bg-container">
     <div class="chart-select">
-      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" :rules="rules">
+      <el-form ref="queryForm" :model="queryParams" size="small" :inline="true" :rules="rules">
         <el-form-item label="分类能耗" prop="energyType">
           <el-select v-model="queryParams.energyType" placeholder="请选择" @change="energyTypeChange">
             <el-option
@@ -9,8 +9,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="起止时间" prop="dateRange">
@@ -24,27 +23,30 @@
             end-placeholder="结束日期"
             :default-time="['00:00:00', '23:59:59']"
             @change="getTimeRange"
-          ></el-date-picker>
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="getTopologyList"
-            >查询</el-button
-          >
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="mini"
+            @click="getTopologyList"
+          >查询</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-empty v-if="this.value == 0" image="" style="height: 700px; width: 100%"></el-empty>
+    <el-empty v-if="this.value == 0" image="" style="height: 700px; width: 100%" />
     <div v-else id="chart-sankey" style="height: 700px; width: 100%" />
   </div>
 </template>
 
 <script>
-import * as echarts from "echarts";
-import resize from "@/views/dashboard/mixins/resize";
+import * as echarts from 'echarts'
+import resize from '@/views/dashboard/mixins/resize'
 import {
   topologyTreeSelect,
-  listItemTopology,
-} from "@/api/system/itemTopology";
+  listItemTopology
+} from '@/api/system/itemTopology'
 import { getFlowData } from '@/api/system/energy'
 import moment from 'moment/moment'
 
@@ -56,61 +58,61 @@ export default {
     return {
       queryParams: {
         energyType: '0',
-        dateRange: [],
+        dateRange: []
       },
       energyType: [
         {
           value: 0,
-          label: "电",
+          label: '电',
           unit: 'kW.h'
         },
         {
           value: 1,
-          label: "水",
+          label: '水',
           unit: 't'
-        },
+        }
       ],
       chart: null,
       nodes: [
         {
-          name: "一层",
+          name: '一层',
           itemStyle: {
-            color: "#ccebc5",
-          },
+            color: '#ccebc5'
+          }
         },
         {
-          name: "云脉软件",
+          name: '世纪信通能源管理平台',
           itemStyle: {
-            color: "#b3cde3",
-          },
+            color: '#b3cde3'
+          }
         },
         {
-          name: "101",
+          name: '101',
           itemStyle: {
-            color: "#d48265",
-          },
+            color: '#d48265'
+          }
         },
         {
-          name: "102",
+          name: '102',
           itemStyle: {
-            color: "#d7e0e8",
-          },
-        },
+            color: '#d7e0e8'
+          }
+        }
       ],
       links: [
-        { source: "一层", target: "102", value: 1500 },
-        { source: "云脉软件", target: "一层", value: 2000 },
-        { source: "一层", target: "101", value: 500 },
+        { source: '一层', target: '102', value: 1500 },
+        { source: '世纪信通能源管理平台', target: '一层', value: 2000 },
+        { source: '一层', target: '101', value: 500 }
       ],
       rules: {
         dateRange: [
-          { required: true, message: "请选择时间", trigger: "change" },
-        ],
+          { required: true, message: '请选择时间', trigger: 'change' }
+        ]
       },
-      value:0,
+      value: 0,
       unit: 'kW.h',
-      loading: true,
-    };
+      loading: true
+    }
   },
   mounted() {
     // this.$nextTick(() => {
@@ -119,32 +121,39 @@ export default {
   },
   beforeDestroy() {
     if (!this.chart) {
-      return;
+      return
     }
-    this.chart.dispose();
-    this.chart = null;
+    this.chart.dispose()
+    this.chart = null
+  },
+  created() {
+    this.defaultDate()
+    // this.getTopologyTree()
+    this.$nextTick(() => {
+      this.getTopologyList()
+    })
   },
   methods: {
-    defaultDate(){
-      this.queryParams.dateRange = [moment().format("yyyy-MM-01 00:00:00"),moment().format("yyyy-MM-DD 23:59:59")]
+    defaultDate() {
+      this.queryParams.dateRange = [moment().format('yyyy-MM-01 00:00:00'), moment().format('yyyy-MM-DD 23:59:59')]
     },
     initChart() {
-      this.chart = echarts.init(document.getElementById("chart-sankey"));
+      this.chart = echarts.init(document.getElementById('chart-sankey'))
       // this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
         tooltip: {
-          trigger: "item",
-          triggerOn: "mousemove",
+          trigger: 'item',
+          triggerOn: 'mousemove',
           valueFormatter: (value) => value + this.unit
         },
         // color: ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4'],
         series: [
           {
-            type: "sankey",
+            type: 'sankey',
             data: this.nodes,
             links: this.links,
-            height: "80%",
+            height: '80%',
             // emphasis: {
             //   focus: "adjacency",
             // },
@@ -152,54 +161,54 @@ export default {
               {
                 depth: 0,
                 itemStyle: {
-                  color: "#fbb4ae",
+                  color: '#fbb4ae'
                 },
                 lineStyle: {
-                  color: "source",
-                  opacity: 0.6,
-                },
+                  color: 'source',
+                  opacity: 0.6
+                }
               },
               {
                 depth: 1,
                 itemStyle: {
-                  color: "#b3cde3",
+                  color: '#b3cde3'
                 },
                 lineStyle: {
-                  color: "source",
-                  opacity: 0.6,
-                },
+                  color: 'source',
+                  opacity: 0.6
+                }
               },
               {
                 depth: 2,
                 itemStyle: {
-                  color: "#ccebc5",
+                  color: '#ccebc5'
                 },
                 lineStyle: {
-                  color: "source",
-                  opacity: 0.6,
-                },
+                  color: 'source',
+                  opacity: 0.6
+                }
               },
               {
                 depth: 3,
                 itemStyle: {
-                  color: "#decbe4",
+                  color: '#decbe4'
                 },
                 lineStyle: {
-                  color: "source",
-                  opacity: 0.6,
-                },
-              },
+                  color: 'source',
+                  opacity: 0.6
+                }
+              }
             ],
             lineStyle: {
               color: 'gradient',
-              curveness: 0.5,
-            },
-          },
-        ],
-      });
+              curveness: 0.5
+            }
+          }
+        ]
+      })
     },
     getTimeRange() {
-      console.log(this.queryParams.dateRange);
+      console.log(this.queryParams.dateRange)
     },
     // getTopologyTree() {
     //   topologyTreeSelect().then((response) => {
@@ -208,80 +217,73 @@ export default {
     // },
     // 能耗类型切换
     energyTypeChange(value) {
-      let item = this.energyType.find(t => t.value == this.queryParams.energyType)
-      if(item) {
+      const item = this.energyType.find(t => t.value == this.queryParams.energyType)
+      if (item) {
         this.unit = item.unit
       }
 
       this.getTopologyList()
     },
     getTopologyList() {
-      this.$refs["queryForm"].validate((valid) => {
+      this.$refs['queryForm'].validate((valid) => {
         if (valid) {
-          this.nodes = [];
-          this.links = [];
-          let params = {
-            startTime:this.queryParams.dateRange[0],
-            endTime:this.queryParams.dateRange[1],
+          this.nodes = []
+          this.links = []
+          const params = {
+            startTime: this.queryParams.dateRange[0],
+            endTime: this.queryParams.dateRange[1],
             energyType: this.queryParams.energyType,
             status: '0'
           }
           this.loading = true
           getFlowData(params).then((res) => {
             if (res.data == [] || res.data == null) {
-              this.nodes = res.data;
-              return;
+              this.nodes = res.data
+              return
             }
 
-            let result = res.data;
+            const result = res.data
             res.data.forEach((item) => {
-              let object = {
-                name: item.itemName,
-              };
-              this.nodes.push(object);
+              const object = {
+                name: item.itemName
+              }
+              this.nodes.push(object)
 
-              let index = result.find((obj) => obj.itemId == item.parentId);
+              const index = result.find((obj) => obj.itemId == item.parentId)
               if (index) {
-                let link = {
+                const link = {
                   source: index.itemName,
                   target: item.itemName,
-                  value: item.value,
-                };
-                this.links.push(link);
+                  value: item.value
+                }
+                this.links.push(link)
               }
-            });
+            })
 
             this.value = 0
-            this.links.forEach(item =>{
-              if(item.value != null){
+            this.links.forEach(item => {
+              if (item.value != null) {
                 this.value += parseInt(item.value)
               }
             })
-            if(this.value == 0){
+            if (this.value == 0) {
               return
             }
             if (this.chart != null) {
-              this.chart.dispose();
-              this.chart = null;
+              this.chart.dispose()
+              this.chart = null
             }
             this.$nextTick(() => {
-              this.initChart();
+              this.initChart()
             })
           }).finally(() => {
             this.loading = false
-          });
+          })
         }
-      });
-    },
-  },
-  created() {
-    this.defaultDate();
-    // this.getTopologyTree()
-    this.$nextTick(() => {
-      this.getTopologyList()
-    })
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .app-container {

@@ -38,6 +38,8 @@ nbdist/
 ######################################################################
 # Others
 *.log
+node_modules/
+scripts/node_modules/
 *.xml.versionsBackup
 *.swp
 

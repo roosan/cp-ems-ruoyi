@@ -1,13 +1,13 @@
 <template>
   <div class="table-container">
     <el-table class="currentTable" :data="tableData" height="100%" border style="width: 100%">
-      <el-table-column prop="area" label="能源节点"> </el-table-column>
-      <el-table-column prop="currentEnergy" :label="nowTitle"></el-table-column>
-      <el-table-column prop="sameEnergy" :label="lastTitle"> </el-table-column>
-      <el-table-column prop="addEnergy" :label="addValue"> </el-table-column>
+      <el-table-column prop="area" label="能源节点" />
+      <el-table-column prop="currentEnergy" :label="nowTitle" />
+      <el-table-column prop="sameEnergy" :label="lastTitle" />
+      <el-table-column prop="addEnergy" :label="addValue" />
       <el-table-column prop="chain" label="环比(%)">
         <template slot-scope="scope">
-          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{scope.row.chain}}</span>
+          <span v-if="scope.row.chain != 0" :class="scope.row.chain > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.chain }}</span>
           <span v-else>--</span>
         </template>
       </el-table-column>
@@ -19,16 +19,16 @@
 export default {
   props: {
     chainData: {
-      type: Array,
+      type: Array
     },
-    nowTitle:{
-      default: "当日用能(kW·h)"
+    nowTitle: {
+      default: '当日用能(kW·h)'
     },
-    lastTitle:{
-      default: "昨日用能(kW·h)"
+    lastTitle: {
+      default: '昨日用能(kW·h)'
     },
     addValue: {
-      default: "增加值(kW·h)"
+      default: '增加值(kW·h)'
     }
   },
   data() {
@@ -54,14 +54,14 @@ export default {
           sameEnergy: 343,
           addEnergy: 908,
           chain: 34.21
-        },
-      ],
+        }
+      ]
     }
   },
   watch: {
     'chainData': {
       handler() {
-        this.tableData = this.chainData;
+        this.tableData = this.chainData
       },
       deep: true,
       immediate: true
@@ -70,7 +70,7 @@ export default {
   methods: {
 
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

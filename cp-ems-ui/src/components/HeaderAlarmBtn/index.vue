@@ -21,32 +21,32 @@ import { getCountOfAllStatus } from '@/api/system/alarm'
 export default {
   data() {
     return {
-      general:0,
-      emergent:0,
-      serious:0,
+      general: 0,
+      emergent: 0,
+      serious: 0
 
     }
   },
+  created() {
+    this.getCount()
+  },
   methods: {
-     toAlarmDetail(level) {
-      this.$router.push({path:'/alarm/realtime-alarm',query: { alarmLevel: level }})
-     },
-    getCount(){
-      getCountOfAllStatus().then(res =>{
-        res.data.forEach( item =>{
-          if(item.alarmLevel === "0"){
-            this.general = item.count;
-          }else if(item.alarmLevel === "1"){
-            this.emergent = item.count;
-          }else  if(item.alarmLevel === "2"){
-            this.serious = item.count;
+    toAlarmDetail(level) {
+      this.$router.push({ path: '/alarm/realtime-alarm', query: { alarmLevel: level }})
+    },
+    getCount() {
+      getCountOfAllStatus().then(res => {
+        res.data.forEach(item => {
+          if (item.alarmLevel === '0') {
+            this.general = item.count
+          } else if (item.alarmLevel === '1') {
+            this.emergent = item.count
+          } else if (item.alarmLevel === '2') {
+            this.serious = item.count
           }
         })
       })
     }
-  },
-  created() {
-    this.getCount();
   }
 }
 </script>

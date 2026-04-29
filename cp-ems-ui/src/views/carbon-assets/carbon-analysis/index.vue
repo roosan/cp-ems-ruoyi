@@ -3,7 +3,7 @@
     <div class="content-top flex-between">
       <div class="month-change">
         <div class="change-title">
-          <div class="change-icon"></div>
+          <div class="change-icon" />
           <span>本月碳排放</span>
         </div>
         <div class="flex-between carbon-box">
@@ -26,7 +26,7 @@
       </div>
       <div class="year-change">
         <div class="change-title">
-          <div class="change-icon"></div>
+          <div class="change-icon" />
           <span>本年碳排放</span>
         </div>
         <div class="flex-between carbon-box">
@@ -50,15 +50,15 @@
     </div>
     <div class="content-bottom">
       <div class="data-select">
-        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+        <el-form ref="queryForm" :model="queryParams" size="small" :inline="true">
           <el-form-item label="分类能耗" prop="type">
             <el-select v-model="queryParams.type" placeholder="请选择">
               <el-option
                 v-for="item in dict.type.energy_type"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="年份">
@@ -70,7 +70,7 @@
               :clearable="false"
               :editable="false"
               :picker-options="pickerOptions"
-            ></el-date-picker>
+            />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" size="mini" @click="getMonthData">查询</el-button>
@@ -78,16 +78,16 @@
         </el-form>
       </div>
       <div class="data-chart">
-        <BarChart height="100%" :yName="unit" :xName="title" :xData="xData" :yData="yData"/>
+        <BarChart height="100%" :y-name="unit" :x-name="title" :x-data="xData" :y-data="yData" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import BarChart from '@/views/dashboard/BarChart';
+import BarChart from '@/views/dashboard/BarChart'
 import moment from 'moment'
-import { getChain , getChainByYear } from '@/api/system/energy'
+import { getChain, getChainByYear } from '@/api/system/energy'
 export default {
   dicts: ['energy_type'],
   components: {
@@ -97,7 +97,7 @@ export default {
     return {
       queryParams: {
         type: '0',
-        year: "",
+        year: ''
       },
       energyType: [
         {
@@ -107,51 +107,51 @@ export default {
         {
           value: 1,
           label: '水'
-        },
+        }
       ],
       chainData: {},
       xData: [],
       yData: [],
-      title: "月份",
-      unit: "t",
+      title: '月份',
+      unit: 't',
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
-      },
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
+      }
     }
   },
   created() {
-    this.queryParams.year = moment().format("yyyy");
-    this.getChain();
-    this.getMonthData();
+    this.queryParams.year = moment().format('yyyy')
+    this.getChain()
+    this.getMonthData()
   },
   methods: {
     getChain() {
-      getChain().then(res=>{
-        this.chainData = res.data;
+      getChain().then(res => {
+        this.chainData = res.data
       })
     },
-    getMonthData(){
-      this.xData = [];
-      this.yData = [];
-      let data = {
+    getMonthData() {
+      this.xData = []
+      this.yData = []
+      const data = {
         energyType: this.queryParams.type,
-        date: this.queryParams.year,
-      };
-      getChainByYear(data).then(res=>{
+        date: this.queryParams.year
+      }
+      getChainByYear(data).then(res => {
         if (res.data.length <= 0) {
-          this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-          return;
+          this.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+          return
         }
         res.data.forEach((item, index) => {
-          this.xData.push(index + 1);
-        });
-        this.yData = res.data;
-      });
+          this.xData.push(index + 1)
+        })
+        this.yData = res.data
+      })
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

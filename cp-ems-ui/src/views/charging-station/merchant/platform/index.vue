@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" size="small" :inline="true" label-width="68px">
       <el-form-item label="商户名称" prop="name">
         <el-input v-model="queryParams.name" placeholder="请输入商户名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
@@ -18,22 +18,48 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['system:merchant:add']">新增</el-button>
+        <el-button
+          v-hasPermi="['system:merchant:add']"
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['system:merchant:edit']">修改</el-button>
+        <el-button
+          v-hasPermi="['system:merchant:edit']"
+          type="success"
+          plain
+          icon="el-icon-edit"
+          size="mini"
+          :disabled="single"
+          @click="handleUpdate"
+        >修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['system:merchant:remove']">删除</el-button>
+        <el-button
+          v-hasPermi="['system:merchant:remove']"
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['system:merchant:export']">导出</el-button>
+        <el-button
+          v-hasPermi="['system:merchant:export']"
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+        >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="merchantList" @selection-change="handleSelectionChange">
@@ -49,25 +75,49 @@
       <el-table-column label="商户地址" align="center" prop="avatar" />
       <el-table-column label="商户状态开关" align="center" prop="status">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-value="0" inactive-value="1"
-            @change="handleStatusChange(scope.row)"></el-switch>
+          <el-switch
+            v-model="scope.row.status"
+            active-value="0"
+            inactive-value="1"
+            @change="handleStatusChange(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-setting" @click="handleManage(scope.row)"
-            v-hasPermi="['system:merchant:edit']">管理电桩</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:merchant:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:merchant:remove']">删除</el-button>
+          <el-button
+            v-hasPermi="['system:merchant:edit']"
+            size="mini"
+            type="text"
+            icon="el-icon-setting"
+            @click="handleManage(scope.row)"
+          >管理电桩</el-button>
+          <el-button
+            v-hasPermi="['system:merchant:edit']"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+          >修改</el-button>
+          <el-button
+            v-hasPermi="['system:merchant:remove']"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改商户信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -98,12 +148,12 @@
     </el-dialog>
   </div>
 </template>
-  
+
 <script>
-import { listMerchant, getMerchant, delMerchant, addMerchant, updateMerchant } from "@/api/chargingStation/merchant";
+import { listMerchant, getMerchant, delMerchant, addMerchant, updateMerchant } from '@/api/chargingStation/merchant'
 
 export default {
-  name: "Merchant",
+  name: 'Merchant',
   dicts: ['merchant_type'],
   data() {
     return {
@@ -124,7 +174,7 @@ export default {
       // 商户信息表格数据
       merchantList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -135,31 +185,31 @@ export default {
         type: undefined,
         contact: undefined,
         avatar: undefined,
-        status: undefined,
+        status: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         merchantId: [
-          { required: true, message: "商户ID不能为空", trigger: "blur" }
+          { required: true, message: '商户ID不能为空', trigger: 'blur' }
         ],
         name: [
-          { required: true, message: "商户名称不能为空", trigger: "blur" }
+          { required: true, message: '商户名称不能为空', trigger: 'blur' }
         ],
         type: [
-          { required: true, message: "商户类型不能为空", trigger: "change" }
+          { required: true, message: '商户类型不能为空', trigger: 'change' }
         ],
         contact: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: "请输入正确的手机号码",
-            trigger: "blur"
+            message: '请输入正确的手机号码',
+            trigger: 'blur'
           }
         ],
         avatar: [
-          { required: true, message: "商户地址不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '商户地址不能为空', trigger: 'blur' }
+        ]
         /* status: [
           { required: true, message: "商户状态不能为空", trigger: "change" }
         ], */
@@ -167,37 +217,37 @@ export default {
           { required: true, message: "备注不能为空", trigger: "blur" }
         ] */
       }
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     // 商户状态开关状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
-      this.$modal.confirm('确认要' + text + '该商户吗？').then(function () {
-        return updateMerchant(row);
+      const text = row.status === '0' ? '启用' : '停用'
+      this.$modal.confirm('确认要' + text + '该商户吗？').then(function() {
+        return updateMerchant(row)
       }).then(() => {
-        this.$modal.msgSuccess(text + "成功");
-      }).catch(function () {
-        row.status = row.status === "0" ? "1" : "0";
-      });
+        this.$modal.msgSuccess(text + '成功')
+      }).catch(function() {
+        row.status = row.status === '0' ? '1' : '0'
+      })
     },
     /** 查询商户信息列表 */
     getList() {
-      this.loading = true;
-      this.queryParams.type = '0';
+      this.loading = true
+      this.queryParams.type = '0'
       listMerchant(this.queryParams).then(response => {
-        this.merchantList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.merchantList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -214,18 +264,18 @@ export default {
         updateBy: undefined,
         updateTime: undefined,
         remark: undefined
-      };
-      this.resetForm("form");
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -235,67 +285,67 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加商户信息";
+      this.reset()
+      this.open = true
+      this.title = '添加商户信息'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
+      this.loading = true
+      this.reset()
       const merchantId = row.merchantId || this.ids
       getMerchant(merchantId).then(response => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改商户信息";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改商户信息'
+      })
     },
     /** 管理电桩按钮操作 */
-    handleManage(row){
-      const merchantId = row.merchantId;
-      this.$router.push("/charging-station/pile/platform/" + merchantId);
+    handleManage(row) {
+      const merchantId = row.merchantId
+      this.$router.push('/charging-station/pile/platform/' + merchantId)
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.merchantId != null) {
             updateMerchant(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           } else {
-            this.form.type = '0';
+            this.form.type = '0'
             addMerchant(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const merchantIds = row.merchantId || this.ids;
+      const merchantIds = row.merchantId || this.ids
       this.$modal.confirm('是否确认删除商户信息编号为"' + merchantIds + '"的数据项？').then(() => {
-        this.loading = true;
-        return delMerchant(merchantIds);
+        this.loading = true
+        return delMerchant(merchantIds)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -304,6 +354,5 @@ export default {
       }, `merchant_${new Date().getTime()}.xlsx`)
     }
   }
-};
+}
 </script>
-  

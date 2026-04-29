@@ -1,12 +1,12 @@
 <template>
   <div class="table-container">
     <el-table class="currentTable" :data="tableData" height="100%" border style="width: 100%">
-      <el-table-column prop="month" label="本期时间"> </el-table-column>
-      <el-table-column prop="currentPeriod" :label="'本期能耗(' + unit + ')'"> </el-table-column>
-      <el-table-column prop="correspondingPeriod" :label="'同比能耗(' + unit + ')'"> </el-table-column>
-      <el-table-column prop="yoy" label="同比(%)" >
+      <el-table-column prop="month" label="本期时间" />
+      <el-table-column prop="currentPeriod" :label="'本期能耗(' + unit + ')'" />
+      <el-table-column prop="correspondingPeriod" :label="'同比能耗(' + unit + ')'" />
+      <el-table-column prop="yoy" label="同比(%)">
         <template slot-scope="scope">
-          <span :class="scope.row.yoy > 0 ? 'yoy-up' : 'yoy-down'" v-if="scope.row.yoy!==null">{{scope.row.yoy}}</span>
+          <span v-if="scope.row.yoy!==null" :class="scope.row.yoy > 0 ? 'yoy-up' : 'yoy-down'">{{ scope.row.yoy }}</span>
           <span v-if="scope.row.yoy===null">--</span>
         </template>
       </el-table-column>
@@ -99,14 +99,14 @@ export default {
           currentEnergy: 2354,
           sameEnergy: 1234,
           yoy: -34.21
-        },
+        }
       ]
     }
   },
   methods: {
 
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

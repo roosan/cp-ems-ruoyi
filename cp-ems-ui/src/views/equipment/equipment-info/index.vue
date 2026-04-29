@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-form
-      :model="queryParams"
+      v-show="showSearch"
       ref="queryForm"
+      :model="queryParams"
       size="small"
       :inline="true"
-      v-show="showSearch"
       label-width="68px"
     >
       <el-form-item label="名称" prop="name">
@@ -47,8 +47,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -57,65 +56,62 @@
           icon="el-icon-search"
           size="mini"
           @click="handleQuery"
-          >查询</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        >查询</el-button>
+        <el-button
+          icon="el-icon-refresh"
+          size="mini"
+          @click="resetQuery"
+        >重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:equipmentInfo:add']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:equipmentInfo:add']"
-          >新增</el-button
-        >
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:equipmentInfo:edit']"
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:equipmentInfo:edit']"
-          >编辑</el-button
-        >
+        >编辑</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:equipmentInfo:remove']"
           type="danger"
           plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:equipmentInfo:remove']"
-          >删除</el-button
-        >
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:equipmentInfo:export']"
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:equipmentInfo:export']"
-          >导出</el-button
-        >
+        >导出</el-button>
       </el-col>
       <right-toolbar
-        :showSearch.sync="showSearch"
+        :show-search.sync="showSearch"
         @queryTable="getList"
-      ></right-toolbar>
+      />
     </el-row>
 
     <el-table
@@ -128,9 +124,9 @@
       <el-table-column label="名称" align="center" prop="name" />
       <el-table-column label="设备SN" align="center" prop="sn" />
       <el-table-column label="设备型号" align="center" prop="model" />
-      <el-table-column label="设备类型" align="center" prop="type" >
+      <el-table-column label="设备类型" align="center" prop="type">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.energy_type" :value="scope.row.type"/>
+          <dict-tag :options="dict.type.energy_type" :value="scope.row.type" />
         </template>
       </el-table-column>
       <el-table-column label="设备描述" align="center" prop="description" />
@@ -157,29 +153,26 @@
       >
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['system:equipmentInfo:query']"
             size="mini"
             type="text"
             icon="el-icon-view"
             @click="openDrawer(scope.row)"
-            v-hasPermi="['system:equipmentInfo:query']"
-            >详情</el-button
-          >
+          >详情</el-button>
           <el-button
+            v-hasPermi="['system:equipmentInfo:edit']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:equipmentInfo:edit']"
-            >编辑</el-button
-          >
+          >编辑</el-button>
           <el-button
+            v-hasPermi="['system:equipmentInfo:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:equipmentInfo:remove']"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -211,8 +204,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="设备描述" prop="description">
@@ -220,17 +212,19 @@
         </el-form-item>
         <el-form-item label="设备图片" prop="img">
           <!-- <el-input v-model="form.img" placeholder="请输入设备图片" /> -->
-          <imageUpload v-model="form.img" :limit="2" :values="form.img"/>
+          <imageUpload v-model="form.img" :limit="2" :values="form.img" />
         </el-form-item>
         <el-form-item label="设备二维码" prop="qrCode">
           <!-- <el-input v-model="form.qrCode" placeholder="请输入设备二维码" /> -->
-          <imageUpload v-model="form.qrCode" :limit="2" :values="form.qrCode"/>
+          <imageUpload v-model="form.qrCode" :limit="2" :values="form.qrCode" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button :loading="buttonLoading" type="primary" @click="submitForm"
-          >确 定</el-button
-        >
+        <el-button
+          :loading="buttonLoading"
+          type="primary"
+          @click="submitForm"
+        >确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -239,37 +233,37 @@
     <el-drawer :visible.sync="drawer" :with-header="false" destroy-on-close size="700px">
       <div style="width:100%;height:100%;padding:16px;">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="设备信息" name="first">
-          <EquipmentInfoVue :equipmentInfo="form"/>
-        </el-tab-pane>
-        <el-tab-pane label="设备报警" name="second">
-          <EquipmentAlarmVue :equipmentInfo="form"/>
-        </el-tab-pane>
+          <el-tab-pane label="设备信息" name="first">
+            <EquipmentInfoVue :equipment-info="form" />
+          </el-tab-pane>
+          <el-tab-pane label="设备报警" name="second">
+            <EquipmentAlarmVue :equipment-info="form" />
+          </el-tab-pane>
         <!-- <el-tab-pane label="设备数据" name="third">设备数据</el-tab-pane>
         <el-tab-pane label="设备资料" name="fourth">设备资料</el-tab-pane> -->
-      </el-tabs>
+        </el-tabs>
       </div>
     </el-drawer>
   </div>
 </template>
 
-  <script>
+<script>
 import {
   listEquipmentInfo,
   getEquipmentInfo,
   delEquipmentInfo,
   addEquipmentInfo,
-  updateEquipmentInfo,
-} from "@/api/system/equipmentInfo";
+  updateEquipmentInfo
+} from '@/api/system/equipmentInfo'
 import {
-  topologyTreeSelect,
-} from "@/api/system/itemTopology";
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import EquipmentInfoVue from "@/views/equipment/equipment-info/Info.vue"
-import EquipmentAlarmVue from "@/views/equipment/equipment-info/Alarm.vue"
+  topologyTreeSelect
+} from '@/api/system/itemTopology'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import EquipmentInfoVue from '@/views/equipment/equipment-info/Info.vue'
+import EquipmentAlarmVue from '@/views/equipment/equipment-info/Alarm.vue'
 export default {
-  name: "EquipmentInfo",
+  name: 'EquipmentInfo',
   dicts: ['energy_type'],
   components: {
     Treeselect,
@@ -295,7 +289,7 @@ export default {
       // 设备信息表格数据
       equipmentInfoList: [],
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -309,17 +303,17 @@ export default {
         img: undefined,
         qrCode: undefined,
         factory: undefined,
-        type: undefined,
+        type: undefined
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        id: [{ required: true, message: "不能为空", trigger: "blur" }],
-        name: [{ required: true, message: "名称不能为空", trigger: "blur" }],
-        sn: [{ required: true, message: "设备SN不能为空", trigger: "blur" }],
+        id: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        sn: [{ required: true, message: '设备SN不能为空', trigger: 'blur' }],
         model: [
-          { required: true, message: "设备型号不能为空", trigger: "blur" },
+          { required: true, message: '设备型号不能为空', trigger: 'blur' }
         ],
         /* description: [
           { required: true, message: "设备描述不能为空", trigger: "blur" },
@@ -329,15 +323,15 @@ export default {
           { required: true, message: "设备二维码不能为空", trigger: "blur" },
         ], */
         // factory: [{ required: true, message: "工厂不能为空", trigger: "blur" }],
-        type: [{ required: true, message: "设备类型不能为空", trigger: "blur" }],
+        type: [{ required: true, message: '设备类型不能为空', trigger: 'blur' }]
       },
       areaList: [],
       drawer: false,
-      activeName: 'first',
-    };
+      activeName: 'first'
+    }
   },
   created() {
-    this.getList();
+    this.getList()
     this.getAreaList()
   },
   methods: {
@@ -350,21 +344,21 @@ export default {
     },
     // 区域选择
     areaChange(value) {
-      console.log(value);
+      console.log(value)
     },
     /** 查询设备信息列表 */
     getList() {
-      this.loading = true;
+      this.loading = true
       listEquipmentInfo(this.queryParams).then((response) => {
-        this.equipmentInfoList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.equipmentInfoList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -381,101 +375,101 @@ export default {
         createBy: undefined,
         createTime: undefined,
         updateBy: undefined,
-        updateTime: undefined,
-      };
-      this.resetForm("form");
+        updateTime: undefined
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map((item) => item.id);
-      this.single = selection.length !== 1;
-      this.multiple = !selection.length;
+      this.ids = selection.map((item) => item.id)
+      this.single = selection.length !== 1
+      this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加设备信息";
+      this.reset()
+      this.open = true
+      this.title = '添加设备信息'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
-      const id = row.id || this.ids;
+      this.loading = true
+      this.reset()
+      const id = row.id || this.ids
       getEquipmentInfo(id).then((response) => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改设备信息";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改设备信息'
+      })
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate((valid) => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.id != null) {
             updateEquipmentInfo(this.form)
               .then((response) => {
-                this.$modal.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
+                this.$modal.msgSuccess('修改成功')
+                this.open = false
+                this.getList()
               })
               .finally(() => {
-                this.buttonLoading = false;
-              });
+                this.buttonLoading = false
+              })
           } else {
             addEquipmentInfo(this.form)
               .then((response) => {
-                this.$modal.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
+                this.$modal.msgSuccess('新增成功')
+                this.open = false
+                this.getList()
               })
               .finally(() => {
-                this.buttonLoading = false;
-              });
+                this.buttonLoading = false
+              })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id || this.ids;
+      const ids = row.id || this.ids
       this.$modal
         .confirm('是否确认删除设备信息编号为"' + ids + '"的数据项？')
         .then(() => {
-          this.loading = true;
-          return delEquipmentInfo(ids);
+          this.loading = true
+          return delEquipmentInfo(ids)
         })
         .then(() => {
-          this.loading = false;
-          this.getList();
-          this.$modal.msgSuccess("删除成功");
+          this.loading = false
+          this.getList()
+          this.$modal.msgSuccess('删除成功')
         })
         .catch(() => {})
         .finally(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "system/equipmentInfo/export",
+        'system/equipmentInfo/export',
         {
-          ...this.queryParams,
+          ...this.queryParams
         },
         `equipmentInfo_${new Date().getTime()}.xlsx`
-      );
+      )
     },
     // 详情按钮操作
     openDrawer(row) {
@@ -486,6 +480,6 @@ export default {
     handleClick(tab, event) {
       // console.log(tab, event);
     }
-  },
-};
+  }
+}
 </script>

@@ -43,10 +43,10 @@ export function delCameraConfig(id) {
   })
 }
 
-//根据序列号获取播放地址
+// 根据序列号获取播放地址
 export function getUrlBySerialNumber(serialNumber) {
   return request({
-    url: '/system/cameraConfig/getUrlBySerialNumber?serialNumber='+serialNumber,
-    method: 'get',
+    url: '/system/cameraConfig/getUrlBySerialNumber?serialNumber=' + serialNumber,
+    method: 'get'
   })
 }

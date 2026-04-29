@@ -8,9 +8,9 @@ function resolve(dir) {
 const CompressionPlugin = require('compression-webpack-plugin')
 
 // const name = this.$store.getters.logoInfo.browserLogo // 网页标题
-const name = '' // 网页标题
+const name = '世纪信通能源管理平台' // 网页标题
 
-const port = process.env.port || process.env.npm_config_port || 80 // 端口
+const port = process.env.port || process.env.npm_config_port || 8008 // 端口
 
 // vue.config.js 配置说明
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
@@ -36,7 +36,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://127.0.0.1:8090`,
+        target: `http://127.0.0.1:8088`,
         // target: `http://192.168.0.103:8090`,
         changeOrigin: true,
         pathRewrite: {

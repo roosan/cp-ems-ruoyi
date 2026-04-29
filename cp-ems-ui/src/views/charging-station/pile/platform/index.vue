@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form v-show="showSearch" ref="queryForm" :model="queryParams" size="small" :inline="true" label-width="68px">
       <el-form-item label="终端编码" prop="encoding">
         <el-input
           v-model="queryParams.encoding"
@@ -25,7 +25,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="商户名" prop="merchantName" >
+      <el-form-item label="商户名" prop="merchantName">
         <el-input
           v-model="queryParams.merchantName"
           placeholder="请输入归属商户名"
@@ -57,20 +57,23 @@
           @keyup.enter.native="handleQuery"
         /> -->
         <el-select v-model="queryParams.brand" placeholder="请选择品牌" clearable>
-          <el-option v-for="brand in brandList"
+          <el-option
+            v-for="brand in brandList"
             :key="brand.id"
             :label="brand.brandName"
-            :value="brand.brandName"></el-option>
+            :value="brand.brandName"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="型号" prop="model">
         <el-select v-model="queryParams.model" placeholder="请选择型号">
-            <el-option
-              v-for="model in modelList"
-              :key="model.id"
-              :label="model.modelName"
-              :value="model.modelName"></el-option>
-          </el-select>
+          <el-option
+            v-for="model in modelList"
+            :key="model.id"
+            :label="model.modelName"
+            :value="model.modelName"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="归属商户" prop="merchantId">
         <el-select
@@ -112,69 +115,69 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:add']"
           type="primary"
           plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:pile:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:edit']"
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:pile:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:edit']"
           type="danger"
           plain
           icon="el-icon-open"
           size="mini"
           :disabled="multiple"
           @click="handleOpen"
-          v-hasPermi="['system:pile:edit']"
         >批量启用</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:edit']"
           type="danger"
           plain
           icon="el-icon-turn-off"
           size="mini"
           :disabled="multiple"
           @click="handleClose"
-          v-hasPermi="['system:pile:edit']"
         >批量停用</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:remove']"
           type="danger"
           plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:pile:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['system:pile:export']"
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:pile:export']"
         >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :show-search.sync="showSearch" @queryTable="getList" />
     </el-row>
 
     <el-table v-loading="loading" :data="pileList" @selection-change="handleSelectionChange">
@@ -191,8 +194,12 @@
       <el-table-column label="型号" align="center" prop="model" />
       <el-table-column label="电桩状态开关" align="center" prop="status">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-value="0" inactive-value="1"
-            @change="handleStatusChange(scope.row)"></el-switch>
+          <el-switch
+            v-model="scope.row.status"
+            active-value="0"
+            inactive-value="1"
+            @change="handleStatusChange(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="工作状态" align="center" prop="workStatus">
@@ -204,18 +211,18 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['system:pile:edit']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:pile:edit']"
           >修改</el-button>
           <el-button
+            v-hasPermi="['system:pile:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:pile:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -241,8 +248,12 @@
         <el-form-item label="归属商户" prop="merchantId">
           <!-- <el-input v-model="form.merchantId" placeholder="请输入归属商户" /> -->
           <el-select v-model="form.merchantId" placeholder="请输入归属商户" @change="merchantChange">
-            <el-option v-for="item in merchantList" :key="item.merchantId" :label="item.name"
-              :value="item.merchantId"></el-option>
+            <el-option
+              v-for="item in merchantList"
+              :key="item.merchantId"
+              :label="item.name"
+              :value="item.merchantId"
+            />
           </el-select>
         </el-form-item>
         <!-- <el-form-item label="归属商户名" prop="merchantName">
@@ -250,8 +261,12 @@
         </el-form-item> -->
         <el-form-item label="归属电站" prop="stationId">
           <el-select v-model="form.stationId" placeholder="请输入归属电站" @change="stationChange">
-            <el-option v-for="item in stationList" :key="item.stationId" :label="item.name"
-              :value="item.stationId"></el-option>
+            <el-option
+              v-for="item in stationList"
+              :key="item.stationId"
+              :label="item.name"
+              :value="item.stationId"
+            />
           </el-select>
         </el-form-item>
         <!-- <el-form-item label="归属电站名称" prop="stationName">
@@ -264,7 +279,8 @@
               v-for="brand in brandList"
               :key="brand.id"
               :label="brand.brandName"
-              :value="brand.brandName"></el-option>
+              :value="brand.brandName"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="型号" prop="model">
@@ -273,7 +289,8 @@
               v-for="model in selectModel"
               :key="model.id"
               :label="model.modelName"
-              :value="model.modelName"></el-option>
+              :value="model.modelName"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -289,13 +306,13 @@
 </template>
 
 <script>
-import { listPile, getPile, delPile, addPile, updatePile, openOrClosePile } from "@/api/chargingStation/pile";
-import { listStation } from "@/api/chargingStation/station";
-import { listMerchant } from "@/api/chargingStation/merchant";
-import {listBrand} from "@/api/chargingStation/brand"
-import {listModel} from "@/api/chargingStation/model"
+import { listPile, getPile, delPile, addPile, updatePile, openOrClosePile } from '@/api/chargingStation/pile'
+import { listStation } from '@/api/chargingStation/station'
+import { listMerchant } from '@/api/chargingStation/merchant'
+import { listBrand } from '@/api/chargingStation/brand'
+import { listModel } from '@/api/chargingStation/model'
 export default {
-  name: "Pile",
+  name: 'Pile',
   dicts: ['pile_status'],
   data() {
     return {
@@ -321,10 +338,10 @@ export default {
       stationList: [],
       // 商户信息表格数据
       merchantList: [],
-      //页面跳转商户id
+      // 页面跳转商户id
       merchantId: undefined,
       // 弹出层标题
-      title: "",
+      title: '',
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -341,48 +358,48 @@ export default {
         brand: undefined,
         model: undefined,
         status: undefined,
-        workStatus: undefined,
+        workStatus: undefined
       },
       queryStationParams: {
-        type:'0',
+        type: '0'
       },
       queryMerchantParams: {
-        type:'0',
+        type: '0'
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         pileId: [
-          { required: true, message: "充电桩ID不能为空", trigger: "blur" }
+          { required: true, message: '充电桩ID不能为空', trigger: 'blur' }
         ],
         encoding: [
-          { required: true, message: "终端编码不能为空", trigger: "blur" }
+          { required: true, message: '终端编码不能为空', trigger: 'blur' }
         ],
         type: [
-          { required: true, message: "终端类型不能为空", trigger: "change" }
+          { required: true, message: '终端类型不能为空', trigger: 'change' }
         ],
         name: [
-          { required: true, message: "终端名称不能为空", trigger: "blur" }
+          { required: true, message: '终端名称不能为空', trigger: 'blur' }
         ],
         merchantId: [
-          { required: true, message: "归属商户不能为空", trigger: "blur" }
+          { required: true, message: '归属商户不能为空', trigger: 'blur' }
         ],
         merchantName: [
-          { required: true, message: "归属商户名不能为空", trigger: "blur" }
+          { required: true, message: '归属商户名不能为空', trigger: 'blur' }
         ],
         stationId: [
-          { required: true, message: "归属电站不能为空", trigger: "blur" }
+          { required: true, message: '归属电站不能为空', trigger: 'blur' }
         ],
         stationName: [
-          { required: true, message: "归属电站名称不能为空", trigger: "blur" }
+          { required: true, message: '归属电站名称不能为空', trigger: 'blur' }
         ],
         brand: [
-          { required: true, message: "品牌不能为空", trigger: "blur" }
+          { required: true, message: '品牌不能为空', trigger: 'blur' }
         ],
         model: [
-          { required: true, message: "型号不能为空", trigger: "blur" }
-        ],
+          { required: true, message: '型号不能为空', trigger: 'blur' }
+        ]
         /* status: [
           { required: true, message: "电桩状态不能为空", trigger: "change" }
         ],
@@ -395,30 +412,30 @@ export default {
       },
       brandList: [],
       modelList: [], // 所有型号列表
-      selectModel: [], // 选中品牌的型号列表
-    };
+      selectModel: [] // 选中品牌的型号列表
+    }
   },
   created() {
-    this.merchantId = this.$route.params && this.$route.params.merchantId;
-    if(this.merchantId){
-      this.queryParams.merchantId = this.merchantId;
+    this.merchantId = this.$route.params && this.$route.params.merchantId
+    if (this.merchantId) {
+      this.queryParams.merchantId = this.merchantId
     }
     this.getBrandList()
     this.getModelList()
-    this.getList();
-    this.getStationList();
-    this.getMerchantList();
+    this.getList()
+    this.getStationList()
+    this.getMerchantList()
   },
   methods: {
     // 获取型号列表
     getModelList() {
-      listModel({status: '0'}).then(res => {
+      listModel({ status: '0' }).then(res => {
         this.modelList = res.rows
       })
     },
     // 获取品牌列表
     getBrandList() {
-      listBrand({status: '0'}).then(res => {
+      listBrand({ status: '0' }).then(res => {
         this.brandList = res.rows
       })
     },
@@ -436,37 +453,37 @@ export default {
         this.form.merchantName = merchant.name
       }
     },
-    
+
     /** 查询充电桩信息列表 */
     getList() {
-      this.loading = true;
-      this.queryParams.type = '0';
+      this.loading = true
+      this.queryParams.type = '0'
       listPile(this.queryParams).then(response => {
-        this.pileList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+        this.pileList = response.rows
+        this.total = response.total
+        this.loading = false
+      })
     },
     /** 查询充电站信息列表 */
     getStationList() {
-      this.loading = true;
+      this.loading = true
       listStation(this.queryStationParams).then(response => {
-        this.stationList = response.rows;
-        this.loading = false;
-      });
+        this.stationList = response.rows
+        this.loading = false
+      })
     },
     /** 查询商户信息列表 */
     getMerchantList() {
-      this.loading = true;
+      this.loading = true
       listMerchant(this.queryMerchantParams).then(response => {
-        this.merchantList = response.rows;
-        this.loading = false;
-      });
+        this.merchantList = response.rows
+        this.loading = false
+      })
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      this.open = false
+      this.reset()
     },
     // 表单重置
     reset() {
@@ -489,121 +506,121 @@ export default {
         updateBy: undefined,
         updateTime: undefined,
         remark: undefined
-      };
-      this.resetForm("form");
+      }
+      this.resetForm('form')
     },
     /** 查询按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
+      this.queryParams.pageNum = 1
+      this.getList()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.resetForm('queryForm')
+      this.handleQuery()
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.pileId)
       this.piles = selection
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加充电桩信息";
+      this.reset()
+      this.open = true
+      this.title = '添加充电桩信息'
       this.selectModel = []
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.loading = true;
-      this.reset();
+      this.loading = true
+      this.reset()
       const pileId = row.pileId || this.ids
       getPile(pileId).then(response => {
-        this.loading = false;
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改充电桩信息";
-      });
+        this.loading = false
+        this.form = response.data
+        this.open = true
+        this.title = '修改充电桩信息'
+      })
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.buttonLoading = true;
+          this.buttonLoading = true
           if (this.form.pileId != null) {
             updatePile(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           } else {
-            this.form.type = '0';
+            this.form.type = '0'
             addPile(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
             }).finally(() => {
-              this.buttonLoading = false;
-            });
+              this.buttonLoading = false
+            })
           }
         }
-      });
+      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const pileIds = row.pileId || this.ids;
+      const pileIds = row.pileId || this.ids
       this.$modal.confirm('是否确认删除充电桩信息编号为"' + pileIds + '"的数据项？').then(() => {
-        this.loading = true;
-        return delPile(pileIds);
+        this.loading = true
+        return delPile(pileIds)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 批量启用按钮操作 */
     handleOpen() {
       const piles = this.piles
       this.$modal.confirm('是否确认批量启用所选终端').then(() => {
-        this.loading = true;
+        this.loading = true
         piles.forEach(element => {
-        element.status = '0'
-      });
-        return openOrClosePile(piles);
+          element.status = '0'
+        })
+        return openOrClosePile(piles)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("批量启用成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('批量启用成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 批量停用按钮操作 */
     handleClose() {
       const piles = this.piles
       this.$modal.confirm('是否确认批量停用所选终端').then(() => {
-        this.loading = true;
+        this.loading = true
         piles.forEach(element => {
-        element.status = '1'
-      });
-        return openOrClosePile(piles);
+          element.status = '1'
+        })
+        return openOrClosePile(piles)
       }).then(() => {
-        this.loading = false;
-        this.getList();
-        this.$modal.msgSuccess("批量停用成功");
+        this.loading = false
+        this.getList()
+        this.$modal.msgSuccess('批量停用成功')
       }).catch(() => {
       }).finally(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -613,21 +630,21 @@ export default {
     },
     // 电站状态开关状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
-      this.$modal.confirm('确认要' + text + '该充电桩吗？').then(function () {
-        return updatePile(row);
+      const text = row.status === '0' ? '启用' : '停用'
+      this.$modal.confirm('确认要' + text + '该充电桩吗？').then(function() {
+        return updatePile(row)
       }).then(() => {
-        this.$modal.msgSuccess(text + "成功");
-      }).catch(function () {
-        row.status = row.status === "0" ? "1" : "0";
-      });
+        this.$modal.msgSuccess(text + '成功')
+      }).catch(function() {
+        row.status = row.status === '0' ? '1' : '0'
+      })
     },
     // 修改品牌
     changeBrand(value) {
       this.form.model = undefined
-      let brand = this.brandList.find(b => b.brandName == value)
+      const brand = this.brandList.find(b => b.brandName == value)
       this.selectModel = this.modelList.filter(m => m.brandId == brand.id)
     }
   }
-};
+}
 </script>

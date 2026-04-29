@@ -1,5 +1,6 @@
 package com.cpems.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -277,7 +278,8 @@ public class ItemizeAnalysisServiceImpl implements IItemizeAnalysisService {
 
     private LambdaQueryWrapper<EnergyStatistics> buildStatisticQuery(List<String> deviceId, String startTime, String endTime) {
         return new LambdaQueryWrapper<EnergyStatistics>()
-            .in(EnergyStatistics::getEquipmentSn, deviceId)
+            // FIX: 解决 SQL IN () 语法错误, 预防空集合导致数据库报错
+            .in(CollUtil.isNotEmpty(deviceId), EnergyStatistics::getEquipmentSn, deviceId)
             .between(StringUtils.isNotBlank(startTime) && StringUtils.isNotBlank(endTime), EnergyStatistics::getUpdateTime, startTime, endTime)
             .orderByDesc(EnergyStatistics::getUpdateTime);
     }

@@ -1,11 +1,18 @@
 <template>
   <div class="app-container bg-container">
     <div class="chart-select">
-      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" :rules="rules">
+      <el-form ref="queryForm" :model="queryParams" size="small" :inline="true" :rules="rules">
         <el-form-item label="起止时间" prop="dateRange">
-          <el-date-picker v-model="queryParams.dateRange" style="width: 300px" value-format="yyyy-MM-dd HH:mm:ss"
-            type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"
-            :default-time="['00:00:00', '23:59:59']"></el-date-picker>
+          <el-date-picker
+            v-model="queryParams.dateRange"
+            style="width: 300px"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="getAlarmCharts">查询</el-button>
@@ -16,53 +23,75 @@
       <div class="content-left">
         <div class="columnar">
           <div class="overview-title">
-            <div class="overview-icon"></div>
+            <div class="overview-icon" />
             <span>报警参数</span>
           </div>
-          <MinMaxDoubleBarVue height="100%" :xData="paramX" :yData="paramY" :setInfo="{
-            legendName: ['报警量'],
-          }" />
+          <MinMaxDoubleBarVue
+            height="100%"
+            :x-data="paramX"
+            :y-data="paramY"
+            :set-info="{
+              legendName: ['报警量'],
+            }"
+          />
         </div>
         <div class="circle-pie">
           <div class="overview-title">
-            <div class="overview-icon"></div>
+            <div class="overview-icon" />
             <span>报警等级</span>
           </div>
-          <PieChartVue height="100%" :pieData="pieData" />
+          <PieChartVue height="100%" :pie-data="pieData" />
         </div>
       </div>
       <div class="content-data">
         <div class="data-select">
-          <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
-          </el-form>
+          <el-form ref="queryForm" :model="queryParams" size="small" :inline="true" />
         </div>
         <div class="data-chart">
           <div class="day-chart">
             <div class="overview-title">
-              <div class="overview-icon"></div>
+              <div class="overview-icon" />
               <span>报警数量</span>
             </div>
-            <MinMaxDoubleBarVue height="100%" :xData="countX" :yData="countY" :setInfo="{
-              legendName: ['本周期数据量', '上周期数据量'],
-            }" class="chart-box" />
+            <MinMaxDoubleBarVue
+              height="100%"
+              :x-data="countX"
+              :y-data="countY"
+              :set-info="{
+                legendName: ['本周期数据量', '上周期数据量'],
+              }"
+              class="chart-box"
+            />
           </div>
           <div class="month-chart">
             <div class="overview-title">
-              <div class="overview-icon"></div>
+              <div class="overview-icon" />
               <span>报警类型</span>
             </div>
-            <MinMaxDoubleBarVue height="100%" :xData="typeX" :yData="typeY" :setInfo="{
-              legendName: ['本周期数据量', '上周期数据量'],
-            }" class="chart-box" />
+            <MinMaxDoubleBarVue
+              height="100%"
+              :x-data="typeX"
+              :y-data="typeY"
+              :set-info="{
+                legendName: ['本周期数据量', '上周期数据量'],
+              }"
+              class="chart-box"
+            />
           </div>
           <div class="year-chart">
             <div class="overview-title">
-              <div class="overview-icon"></div>
+              <div class="overview-icon" />
               <span>报警区域</span>
             </div>
-            <MinMaxDoubleBarVue height="100%" :xData="areaX" :yData="areaY" :setInfo="{
-              legendName: ['本周期数据量', '上周期数据量'],
-            }" class="chart-box" />
+            <MinMaxDoubleBarVue
+              height="100%"
+              :x-data="areaX"
+              :y-data="areaY"
+              :set-info="{
+                legendName: ['本周期数据量', '上周期数据量'],
+              }"
+              class="chart-box"
+            />
           </div>
         </div>
       </div>
@@ -72,9 +101,9 @@
 
 <script>
 import moment from 'moment/moment'
-import MinMaxDoubleBarVue from "@/views/dashboard/MinMaxDoubleBar.vue";
-import PieChartVue from "@/views/dataBoard/CirclePieChart.vue"
-import { getAlarmParameterStatistics, getAlarmLevelStatistics, getAlarmCountStatistics, getAlarmTypeStatistics, getAlarmAreaStatistics } from "@/api/system/alarm";
+import MinMaxDoubleBarVue from '@/views/dashboard/MinMaxDoubleBar.vue'
+import PieChartVue from '@/views/dataBoard/CirclePieChart.vue'
+import { getAlarmParameterStatistics, getAlarmLevelStatistics, getAlarmCountStatistics, getAlarmTypeStatistics, getAlarmAreaStatistics } from '@/api/system/alarm'
 export default {
   components: {
     MinMaxDoubleBarVue,
@@ -86,128 +115,127 @@ export default {
       loading: true,
       paramX: [],
       paramY: {},
-      pieData:[],
-      countX:[],
-      countY:{},
-      typeX:[],
-      typeY:{},
-      areaX:[],
-      areaY:{},
+      pieData: [],
+      countX: [],
+      countY: {},
+      typeX: [],
+      typeY: {},
+      areaX: [],
+      areaY: {},
       queryParams: {
-        dateRange: [],
+        dateRange: []
       },
       pickerOptions: {
         disabledDate(date) {
-          return date.getTime() > Date.now(); // 禁用大于今天的日期
-        },
+          return date.getTime() > Date.now() // 禁用大于今天的日期
+        }
       },
       rules: {
         dateRange: [
-          { required: true, message: "请选择时间", trigger: "change" },
-        ],
-      },
-    };
+          { required: true, message: '请选择时间', trigger: 'change' }
+        ]
+      }
+    }
   },
   created() {
-    this.defaultDate();
+    this.defaultDate()
     this.$nextTick(() => {
-    this.getAlarmAllStatictic();
-  })
+      this.getAlarmAllStatictic()
+    })
   },
   methods: {
-    getAlarmCharts(){
-      this.getAlarmAllStatictic();
+    getAlarmCharts() {
+      this.getAlarmAllStatictic()
     },
-    //默认日期
-    defaultDate(){
-      this.queryParams.dateRange = [moment().format("yyyy-MM-01 00:00:00"),moment().format("yyyy-MM-DD 23:59:59")]
+    // 默认日期
+    defaultDate() {
+      this.queryParams.dateRange = [moment().format('yyyy-MM-01 00:00:00'), moment().format('yyyy-MM-DD 23:59:59')]
     },
-    //获取报警分析所有数据
+    // 获取报警分析所有数据
     getAlarmAllStatictic() {
-      this.loading = true;
-      let params = {
+      this.loading = true
+      const params = {
         startTime: this.queryParams.dateRange[0],
-        endTime: this.queryParams.dateRange[1],
+        endTime: this.queryParams.dateRange[1]
       }
 
-      //获取报警参数分析
+      // 获取报警参数分析
       getAlarmParameterStatistics(params).then(res => {
-        this.paramX = [];
-        this.paramY = {};
-        let counts = [];
-          res.data.forEach((item) => {
-            this.paramX.push(item.paramName);
-            counts.push(item.count)
-          });
-          this.paramY={
-              currentData: counts,
-            }
-      });
+        this.paramX = []
+        this.paramY = {}
+        const counts = []
+        res.data.forEach((item) => {
+          this.paramX.push(item.paramName)
+          counts.push(item.count)
+        })
+        this.paramY = {
+          currentData: counts
+        }
+      })
 
-      //获取报警等级分析
+      // 获取报警等级分析
       getAlarmLevelStatistics(params).then(res => {
         this.pieData = [
-          { value: res.data[0].count, name: "一般", itemStyle: {color: '#6be6c3'} },
-          { value: res.data[1].count, name: "紧急", itemStyle: {color: '#e0c464'} },
-          { value: res.data[2].count, name: "严重", itemStyle: {color: '#297ef8'} },
+          { value: res.data[0].count, name: '一般', itemStyle: { color: '#6be6c3' }},
+          { value: res.data[1].count, name: '紧急', itemStyle: { color: '#e0c464' }},
+          { value: res.data[2].count, name: '严重', itemStyle: { color: '#297ef8' }}
         ]
-      });
+      })
 
-      //获取报警数量分析
+      // 获取报警数量分析
       getAlarmCountStatistics(params).then(res => {
-        this.countX = [];
-        this.countY = {};
-        let current = [];
-        let last = [];
-          res.data.forEach((item) => {
-            this.countX.push(item.name);
-            current.push(item.count)
-            last.push(item.lastCount)
-          });
-          this.countY={
-              currentData: current,
-              sameData: last,
-            }
+        this.countX = []
+        this.countY = {}
+        const current = []
+        const last = []
+        res.data.forEach((item) => {
+          this.countX.push(item.name)
+          current.push(item.count)
+          last.push(item.lastCount)
+        })
+        this.countY = {
+          currentData: current,
+          sameData: last
+        }
+      })
 
-      });
-
-      //获取报警类型分析
+      // 获取报警类型分析
       getAlarmTypeStatistics(params).then(res => {
-        this.typeX = [];
-        this.typeY = {};
-        let current = [];
-        let last = [];
-          res.data.forEach((item) => {
-            this.typeX.push(item.alarmInfo);
-            current.push(item.count)
-            last.push(item.lastCount)
-          });
-          this.typeY={
-              currentData: current,
-              sameData: last,
-            }
-      });
+        this.typeX = []
+        this.typeY = {}
+        const current = []
+        const last = []
+        res.data.forEach((item) => {
+          this.typeX.push(item.alarmInfo)
+          current.push(item.count)
+          last.push(item.lastCount)
+        })
+        this.typeY = {
+          currentData: current,
+          sameData: last
+        }
+      })
 
-      //获取报警区域分析
+      // 获取报警区域分析
       getAlarmAreaStatistics(params).then(res => {
-        this.areaX = [];
-        this.areaY = {};
-        let current = [];
-        let last = [];
-          res.data.forEach((item) => {
-            this.areaX.push(item.area);
-            current.push(item.count)
-            last.push(item.lastCount)
-          });
-          this.areaY={
-              currentData: current,
-              sameData: last,
-            }
-      });
-      this.loading = false;
-    },
+        this.areaX = []
+        this.areaY = {}
+        const current = []
+        const last = []
+        res.data.forEach((item) => {
+          this.areaX.push(item.area)
+          current.push(item.count)
+          last.push(item.lastCount)
+        })
+        this.areaY = {
+          currentData: current,
+          sameData: last
+        }
+      })
+      this.loading = false
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .app-container {
